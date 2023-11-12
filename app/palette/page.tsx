@@ -37,38 +37,40 @@ const Palette = () => {
   };
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-400 flex h-full flex-col items-center justify-center space-y-8">
-      <h1 className="text-black text-4xl">Color Palette</h1>
-      <div className="flex w-full flex-row items-center justify-center">
-        {Object.values(colors).map((color, index) => (
-          <div key={color.className} className="w-1/6">
-            <div
-              data-hex={color.hex}
-              onClick={copyHexHandler}
-              className={twMerge(
-                "flex h-96 flex-row items-center justify-center",
-                color.className,
-                color.className === "bg-black" && "text-white",
-                color.className === "bg-everglade" && "text-white",
-                color.className === "bg-white" && "text-black",
-                index === 0 && "rounded-tl-lg",
-                index === Object.keys(colors).length - 1 && "rounded-tr-lg",
-              )}
-            >
-              <div>
-                {color.className.slice(3).charAt(0).toUpperCase() +
-                  color.className.slice(4)}
+    <div className="bg-gray-200 dark:bg-gray-400 flex h-full ">
+      <div className="flex w-full flex-col items-center justify-center space-y-8 py-8">
+        <h1 className="text-black text-4xl">Color Palette</h1>
+        <div className="flex w-full flex-row items-center justify-center">
+          {Object.values(colors).map((color, index) => (
+            <div key={color.className} className="w-1/6">
+              <div
+                data-hex={color.hex}
+                onClick={copyHexHandler}
+                className={twMerge(
+                  "flex h-72 flex-row items-center justify-center",
+                  color.className,
+                  color.className === "bg-black" && "text-white",
+                  color.className === "bg-everglade" && "text-white",
+                  color.className === "bg-white" && "text-black",
+                  index === 0 && "rounded-tl-lg",
+                  index === Object.keys(colors).length - 1 && "rounded-tr-lg",
+                )}
+              >
+                <div>
+                  {color.className.slice(3).charAt(0).toUpperCase() +
+                    color.className.slice(4)}
+                </div>
               </div>
+              <Shades
+                shades={color.shades}
+                className={twMerge(
+                  index === 0 && "rounded-bl-lg",
+                  index === Object.keys(colors).length - 1 && "rounded-br-lg",
+                )}
+              />
             </div>
-            <Shades
-              shades={color.shades}
-              className={twMerge(
-                index === 0 && "rounded-bl-lg",
-                index === Object.keys(colors).length - 1 && "rounded-br-lg",
-              )}
-            />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );

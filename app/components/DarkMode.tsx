@@ -1,7 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaCog, FaMoon, FaSun } from "react-icons/fa";
+import Dropdown from "./Dropdown";
 
 const DarkModeButton = () => {
   const [mounted, setMounted] = useState(false);
@@ -15,12 +16,20 @@ const DarkModeButton = () => {
     return null;
   }
 
+  console.log("Theme: ", theme);
+
   return (
-    <button
-      onClick={() => (theme === "dark" ? setTheme("light") : setTheme("dark"))}
-    >
-      {theme === "dark" ? <FaMoon /> : <FaSun />}
-    </button>
+    <Dropdown
+      options={[
+        { value: "system", label: <FaCog className="hover:fill-brandy" /> },
+        { value: "light", label: <FaSun className="hover:fill-brandy" /> },
+        { value: "dark", label: <FaMoon className="hover:fill-brandy" /> },
+      ]}
+      onChange={setTheme}
+      defaultValue={theme || "system"}
+      className="flex h-full w-8 flex-row items-center justify-center"
+      optionsClassName="p-4"
+    />
   );
 };
 
