@@ -2,6 +2,31 @@
 import { SyntheticEvent } from "react";
 import { twMerge } from "tailwind-merge";
 
+const Shades = ({
+  shades,
+  className,
+}: {
+  shades: string[];
+  className?: string;
+}) => {
+  return (
+    <div>
+      {shades.map((shade, index) => {
+        return (
+          <div
+            key={shade}
+            className={twMerge(
+              "flex h-20 flex-row items-center justify-center",
+              shade,
+              index === shades.length - 1 && className,
+            )}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 const Palette = () => {
   const copyHexHandler = (e: SyntheticEvent) => {
     const hex = e.currentTarget.getAttribute("data-hex");
@@ -12,7 +37,7 @@ const Palette = () => {
   };
 
   return (
-    <div className="bg-gray-100 flex h-full flex-col items-center justify-center space-y-8">
+    <div className="bg-gray-100 dark:bg-gray-400 flex h-full flex-col items-center justify-center space-y-8">
       <h1 className="text-black text-4xl">Color Palette</h1>
       <div className="flex w-full flex-row items-center justify-center">
         {Object.values(colors).map((color, index) => (
@@ -24,8 +49,10 @@ const Palette = () => {
                 "flex h-96 flex-row items-center justify-center",
                 color.className,
                 color.className === "bg-black" && "text-white",
-                index === 0 && "rounded-l-lg",
-                index === Object.keys(colors).length - 1 && "rounded-r-lg",
+                color.className === "bg-everglade" && "text-white",
+                color.className === "bg-white" && "text-black",
+                index === 0 && "rounded-tl-lg",
+                index === Object.keys(colors).length - 1 && "rounded-tr-lg",
               )}
             >
               <div>
@@ -33,21 +60,13 @@ const Palette = () => {
                   color.className.slice(4)}
               </div>
             </div>
-            <div>
-              {color.shades.map((shade) => {
-                return (
-                  <div
-                    key={shade}
-                    className={twMerge(
-                      "flex h-20 flex-row items-center justify-center",
-                      shade,
-                    )}
-                  >
-                    {shade}
-                  </div>
-                );
-              })}
-            </div>
+            <Shades
+              shades={color.shades}
+              className={twMerge(
+                index === 0 && "rounded-bl-lg",
+                index === Object.keys(colors).length - 1 && "rounded-br-lg",
+              )}
+            />
           </div>
         ))}
       </div>
@@ -57,12 +76,19 @@ const Palette = () => {
 
 export default Palette;
 
-const colors = {
+type Color = {
+  [key: string]: {
+    className: string;
+    hex: string;
+    shades: string[];
+  };
+};
+
+const colors: Color = {
   black: {
     className: "bg-black",
     hex: "#191919",
     shades: [
-      "bg-black-50",
       "bg-black-100",
       "bg-black-200",
       "bg-black-300",
@@ -78,7 +104,6 @@ const colors = {
     className: "bg-white",
     hex: "#FFFFFF",
     shades: [
-      "bg-white-50",
       "bg-white-100",
       "bg-white-200",
       "bg-white-300",
@@ -94,7 +119,6 @@ const colors = {
     className: "bg-everglade",
     hex: "#1E4D2B",
     shades: [
-      "bg-everglade-50",
       "bg-everglade-100",
       "bg-everglade-200",
       "bg-everglade-300",
@@ -110,7 +134,6 @@ const colors = {
     className: "bg-gold",
     hex: "#C8C372",
     shades: [
-      "bg-gold-50",
       "bg-gold-100",
       "bg-gold-200",
       "bg-gold-300",
@@ -126,7 +149,6 @@ const colors = {
     className: "bg-brandy",
     hex: "#D9782D",
     shades: [
-      "bg-brandy-50",
       "bg-brandy-100",
       "bg-brandy-200",
       "bg-brandy-300",
