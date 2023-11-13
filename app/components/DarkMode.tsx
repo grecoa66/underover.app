@@ -16,13 +16,14 @@ const DarkModeButton = () => {
     return null;
   }
 
-  console.log("Theme: ", theme);
-
   return (
     <Dropdown
       options={[
-        { value: "system", label: <FaCog className="hover:fill-brandy" /> },
-        { value: "light", label: <FaSun className="hover:fill-brandy" /> },
+        {
+          value: "system",
+          label: <FaCog className="hover:dark:fill-mint-600" />,
+        },
+        { value: "light", label: <FaSun className="hover:fill-aero" /> },
         { value: "dark", label: <FaMoon className="hover:fill-brandy" /> },
       ]}
       onChange={setTheme}

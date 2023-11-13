@@ -28,6 +28,7 @@ const Dropdown = ({
           {isOpen &&
             options.map((option) => (
               <div
+                key={option.value}
                 className={optionsClassName}
                 onClick={() => {
                   setSelected(option.value);
