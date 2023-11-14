@@ -16,19 +16,28 @@ const DarkModeButton = () => {
     return null;
   }
 
+  const iconClass = "hover:fill-everglade hover:dark:fill-mint h-6 w-6";
+
   return (
     <Dropdown
       options={[
         {
           value: "system",
-          label: <FaCog className="hover:dark:fill-mint-600" />,
+          label: <FaCog className={iconClass} />,
         },
-        { value: "light", label: <FaSun className="hover:fill-aero" /> },
-        { value: "dark", label: <FaMoon className="hover:fill-brandy" /> },
+        {
+          value: "light",
+          label: <FaSun className={iconClass} />,
+        },
+        {
+          value: "dark",
+          label: <FaMoon className={iconClass} />,
+        },
       ]}
       onChange={setTheme}
       defaultValue={theme || "system"}
-      className="flex h-full w-8 flex-row items-center justify-center"
+      containerClassName="flex h-full w-6 flex-row items-center justify-center mr-4"
+      menuClassName="border-mint border-2 mt-2"
       optionsClassName="p-4"
     />
   );

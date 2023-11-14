@@ -1,32 +1,43 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import useOnClickOutside from "../hooks/useClickOutside";
 
 const Dropdown = ({
   options,
   defaultValue,
   onChange,
-  className,
+  containerClassName,
+  menuClassName,
   optionsClassName,
 }: {
   options: { value: string; label: React.ReactNode }[];
   defaultValue: string;
   onChange: (value: string) => void;
-  className?: string;
+  containerClassName?: string;
+  menuClassName?: string;
   optionsClassName?: string;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(defaultValue);
+  const ref = useRef(null);
+  useOnClickOutside(ref, () => setIsOpen(false));
 
   return (
-    <div className="relative">
-      <div className={twMerge("bg-white dark:bg-black", className)}>
+    <div className="border-1 border-mint relative">
+      <div className={twMerge("bg-white dark:bg-black", containerClassName)}>
         <button type="button" onClick={() => setIsOpen(!isOpen)}>
           {options.find((option) => option.value === selected)?.label}
         </button>
-        <div className="bg-white dark:bg-black absolute top-6 rounded-lg">
-          {isOpen &&
-            options.map((option) => (
+        {isOpen && (
+          <div
+            ref={ref}
+            className={twMerge(
+              "bg-white dark:bg-black absolute top-6 rounded-lg",
+              menuClassName,
+            )}
+          >
+            {options.map((option) => (
               <div
                 key={option.value}
                 className={optionsClassName}
@@ -39,7 +50,8 @@ const Dropdown = ({
                 {option.label}
               </div>
             ))}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );
