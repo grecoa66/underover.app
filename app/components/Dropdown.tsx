@@ -24,8 +24,8 @@ const Dropdown = ({
   useOnClickOutside(ref, () => setIsOpen(false));
 
   return (
-    <div className="border-1 border-mint relative">
-      <div className={twMerge("bg-white dark:bg-black", containerClassName)}>
+    <div className="border-1 relative border-mint">
+      <div className={containerClassName}>
         <button type="button" onClick={() => setIsOpen(!isOpen)}>
           {options.find((option) => option.value === selected)?.label}
         </button>
@@ -33,7 +33,7 @@ const Dropdown = ({
           <div
             ref={ref}
             className={twMerge(
-              "bg-white dark:bg-black absolute top-6 rounded-lg",
+              "absolute top-6 rounded-lg bg-white dark:bg-black",
               menuClassName,
             )}
           >

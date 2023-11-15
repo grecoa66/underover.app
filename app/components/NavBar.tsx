@@ -1,30 +1,32 @@
 "use client";
 import Link from "next/link";
 import DarkModeButton from "./DarkMode";
+import AuthButton from "./AuthButton";
+import GoogleAvatar from "./GoogleAvatar";
 
 // Slightly modified nav bar for the under/overs app
-export const UONavBar = () => {
-  return (
-    <div className="sticky top-0">
-      <div className="bg-white dark:bg-black flex flex-row justify-between p-4">
-        <h2 className="text-everglade text-xl font-bold">Under Overs</h2>
+export const UONavBar = () => (
+  <div className="sticky top-0">
+    <div className="flex flex-row items-center justify-between bg-gray-200 p-4 dark:bg-black">
+      <h2 className="text-xl font-bold text-everglade">Under Overs</h2>
+      <div className="flex flex-row space-x-4">
         <DarkModeButton />
+        <GoogleAvatar />
+        <AuthButton />
       </div>
     </div>
-  );
-};
+  </div>
+);
 
-const NavBar = () => {
-  return (
-    <div className="sticky top-0">
-      <div className="bg-white dark:bg-black flex flex-row justify-between p-4">
-        <Link href="/">
-          <h2 className="text-everglade text-xl">A</h2>
-        </Link>
-        <DarkModeButton />
-      </div>
+const NavBar = () => (
+  <div className="sticky top-0">
+    <div className="flex flex-row justify-between bg-white p-4 dark:bg-black">
+      <Link href="/">
+        <h2 className="text-xl text-everglade">A</h2>
+      </Link>
+      <DarkModeButton />
     </div>
-  );
-};
+  </div>
+);
 
 export default NavBar;

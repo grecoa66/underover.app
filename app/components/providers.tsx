@@ -1,13 +1,13 @@
 "use client";
 
-import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { ThemeProvider } from "next-themes";
 import { SessionProvider } from "next-auth/react";
-type ThemeProviderProps = Parameters<typeof NextThemesProvider>[0];
+type ThemeProviderProps = Parameters<typeof ThemeProvider>[0];
 
-export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+export function AppProvider({ children, ...props }: ThemeProviderProps) {
   return (
-    <NextThemesProvider {...props} enableSystem>
+    <ThemeProvider {...props} enableSystem>
       <SessionProvider>{children}</SessionProvider>
-    </NextThemesProvider>
+    </ThemeProvider>
   );
 }

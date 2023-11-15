@@ -1,5 +1,5 @@
-import { Inter, Sometype_Mono } from "next/font/google";
-import { ThemeProvider } from "../components/providers";
+import { Sometype_Mono } from "next/font/google";
+import { AppProvider } from "../components/providers";
 import { UONavBar } from "../components/NavBar";
 import "../globals.css";
 
@@ -9,10 +9,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={sometype.className}>
-        <ThemeProvider attribute="class">
+        <AppProvider attribute="class">
           <UONavBar />
           <div>{children}</div>
-        </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
   );

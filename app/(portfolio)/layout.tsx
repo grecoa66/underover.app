@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Sometype_Mono } from "next/font/google";
-import { ThemeProvider } from "../components/providers";
+import { AppProvider } from "../components/providers";
 import NavBar from "../components/NavBar";
 import "../globals.css";
 
@@ -20,10 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ThemeProvider attribute="class">
+        <AppProvider attribute="class">
           <NavBar />
           {children}
-        </ThemeProvider>
+        </AppProvider>
       </body>
     </html>
   );
