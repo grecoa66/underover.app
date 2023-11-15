@@ -8,10 +8,11 @@ const authOptions: NextAuthOptions = {
   // Configure one or more authentication providers
   providers: [
     GoogleProvider({
-      clientId: process.env.GITHUB_APP_CLIENT_ID as string,
-      clientSecret: process.env.GITHUB_APP_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
+  debug: true,
 };
 
 const handler = NextAuth(authOptions);

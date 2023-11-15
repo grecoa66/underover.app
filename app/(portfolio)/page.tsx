@@ -1,12 +1,12 @@
 export default function Home() {
   return (
-    <main className="bg-white dark:bg-black flex min-h-screen flex-col p-24">
+    <main className="flex min-h-screen flex-col bg-white p-24 dark:bg-black">
       <div className="w-2/3 space-y-8">
         <p className="text-everglade-200 dark:text-mint">Hi, my name is</p>
-        <h1 className="text-everglade-300 dark:text-everglade-200 text-8xl">
+        <h1 className="text-8xl text-everglade-300 dark:text-everglade-200">
           Alex Greco
         </h1>
-        <h3 className="text-celtic dark:text-everglade-400 text-6xl">
+        <h3 className="text-6xl text-celtic dark:text-everglade-400">
           I build things for the web.
         </h3>
         <p className="text-celtic dark:text-everglade-400">
