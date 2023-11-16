@@ -23,7 +23,6 @@ const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
-  debug: true,
 };
 
 const handler = NextAuth(authOptions);

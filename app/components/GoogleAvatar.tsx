@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useSession } from "next-auth/react";
 
 const GoogleAvatar = () => {
@@ -5,7 +6,7 @@ const GoogleAvatar = () => {
   return (
     <>
       {session.data?.user?.image && (
-        <img
+        <Image
           src={session.data?.user?.image}
           className="h-10 w-10 rounded-full"
           referrerPolicy="no-referrer"
