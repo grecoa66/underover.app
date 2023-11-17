@@ -18,8 +18,6 @@ export const UONavBar = async () => {
     },
   });
 
-  console.log("logged in user: ", loggedInUser, session);
-
   return (
     <div className="sticky top-0">
       <div className="flex flex-row items-center justify-between bg-gray-200 p-4 dark:bg-black">
