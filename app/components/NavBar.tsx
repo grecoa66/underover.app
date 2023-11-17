@@ -2,15 +2,13 @@ import Link from "next/link";
 import DarkModeButton from "./DarkMode";
 import AuthButton from "./AuthButton";
 import GoogleAvatar from "./GoogleAvatar";
-import { PrismaClient } from "@prisma/client";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth/next";
+import { prisma } from "../api/__prismaClient";
 
 // Slightly modified nav bar for the under/overs app
 export const UONavBar = async () => {
   const session = await getServerSession(authOptions);
-
-  const prisma = new PrismaClient();
 
   const loggedInUser = await prisma.users.findFirst({
     where: {
