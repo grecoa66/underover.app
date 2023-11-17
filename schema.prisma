@@ -53,20 +53,26 @@ model slates {
   id          Int      @id @default(autoincrement())
   league      String   @db.VarChar(255)
   nfl_week    Int?
-  slate_date  DateTime @db.Date
+  start_date  DateTime @db.Date
+  end_date    DateTime @db.Date
   is_locked   Boolean
   is_complete Boolean
   created_by  Int?
+  is_active   Boolean  @default(false)
   props       props[]
   users       users?   @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model props {
   id              Int       @id @default(autoincrement())
-  player_name     String    @db.VarChar(100)
-  team_name       String    @db.VarChar(100)
+  league          String   @db.VarChar(255)
+  player_name     String?    @db.VarChar(100)
+  team_name       String?    @db.VarChar(100)
   team_matchup    String    @db.VarChar(250)
   game_start_time DateTime? @db.Timestamp(6)
+  start_date      DateTime? @db.Date
+  end_date        DateTime? @db.Date
+  prop_type       String @db.VarChar(250)
   under_value     Int
   under_price     Int
   over_value      Int
@@ -76,6 +82,7 @@ model props {
   created_at      DateTime  @db.Timestamp(6)
   modified_at     DateTime  @db.Timestamp(6)
   slate_id        Int
+  is_active       Boolean   @default(false)
   users           users     @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   slates          slates    @relation(fields: [slate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
