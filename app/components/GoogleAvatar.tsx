@@ -1,13 +1,19 @@
 import Image from "next/image";
-import { useSession } from "next-auth/react";
 
-const GoogleAvatar = () => {
-  const session = useSession();
+const GoogleAvatar = async ({
+  user,
+}: {
+  user: {
+    image: string | null;
+  } | null;
+}) => {
   return (
     <>
-      {session.data?.user?.image && (
+      {user?.image && (
         <Image
-          src={session.data?.user?.image}
+          src={user?.image}
+          width="20"
+          height="20"
           className="h-10 w-10 rounded-full"
           referrerPolicy="no-referrer"
           alt="Picture of the author"

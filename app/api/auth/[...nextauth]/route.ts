@@ -10,7 +10,7 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000,
 });
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   // Secret for Next-auth, without this JWT encryption/decryption won't work
   secret: process.env.NEXTAUTH_SECRET,
 

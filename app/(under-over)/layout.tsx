@@ -2,10 +2,11 @@ import { Sometype_Mono } from "next/font/google";
 import { AppProvider } from "../components/providers";
 import { UONavBar } from "../components/NavBar";
 import "../globals.css";
+import { getSession } from "next-auth/react";
 
 const sometype = Sometype_Mono({ subsets: ["latin"] });
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={sometype.className}>
@@ -16,4 +17,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
+};
+
+export default Layout;
