@@ -24,4 +24,12 @@ const getCurrentUserById = async (userId: string) => {
   return loggedInUser || undefined;
 };
 
-export { getCurrentUser, getCurrentUserById };
+const requireAdmin = async () => {
+  const user = await getCurrentUser();
+
+  if (!user || !user.role || user.role !== "admin") {
+    throw Error("Not Authorized");
+  }
+};
+
+export { getCurrentUser, getCurrentUserById, requireAdmin };

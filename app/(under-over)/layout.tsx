@@ -2,7 +2,6 @@ import { Sometype_Mono } from "next/font/google";
 import { AppProvider } from "../components/providers";
 import { UONavBar } from "../components/NavBar";
 import "../globals.css";
-import { getSession } from "next-auth/react";
 
 const sometype = Sometype_Mono({ subsets: ["latin"] });
 

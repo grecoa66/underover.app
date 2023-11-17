@@ -11,7 +11,9 @@ export const UONavBar = async () => {
   return (
     <div className="sticky top-0">
       <div className="flex flex-row items-center justify-between bg-gray-200 p-4 dark:bg-black">
-        <h2 className="text-xl font-bold text-everglade">Under Overs</h2>
+        <Link href="/under-over">
+          <h2 className="text-xl font-bold text-everglade">Under Overs</h2>
+        </Link>
         <div className="flex flex-row space-x-4">
           <DarkModeButton />
           <GoogleAvatar user={currentUser} />
