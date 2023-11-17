@@ -2,19 +2,11 @@ import Link from "next/link";
 import DarkModeButton from "./DarkMode";
 import AuthButton from "./AuthButton";
 import GoogleAvatar from "./GoogleAvatar";
-import { authOptions } from "../api/auth/[...nextauth]/route";
-import { getServerSession } from "next-auth/next";
-import { prisma } from "../api/__prismaClient";
+import { getCurrentUser } from "../api/auth/getUser";
 
 // Slightly modified nav bar for the under/overs app
 export const UONavBar = async () => {
-  const session = await getServerSession(authOptions);
-
-  const loggedInUser = await prisma.users.findFirst({
-    where: {
-      email: session?.user?.email || "",
-    },
-  });
+  const currentUser = await getCurrentUser();
 
   return (
     <div className="sticky top-0">
@@ -22,7 +14,7 @@ export const UONavBar = async () => {
         <h2 className="text-xl font-bold text-everglade">Under Overs</h2>
         <div className="flex flex-row space-x-4">
           <DarkModeButton />
-          <GoogleAvatar user={loggedInUser} />
+          <GoogleAvatar user={currentUser} />
           <AuthButton />
         </div>
       </div>

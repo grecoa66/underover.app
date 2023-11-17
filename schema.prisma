@@ -33,9 +33,10 @@ model sessions {
 model users {
   id            Int       @id @default(autoincrement())
   name          String?   @db.VarChar(255)
-  email         String?   @db.VarChar(255)
+  email         String?   @db.VarChar(255) @unique
   emailVerified DateTime? @db.Timestamptz(6)
   image         String?
+  role          String?   
   props         props[]
   slates        slates[]
 }

@@ -3,9 +3,9 @@ import Image from "next/image";
 const GoogleAvatar = async ({
   user,
 }: {
-  user: {
+  user?: {
     image: string | null;
-  } | null;
+  };
 }) => {
   return (
     <>

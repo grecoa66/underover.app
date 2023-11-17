@@ -24,9 +24,11 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    // Attach the user's id to the session for easy access.
     session: async ({ session, user }) => {
       if (session?.user && user) {
         session.user.id = user.id;
+        session.user.role = user.role;
       }
       return session;
     },
