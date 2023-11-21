@@ -8,24 +8,24 @@ export enum League {
   NBA = "nba",
 }
 
-export const AddSlateSchema = z
+export const SlateFormSchema = z
   .object({
     league: z.nativeEnum(League),
     nfl_week: zfd.numeric(z.number().optional()),
-    start_date: z.coerce.date(),
-    end_date: z.coerce.date(),
+    start_date: z.string(),
+    end_date: z.string(),
     is_active: z.boolean(),
     is_locked: z.boolean(),
     is_complete: z.boolean(),
   })
   .refine(
     (values) => {
-      return values.start_date < values.end_date;
+      return new Date(values.start_date) < new Date(values.end_date);
     },
     {
       message: "Start date must be before end date",
-      path: ["endDate"],
+      path: ["end_date"],
     },
   );
 
-export type AddSlateFormFields = z.infer<typeof AddSlateSchema>;
+export type SlateFormFields = z.infer<typeof SlateFormSchema>;

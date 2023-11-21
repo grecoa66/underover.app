@@ -2,7 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AddSlateFormFields, AddSlateSchema, League } from "@/app/types/slates";
+import { SlateFormFields, SlateFormSchema, League } from "@/app/types/slates";
 
 import { slates } from "@prisma/client";
 import { DateTime } from "luxon";
@@ -17,14 +17,11 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddSlateFormFields>({
-    resolver: zodResolver(AddSlateSchema),
+  } = useForm<SlateFormFields>({
+    resolver: zodResolver(SlateFormSchema),
     defaultValues: {
       ...slate,
-      // TODO: Figure this out
-      // @ts-ignore
       start_date: DateTime.fromJSDate(slate.start_date).toFormat("yyyy-MM-dd"),
-      // @ts-ignore
       end_date: DateTime.fromJSDate(slate.end_date).toFormat("yyyy-MM-dd"),
       nfl_week: slate.nfl_week || undefined,
       league: slate.league as League,
@@ -33,7 +30,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
 
   const watchShowAge = watch("league", League.NFL);
 
-  const onSubmit: SubmitHandler<AddSlateFormFields> = (data) => {
+  const onSubmit: SubmitHandler<SlateFormFields> = (data) => {
     // createSlate(data);
     console.log("onSubmit: ", data);
   };
@@ -71,11 +68,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           )}
 
           <label>
-            Start Date{" "}
-            <input
-              {...register("start_date", { valueAsDate: true })}
-              type="date"
-            />
+            Start Date <input {...register("start_date")} type="date" />
           </label>
           {errors?.start_date?.message && (
             <p className="text-red-500">{errors?.start_date?.message}</p>
