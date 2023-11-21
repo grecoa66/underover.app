@@ -11,8 +11,6 @@ const getCurrentUser = async () => {
     },
   });
 
-  console.log("Get User session ", session);
-
   return loggedInUser || undefined;
 };
 
