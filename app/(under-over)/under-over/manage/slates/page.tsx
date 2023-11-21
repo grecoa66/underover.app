@@ -5,6 +5,7 @@ import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 
 const ManageSlates = async () => {
+  console.log("Rendering manage slates...");
   // Page requires admin access
   await requireAdmin();
 

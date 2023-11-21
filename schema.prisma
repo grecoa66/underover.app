@@ -55,10 +55,12 @@ model slates {
   nfl_week    Int?
   start_date  DateTime @db.Date
   end_date    DateTime @db.Date
+  is_active   Boolean  @default(false)
   is_locked   Boolean
   is_complete Boolean
   created_by  Int?
-  is_active   Boolean  @default(false)
+  created_at      DateTime  @db.Timestamp(6) @default(now())
+  modified_at     DateTime  @db.Timestamp(6) @default(now())
   props       props[]
   users       users?   @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }

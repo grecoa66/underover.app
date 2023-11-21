@@ -11,6 +11,8 @@ const getCurrentUser = async () => {
     },
   });
 
+  console.log("Get User session ", session);
+
   return loggedInUser || undefined;
 };
 
@@ -30,6 +32,8 @@ const requireAdmin = async () => {
   if (!user || !user.role || user.role !== "admin") {
     throw Error("Not Authorized");
   }
+
+  return user;
 };
 
 export { getCurrentUser, getCurrentUserById, requireAdmin };

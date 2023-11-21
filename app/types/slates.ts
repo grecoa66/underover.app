@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { zfd } from "zod-form-data";
 
 export enum League {
   NFL = "nfl",
@@ -10,8 +11,12 @@ export enum League {
 export const AddSlateSchema = z
   .object({
     league: z.nativeEnum(League),
+    nflWeek: zfd.numeric(z.number().optional()),
     startDate: z.coerce.date(),
     endDate: z.coerce.date(),
+    isActive: z.boolean(),
+    isLocked: z.boolean(),
+    isComplete: z.boolean(),
   })
   .refine(
     (values) => {

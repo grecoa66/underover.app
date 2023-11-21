@@ -1,48 +1,44 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 async function seedSlates() {
-  const slates = await prisma.slates.createMany({
-    data: [
-      {
-        id: 1,
-        league: "nfl",
-        nfl_week: 9,
-        start_date: "2023-11-05T11:00:00.000Z",
-        end_date: "2023-11-05T23:00:00.000Z",
-        is_active: false,
-        is_locked: true,
-        is_complete: true,
-        created_by: 1,
-      },
-      {
-        id: 2,
-        league: "nfl",
-        nfl_week: 10,
-        start_date: "2023-11-12T11:00:00.000Z",
-        end_date: "2023-11-12T23:00:00.000Z",
-        is_active: false,
-        is_locked: true,
-        is_complete: true,
-        created_by: 1,
-      },
-      {
-        id: 3,
-        league: "nfl",
-        nfl_week: 11,
-        start_date: "2023-11-19T11:00:00.000Z",
-        end_date: "2023-11-19T23:00:00.000Z",
-        is_active: true,
-        is_locked: false,
-        is_complete: false,
-        created_by: 1,
-      },
-    ],
-  });
+  // const slates = await prisma.slates.createMany({
+  //   data: [
+  //     {
+  //       league: "nfl",
+  //       nfl_week: 9,
+  //       start_date: "2023-11-05T11:00:00.000Z",
+  //       end_date: "2023-11-05T23:00:00.000Z",
+  //       is_active: false,
+  //       is_locked: true,
+  //       is_complete: true,
+  //       created_by: 1,
+  //     },
+  //     {
+  //       league: "nfl",
+  //       nfl_week: 10,
+  //       start_date: "2023-11-12T11:00:00.000Z",
+  //       end_date: "2023-11-12T23:00:00.000Z",
+  //       is_active: false,
+  //       is_locked: true,
+  //       is_complete: true,
+  //       created_by: 1,
+  //     },
+  //     {
+  //       league: "nfl",
+  //       nfl_week: 11,
+  //       start_date: "2023-11-19T11:00:00.000Z",
+  //       end_date: "2023-11-19T23:00:00.000Z",
+  //       is_active: true,
+  //       is_locked: false,
+  //       is_complete: false,
+  //       created_by: 1,
+  //     },
+  //   ],
+  // });
 
   const props = await prisma.props.createMany({
     data: [
       {
-        id: 1,
         league: "nfl",
         player_name: "Josh Allen",
         team_name: "Buffalo Bills",
@@ -141,7 +137,7 @@ async function seedSlates() {
     ],
   });
 
-  console.log("Data: ", { slates, props });
+  // console.log("Data: ", { slates, props });
 }
 seedSlates()
   .then(async () => {
