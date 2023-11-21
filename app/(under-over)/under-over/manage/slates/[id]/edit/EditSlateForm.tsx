@@ -3,11 +3,15 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddSlateFormFields, AddSlateSchema, League } from "@/app/types/slates";
-import { createSlate } from "./actions";
+
+import { slates } from "@prisma/client";
+import { DateTime } from "luxon";
 
 // TODO: Abstract form components
 
-const AddSlateForm = () => {
+const EditSlateForm = ({ slate }: { slate: slates }) => {
+  console.log("start date: ", new Date(slate.start_date));
+
   const {
     register,
     watch,
@@ -15,12 +19,23 @@ const AddSlateForm = () => {
     formState: { errors },
   } = useForm<AddSlateFormFields>({
     resolver: zodResolver(AddSlateSchema),
+    defaultValues: {
+      ...slate,
+      // TODO: Figure this out
+      // @ts-ignore
+      start_date: DateTime.fromJSDate(slate.start_date).toFormat("yyyy-MM-dd"),
+      // @ts-ignore
+      end_date: DateTime.fromJSDate(slate.end_date).toFormat("yyyy-MM-dd"),
+      nfl_week: slate.nfl_week || undefined,
+      league: slate.league as League,
+    },
   });
 
   const watchShowAge = watch("league", League.NFL);
 
   const onSubmit: SubmitHandler<AddSlateFormFields> = (data) => {
-    createSlate(data);
+    // createSlate(data);
+    console.log("onSubmit: ", data);
   };
 
   return (
@@ -47,51 +62,54 @@ const AddSlateForm = () => {
             <>
               <label>
                 NFL Week #
-                <input {...register("nflWeek")} type="number" />
+                <input {...register("nfl_week")} type="number" />
               </label>
-              {errors?.nflWeek?.message && (
-                <p className="text-red-500">{errors?.nflWeek?.message}</p>
+              {errors?.nfl_week?.message && (
+                <p className="text-red-500">{errors?.nfl_week?.message}</p>
               )}
             </>
           )}
 
           <label>
             Start Date{" "}
-            <input {...register("startDate")} type="datetime-local" />
+            <input
+              {...register("start_date", { valueAsDate: true })}
+              type="date"
+            />
           </label>
-          {errors?.startDate?.message && (
-            <p className="text-red-500">{errors?.startDate?.message}</p>
+          {errors?.start_date?.message && (
+            <p className="text-red-500">{errors?.start_date?.message}</p>
           )}
 
           <label>
-            End Date <input {...register("endDate")} type="datetime-local" />
+            End Date <input {...register("end_date")} type="date" />
           </label>
-          {errors?.endDate?.message && (
-            <p className="text-red-500">{errors?.endDate?.message}</p>
+          {errors?.end_date?.message && (
+            <p className="text-red-500">{errors?.end_date?.message}</p>
           )}
 
           <label>
             Is Slate Active?
-            <input {...register("isActive")} type="checkbox" />
+            <input {...register("is_active")} type="checkbox" />
           </label>
-          {errors?.isActive?.message && (
-            <p className="text-red-500">{errors?.isActive?.message}</p>
+          {errors?.is_active?.message && (
+            <p className="text-red-500">{errors?.is_active?.message}</p>
           )}
 
           <label>
             Is Slate Locked?
-            <input {...register("isLocked")} type="checkbox" />
+            <input {...register("is_locked")} type="checkbox" />
           </label>
-          {errors?.isLocked?.message && (
-            <p className="text-red-500">{errors?.isLocked?.message}</p>
+          {errors?.is_locked?.message && (
+            <p className="text-red-500">{errors?.is_locked?.message}</p>
           )}
 
           <label>
             Is Slate Complete?
-            <input {...register("isComplete")} type="checkbox" />
+            <input {...register("is_complete")} type="checkbox" />
           </label>
-          {errors?.isComplete?.message && (
-            <p className="text-red-500">{errors?.isComplete?.message}</p>
+          {errors?.is_complete?.message && (
+            <p className="text-red-500">{errors?.is_complete?.message}</p>
           )}
 
           <button type="submit">Submit</button>
@@ -101,4 +119,4 @@ const AddSlateForm = () => {
   );
 };
 
-export { AddSlateForm };
+export { EditSlateForm };

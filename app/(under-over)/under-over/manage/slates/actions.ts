@@ -10,19 +10,15 @@ import { requireAdmin } from "@/app/api/auth/getUser";
 export const createSlate = async (data: AddSlateFormFields) => {
   const currentUser = await requireAdmin();
 
+  console.log("data: ", data);
+
   const validator = zfd.formData(AddSlateSchema);
   const result = validator.parse(data);
 
   // Create a Slate from the API side
   await prisma.slates.create({
     data: {
-      league: result.league,
-      nfl_week: result?.nflWeek,
-      start_date: result.startDate,
-      end_date: result.endDate,
-      is_active: result.isActive,
-      is_locked: result.isLocked,
-      is_complete: result.isComplete,
+      ...result,
       users: {
         connect: {
           id: currentUser.id,
@@ -32,6 +28,6 @@ export const createSlate = async (data: AddSlateFormFields) => {
   });
 
   revalidateTag("slates");
-  console.log("REDIRECTING.....");
+
   redirect("/under-over/manage/slates", RedirectType.push);
 };

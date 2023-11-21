@@ -7,7 +7,8 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "prismaLocal": "dotenv -e .env.local -- npx prisma"
+    "prismaLocal": "dotenv -e .env.local -- npx prisma",
+    "typecheck": "tsc -p ."
   },
   "dependencies": {
     "@auth/pg-adapter": "^0.2.4",

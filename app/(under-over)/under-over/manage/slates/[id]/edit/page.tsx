@@ -1,12 +1,28 @@
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
-import { AddSlateForm } from "./AddSlateForm";
+import { requireAdmin } from "@/app/api/auth/getUser";
+import { prisma } from "@/app/api/__prismaClient";
+import { EditSlateForm } from "./EditSlateForm";
 
-const AddSlate = () => {
+const EditSlate = async ({ params }: { params: { id: string } }) => {
+  // Page requires admin access
+  await requireAdmin();
+
+  // Fetch all the slates
+  const slate = await prisma.slates.findUnique({
+    where: {
+      id: Number(params.id),
+    },
+  });
+
+  if (!slate) {
+    throw Error("Slate not found");
+  }
+
   return (
     <div>
       <div className="m-4 flex flex-row justify-between">
-        <h2 className="text-xl">Add a Slate</h2>
+        <h2 className="text-xl">Edit Slate #{params.id}</h2>
 
         {/* TODO: Abstract Button */}
         <Link
@@ -20,12 +36,13 @@ const AddSlate = () => {
         </Link>
       </div>
       {/* Start Add Slate Form */}
+      <div>{JSON.stringify(slate)}</div>
       <div>
-        <AddSlateForm />
+        <EditSlateForm slate={slate} />
       </div>
       {/* End Add Slate Form */}
     </div>
   );
 };
 
-export default AddSlate;
+export default EditSlate;

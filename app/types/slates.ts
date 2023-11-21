@@ -11,16 +11,16 @@ export enum League {
 export const AddSlateSchema = z
   .object({
     league: z.nativeEnum(League),
-    nflWeek: zfd.numeric(z.number().optional()),
-    startDate: z.coerce.date(),
-    endDate: z.coerce.date(),
-    isActive: z.boolean(),
-    isLocked: z.boolean(),
-    isComplete: z.boolean(),
+    nfl_week: zfd.numeric(z.number().optional()),
+    start_date: z.coerce.date(),
+    end_date: z.coerce.date(),
+    is_active: z.boolean(),
+    is_locked: z.boolean(),
+    is_complete: z.boolean(),
   })
   .refine(
     (values) => {
-      return values.startDate < values.endDate;
+      return values.start_date < values.end_date;
     },
     {
       message: "Start date must be before end date",
