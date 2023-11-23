@@ -8,8 +8,36 @@ export enum League {
   NBA = "nba",
 }
 
-export const SlateFormSchema = z
+export const AddSlateFormSchema = z
   .object({
+    league: z.nativeEnum(League),
+    nfl_week: zfd.numeric(z.number().optional()),
+    start_date: z.coerce.date(),
+    end_date: z.coerce.date(),
+    is_active: z.boolean(),
+    is_locked: z.boolean(),
+    is_complete: z.boolean(),
+  })
+  .refine(
+    (values) => {
+      return values.start_date <= values.end_date;
+    },
+    {
+      message: "Start date must be before end date",
+      path: ["end_date"],
+    },
+  );
+
+export type AddSlateFormFields = z.infer<typeof AddSlateFormSchema>;
+
+/**
+ * The form that uses this schema is expecting dates as formatted strings.
+ * The form resolver types must match the default values, so the date types
+ * are strings so they match the input of the form inputs.
+ */
+export const EditSlateFormSchema = z
+  .object({
+    id: z.coerce.number(),
     league: z.nativeEnum(League),
     nfl_week: zfd.numeric(z.number().optional()),
     start_date: z.string(),
@@ -20,7 +48,7 @@ export const SlateFormSchema = z
   })
   .refine(
     (values) => {
-      return new Date(values.start_date) < new Date(values.end_date);
+      return new Date(values.start_date) <= new Date(values.end_date);
     },
     {
       message: "Start date must be before end date",
@@ -28,4 +56,4 @@ export const SlateFormSchema = z
     },
   );
 
-export type SlateFormFields = z.infer<typeof SlateFormSchema>;
+export type EditSlateFormFields = z.infer<typeof EditSlateFormSchema>;

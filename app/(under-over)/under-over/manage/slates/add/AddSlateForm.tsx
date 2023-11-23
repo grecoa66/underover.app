@@ -2,7 +2,11 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SlateFormFields, SlateFormSchema, League } from "@/app/types/slates";
+import {
+  AddSlateFormFields,
+  AddSlateFormSchema,
+  League,
+} from "@/app/types/slates";
 import { createSlate } from "../actions";
 
 // TODO: Abstract form components
@@ -13,13 +17,16 @@ const AddSlateForm = () => {
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<SlateFormFields>({
-    resolver: zodResolver(SlateFormSchema),
+  } = useForm<AddSlateFormFields>({
+    resolver: zodResolver(AddSlateFormSchema),
+    defaultValues: {
+      league: League.NFL,
+    },
   });
 
-  const watchShowAge = watch("league", League.NFL);
+  const watchLeague = watch("league", League.NFL);
 
-  const onSubmit: SubmitHandler<SlateFormFields> = (data) => {
+  const onSubmit: SubmitHandler<AddSlateFormFields> = (data) => {
     createSlate(data);
   };
 
@@ -43,7 +50,7 @@ const AddSlateForm = () => {
             <p className="text-red-500">{errors?.league?.message}</p>
           )}
 
-          {watchShowAge === League.NFL && (
+          {watchLeague === League.NFL && (
             <>
               <label>
                 NFL Week #

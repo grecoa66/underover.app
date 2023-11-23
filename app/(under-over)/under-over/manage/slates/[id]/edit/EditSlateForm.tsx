@@ -2,37 +2,44 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SlateFormFields, SlateFormSchema, League } from "@/app/types/slates";
-
+import {
+  EditSlateFormFields,
+  EditSlateFormSchema,
+  League,
+} from "@/app/types/slates";
 import { slates } from "@prisma/client";
 import { DateTime } from "luxon";
+import { editSlate } from "../../actions";
 
 // TODO: Abstract form components
+// TODO: Abstract how dates are displayed into a compn\onent
 
 const EditSlateForm = ({ slate }: { slate: slates }) => {
-  console.log("start date: ", new Date(slate.start_date));
-
   const {
     register,
     watch,
     handleSubmit,
     formState: { errors },
-  } = useForm<SlateFormFields>({
-    resolver: zodResolver(SlateFormSchema),
+  } = useForm<EditSlateFormFields>({
+    resolver: zodResolver(EditSlateFormSchema),
     defaultValues: {
       ...slate,
-      start_date: DateTime.fromJSDate(slate.start_date).toFormat("yyyy-MM-dd"),
-      end_date: DateTime.fromJSDate(slate.end_date).toFormat("yyyy-MM-dd"),
+      start_date: DateTime.fromJSDate(slate.start_date)
+        .toUTC()
+        .toFormat("yyyy-MM-dd"),
+      end_date: DateTime.fromJSDate(slate.end_date)
+        .toUTC()
+        .toFormat("yyyy-MM-dd"),
       nfl_week: slate.nfl_week || undefined,
       league: slate.league as League,
     },
   });
 
-  const watchShowAge = watch("league", League.NFL);
+  const watchLeague = watch("league", slate.league as League);
 
-  const onSubmit: SubmitHandler<SlateFormFields> = (data) => {
-    // createSlate(data);
+  const onSubmit: SubmitHandler<EditSlateFormFields> = (data) => {
     console.log("onSubmit: ", data);
+    editSlate(data);
   };
 
   return (
@@ -42,6 +49,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           className="mx-6 flex flex-col space-y-2"
           onSubmit={handleSubmit(onSubmit)}
         >
+          <input type="hidden" {...register("id")} />
           <label>
             League{" "}
             <select {...register("league")}>
@@ -55,7 +63,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
             <p className="text-red-500">{errors?.league?.message}</p>
           )}
 
-          {watchShowAge === League.NFL && (
+          {watchLeague === League.NFL && (
             <>
               <label>
                 NFL Week #
