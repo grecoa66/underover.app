@@ -21,7 +21,7 @@ const EditSlate = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <div className="m-4 flex flex-row justify-between">
+      <div className="flex flex-row justify-between">
         <h2 className="text-xl">Edit Slate #{params.id}</h2>
 
         {/* TODO: Abstract Button */}

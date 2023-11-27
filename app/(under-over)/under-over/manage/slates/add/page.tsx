@@ -5,7 +5,7 @@ import { AddSlateForm } from "./AddSlateForm";
 const AddSlate = () => {
   return (
     <div>
-      <div className="m-4 flex flex-row justify-between">
+      <div className="flex flex-row justify-between">
         <h2 className="text-xl">Add a Slate</h2>
 
         {/* TODO: Abstract Button */}

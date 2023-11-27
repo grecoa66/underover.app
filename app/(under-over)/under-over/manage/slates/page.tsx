@@ -16,7 +16,7 @@ const ManageSlates = async () => {
 
   return (
     <div className="mb-24">
-      <div className="m-4 flex flex-row justify-between">
+      <div className="flex flex-row justify-between">
         <h2 className="text-xl">Manage Slates</h2>
         {/* TODO: Abstract Button */}
         <div className="flex flex-row space-x-4">
