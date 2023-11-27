@@ -1,3 +1,4 @@
+import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 import { requireAdmin } from "@/app/api/auth/getUser";
 
 const AppPropPage = async ({ params }: { params: { id: string } }) => {
@@ -6,7 +7,10 @@ const AppPropPage = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <p>Add A Prop</p>
+      <ManageHeader
+        title="Add a Prop"
+        backLink={`/under-over/manage/slates/${params.id}`}
+      />
     </div>
   );
 };

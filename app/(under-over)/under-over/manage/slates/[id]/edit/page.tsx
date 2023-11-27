@@ -1,8 +1,7 @@
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { prisma } from "@/app/api/__prismaClient";
 import { EditSlateForm } from "./EditSlateForm";
+import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 
 const EditSlate = async ({ params }: { params: { id: string } }) => {
   // Page requires admin access
@@ -21,20 +20,10 @@ const EditSlate = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
-      <div className="flex flex-row justify-between">
-        <h2 className="text-xl">Edit Slate #{params.id}</h2>
-
-        {/* TODO: Abstract Button */}
-        <Link
-          href="/under-over/manage/slates"
-          className={
-            "flex w-1/6 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
-          }
-        >
-          <FaArrowLeft />
-          <button type="button">Back</button>
-        </Link>
-      </div>
+      <ManageHeader
+        title={`Edit Slate #${params.id}`}
+        backLink="/under-over/manage/slates"
+      />
       <EditSlateForm slate={slate} />
     </div>
   );

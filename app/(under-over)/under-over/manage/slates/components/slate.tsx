@@ -1,3 +1,4 @@
+import { ManagePanel } from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
 import Link from "next/link";
 import { FaPen } from "react-icons/fa";
@@ -20,7 +21,7 @@ const Slates = ({
   areSlatesActive: boolean;
 }) => {
   return (
-    <div className="flex w-5/6 flex-col border-2 border-mint p-4 lg:w-1/3">
+    <ManagePanel className="w-5/6 lg:w-1/3">
       <p className="border-b-2 border-mint pb-2">
         {areSlatesActive ? "Active" : "Inactive"} Slates
       </p>
@@ -33,7 +34,7 @@ const Slates = ({
           <EditButton slateId={slate.id} />
         </div>
       ))}
-    </div>
+    </ManagePanel>
   );
 };
 

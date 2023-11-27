@@ -1,3 +1,5 @@
+import ManageHeader from "@/app/(under-over)/components/ManageHeader";
+import { ManagePanel } from "@/app/(under-over)/components/ManagePanel";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { DateTime } from "luxon";
@@ -35,33 +37,14 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div>
-      <div className="flex flex-row justify-between">
-        <h2 className="text-xl">Slate #{params.id}</h2>
-        {/* TODO: Abstract Button */}
-        <div className="flex flex-row space-x-4">
-          <Link
-            href="/under-over/manage/slates"
-            className={
-              "flex flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
-            }
-          >
-            <FaArrowLeft />
-            <button type="button">Back</button>
-          </Link>
-          <Link
-            href={`/under-over/manage/slates/${params.id}/props/add`}
-            className={
-              "flex flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
-            }
-          >
-            <FaPlus />
-            <button type="button">Add</button>
-          </Link>
-        </div>
-      </div>
+    <div className="space-y-4">
+      <ManageHeader
+        title={`Slate #${params.id}`}
+        backLink="/under-over/manage/slates"
+        addLink={`/under-over/manage/slates/${params.id}/props/add`}
+      />
       {/* Slate data */}
-      <div>
+      <ManagePanel>
         {user && (
           <p>
             Created By: {user?.name} ({user?.id})
@@ -116,14 +99,14 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
             .toLocal()
             .toFormat("t MM-dd-yyyy")}
         </p>
-      </div>
+      </ManagePanel>
 
       {/* List of props */}
       {props.map((prop) => {
         return (
-          <div key={prop.id}>
+          <ManagePanel key={prop.id}>
             <h3>Prop #{prop.id}</h3>
-          </div>
+          </ManagePanel>
         );
       })}
     </div>
