@@ -25,7 +25,10 @@ const Slates = ({
         {areSlatesActive ? "Active" : "Inactive"} Slates
       </p>
       {slates.map((slate) => (
-        <div className="my-2 flex flex-row items-center justify-between">
+        <div
+          key={slate.id}
+          className="my-2 flex flex-row items-center justify-between"
+        >
           <Slate key={slate.id} slate={slate} />
           <EditButton slateId={slate.id} />
         </div>
