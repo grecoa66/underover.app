@@ -43,7 +43,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
         addLink={`/under-over/manage/slates/${params.id}/props/add`}
       />
       {/* Slate data */}
-      <ManagePanel>
+      <div>
         {user && (
           <p>
             Created By: {user?.name} ({user?.id})
@@ -98,13 +98,46 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
             .toLocal()
             .toFormat("t MM-dd-yyyy")}
         </p>
-      </ManagePanel>
+      </div>
 
       {/* List of props */}
       {props.map((prop) => {
         return (
           <ManagePanel key={prop.id}>
-            <h3>Prop #{prop.id}</h3>
+            <h3 className="text-lg">Prop #{prop.id}</h3>
+            {prop.player_name && <p>Player: {prop.player_name}</p>}
+            {prop.team_name && <p>Team: {prop.team_name}</p>}
+            <p>Matchup: {prop.team_matchup}</p>
+            {prop.start_date && (
+              <p>
+                Start Date:{" "}
+                {DateTime.fromJSDate(prop.start_date, {
+                  zone: "utc",
+                }).toLocaleString()}
+              </p>
+            )}
+            {prop.end_date && (
+              <p>
+                End Date:{" "}
+                {DateTime.fromJSDate(prop.end_date, {
+                  zone: "utc",
+                }).toLocaleString()}
+              </p>
+            )}
+            {prop.game_start_time && (
+              <p>
+                Game Start Time:{" "}
+                {DateTime.fromJSDate(prop.game_start_time)
+                  .toLocal()
+                  .toFormat("t MM-dd-yyyy")}
+              </p>
+            )}
+            <p>Prop Type: {prop.prop_type}</p>
+            {prop.prop_result && <p>Prop Result: {prop.prop_result}</p>}
+            <p>Under Value: {prop.under_value}</p>
+            <p>Under Price: {prop.under_price}</p>
+            <p>Over Value: {prop.over_value}</p>
+            <p>Over Price: {prop.over_price}</p>
           </ManagePanel>
         );
       })}

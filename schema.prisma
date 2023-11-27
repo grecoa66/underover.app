@@ -70,7 +70,7 @@ model props {
   league          String   @db.VarChar(255)
   player_name     String?    @db.VarChar(100)
   team_name       String?    @db.VarChar(100)
-  team_matchup    String    @db.VarChar(250)
+  team_matchup    String    @db.VarChar(400)
   game_start_time DateTime? @db.Timestamp(6)
   start_date      DateTime? @db.Date
   end_date        DateTime? @db.Date
