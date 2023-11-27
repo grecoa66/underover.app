@@ -1,4 +1,4 @@
-import { ManagePanel } from "@/app/(under-over)/components/ManagePanel";
+import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
 import Link from "next/link";
 import { FaPen } from "react-icons/fa";

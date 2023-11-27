@@ -1,18 +1,18 @@
-import Link from "next/link";
-import { FaArrowLeft } from "react-icons/fa";
 import { AddSlateForm } from "./AddSlateForm";
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
+import ManagePanel from "@/app/(under-over)/components/ManagePanel";
+import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 
 const AddSlate = () => {
   return (
-    <div>
+    <ManageWrapper>
       <ManageHeader title="Add a Slate" backLink="/under-over/manage/slates" />
       {/* Start Add Slate Form */}
-      <div>
+      <ManagePanel>
         <AddSlateForm />
-      </div>
+      </ManagePanel>
       {/* End Add Slate Form */}
-    </div>
+    </ManageWrapper>
   );
 };
 

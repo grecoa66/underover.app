@@ -2,6 +2,7 @@ import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { Slates } from "./components/slate";
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
+import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 
 const ManageSlates = async () => {
   // Page requires admin access
@@ -14,7 +15,7 @@ const ManageSlates = async () => {
   const inactiveSlates = slates.filter((slate) => slate.is_active === false);
 
   return (
-    <div className="mb-24">
+    <ManageWrapper className="mb-24">
       <ManageHeader
         title="Manage Slates"
         backLink="/under-over/manage"
@@ -24,7 +25,7 @@ const ManageSlates = async () => {
         <Slates slates={activeSlates} areSlatesActive={true} />
         <Slates slates={inactiveSlates} areSlatesActive={false} />
       </div>
-    </div>
+    </ManageWrapper>
   );
 };
 

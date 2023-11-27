@@ -19,4 +19,4 @@ const ManagePanel = ({
   );
 };
 
-export { ManagePanel };
+export default ManagePanel;

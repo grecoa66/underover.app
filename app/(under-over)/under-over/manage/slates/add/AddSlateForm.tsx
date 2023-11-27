@@ -83,7 +83,7 @@ const AddSlateForm = () => {
           {errors?.is_active?.message && (
             <p className="text-red-500">{errors?.is_active?.message}</p>
           )}
-
+          {/* TODO: Style this button, or use a styled one */}
           <button type="submit">Submit</button>
         </form>
       </div>

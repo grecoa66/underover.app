@@ -1,10 +1,9 @@
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
-import { ManagePanel } from "@/app/(under-over)/components/ManagePanel";
+import ManagePanel from "@/app/(under-over)/components/ManagePanel";
+import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { DateTime } from "luxon";
-import Link from "next/link";
-import { FaArrowLeft, FaPlus } from "react-icons/fa";
 
 const SlatePage = async ({ params }: { params: { id: string } }) => {
   // Page requires admin access
@@ -37,7 +36,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="space-y-4">
+    <ManageWrapper>
       <ManageHeader
         title={`Slate #${params.id}`}
         backLink="/under-over/manage/slates"
@@ -109,7 +108,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
           </ManagePanel>
         );
       })}
-    </div>
+    </ManageWrapper>
   );
 };
 export default SlatePage;

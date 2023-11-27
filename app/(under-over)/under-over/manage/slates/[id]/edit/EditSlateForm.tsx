@@ -145,7 +145,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           {errors?.is_complete?.message && (
             <p className="text-red-500">{errors?.is_complete?.message}</p>
           )}
-
+          {/* Style this button, and the delete one */}
           <button type="submit">Submit</button>
         </form>
         <div>
