@@ -15,8 +15,6 @@ export const AddSlateFormSchema = z
     start_date: z.coerce.date(),
     end_date: z.coerce.date(),
     is_active: z.boolean(),
-    is_locked: z.boolean(),
-    is_complete: z.boolean(),
   })
   .refine(
     (values) => {
@@ -57,3 +55,11 @@ export const EditSlateFormSchema = z
   );
 
 export type EditSlateFormFields = z.infer<typeof EditSlateFormSchema>;
+
+// DELETE
+export const DeleteSlateSchema = z.object({
+  id: z.coerce.number(),
+  is_active: z.boolean(),
+});
+
+export type DeleteSlateData = z.infer<typeof DeleteSlateSchema>;

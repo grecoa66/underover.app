@@ -4,6 +4,7 @@ import { revalidateTag } from "next/cache";
 import {
   AddSlateFormFields,
   AddSlateFormSchema,
+  DeleteSlateData,
   EditSlateFormFields,
   EditSlateFormSchema,
 } from "@/app/types/slates";
@@ -23,6 +24,8 @@ export const createSlate = async (data: AddSlateFormFields) => {
       ...result,
       start_date: new Date(result.start_date).toISOString(),
       end_date: new Date(result.end_date).toISOString(),
+      is_locked: false,
+      is_complete: false,
       users: {
         connect: {
           id: currentUser.id,
@@ -41,6 +44,10 @@ export const editSlate = async (data: EditSlateFormFields) => {
 
   const { id, ...rest } = EditSlateFormSchema.parse(data);
 
+  if (rest.is_active && rest.is_complete) {
+    throw new Error("Slate cannot be active and complete");
+  }
+
   await prisma.slates.update({
     where: {
       id: id,
@@ -50,11 +57,30 @@ export const editSlate = async (data: EditSlateFormFields) => {
       // Convert string from the form to a date and then output an ISO string.
       start_date: new Date(rest.start_date).toISOString(),
       end_date: new Date(rest.end_date).toISOString(),
+      modified_at: new Date(),
       users: {
         connect: {
           id: currentUser.id,
         },
       },
+    },
+  });
+
+  revalidateTag("slates");
+
+  redirect("/under-over/manage/slates", RedirectType.push);
+};
+
+export const deleteSlate = async (data: DeleteSlateData) => {
+  await requireAdmin();
+
+  if (data.is_active) {
+    throw new Error("Slate is active, cannot be deleted");
+  }
+
+  await prisma.slates.delete({
+    where: {
+      id: data.id,
     },
   });
 

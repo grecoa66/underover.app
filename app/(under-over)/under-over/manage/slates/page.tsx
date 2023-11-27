@@ -1,11 +1,10 @@
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { InactiveSlates, ActiveSlates } from "./components/slate";
+import { Slates } from "./components/slate";
 import Link from "next/link";
 import { FaPlus } from "react-icons/fa";
 
 const ManageSlates = async () => {
-  console.log("Rendering manage slates...");
   // Page requires admin access
   await requireAdmin();
 
@@ -16,7 +15,7 @@ const ManageSlates = async () => {
   const inactiveSlates = slates.filter((slate) => slate.is_active === false);
 
   return (
-    <div>
+    <div className="mb-24">
       <div className="m-4 flex flex-row justify-between">
         <h2 className="text-xl">Manage Slates</h2>
         {/* TODO: Abstract Button */}
@@ -30,9 +29,9 @@ const ManageSlates = async () => {
           <button type="button">Add</button>
         </Link>
       </div>
-      <div className="flex flex-row justify-around">
-        <ActiveSlates slates={activeSlates} />
-        <InactiveSlates slates={inactiveSlates} />
+      <div className="flex flex-col items-center justify-around space-y-4 lg:flex-row lg:items-start lg:space-y-0">
+        <Slates slates={activeSlates} areSlatesActive={true} />
+        <Slates slates={inactiveSlates} areSlatesActive={false} />
       </div>
     </div>
   );

@@ -3,13 +3,15 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  DeleteSlateData,
   EditSlateFormFields,
   EditSlateFormSchema,
   League,
 } from "@/app/types/slates";
 import { slates } from "@prisma/client";
 import { DateTime } from "luxon";
-import { editSlate } from "../../actions";
+import { deleteSlate, editSlate } from "../../actions";
+import { FaTrash } from "react-icons/fa";
 
 // TODO: Abstract form components
 // TODO: Abstract how dates are displayed into a compn\onent
@@ -18,6 +20,8 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
   const {
     register,
     watch,
+    setValue,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<EditSlateFormFields>({
@@ -36,18 +40,31 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
   });
 
   const watchLeague = watch("league", slate.league as League);
+  // active & complete both can't be true, watch their values so we can toggle the other off.
+  const watchIsActive = watch("is_active", slate.is_active);
+  const watchIsComplete = watch("is_complete", slate.is_complete);
 
-  const onSubmit: SubmitHandler<EditSlateFormFields> = (data) => {
-    console.log("onSubmit: ", data);
-    editSlate(data);
+  const handleEditSubmit: SubmitHandler<EditSlateFormFields> = async (data) => {
+    // Handles errors returned from the server action
+    await editSlate(data).catch((e) => {
+      setError("is_active", { type: "server", message: e.message });
+      setError("is_complete", { type: "server", message: e.message });
+    });
+  };
+  const handleDeleteOnClick = (data: DeleteSlateData) => {
+    if (data.is_active) {
+      alert("This slate is active, can't delete!");
+      return;
+    }
+    deleteSlate(data);
   };
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="mx-6 flex flex-col">
         <form
-          className="mx-6 flex flex-col space-y-2"
-          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col space-y-2"
+          onSubmit={handleSubmit(handleEditSubmit)}
         >
           <input type="hidden" {...register("id")} />
           <label>
@@ -91,7 +108,15 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
 
           <label>
             Is Slate Active?
-            <input {...register("is_active")} type="checkbox" />
+            <input
+              {...register("is_active")}
+              type="checkbox"
+              onClick={() => {
+                if (!watchIsActive) {
+                  setValue("is_complete", false);
+                }
+              }}
+            />
           </label>
           {errors?.is_active?.message && (
             <p className="text-red-500">{errors?.is_active?.message}</p>
@@ -107,7 +132,15 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
 
           <label>
             Is Slate Complete?
-            <input {...register("is_complete")} type="checkbox" />
+            <input
+              {...register("is_complete")}
+              type="checkbox"
+              onClick={() => {
+                if (!watchIsComplete) {
+                  setValue("is_active", false);
+                }
+              }}
+            />
           </label>
           {errors?.is_complete?.message && (
             <p className="text-red-500">{errors?.is_complete?.message}</p>
@@ -115,6 +148,18 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
 
           <button type="submit">Submit</button>
         </form>
+        <div>
+          <button
+            type="button"
+            className="flex flex-row items-center rounded-lg border-2 border-red-400 p-3 text-red-400 hover:bg-red-400 hover:text-white"
+            onClick={() =>
+              handleDeleteOnClick({ id: slate.id, is_active: slate.is_active })
+            }
+          >
+            <FaTrash className="mr-2" />
+            <span>Delete</span>
+          </button>
+        </div>
       </div>
     </>
   );

@@ -35,12 +35,7 @@ const EditSlate = async ({ params }: { params: { id: string } }) => {
           <button type="button">Back</button>
         </Link>
       </div>
-      {/* Start Add Slate Form */}
-      <div>{JSON.stringify(slate)}</div>
-      <div>
-        <EditSlateForm slate={slate} />
-      </div>
-      {/* End Add Slate Form */}
+      <EditSlateForm slate={slate} />
     </div>
   );
 };

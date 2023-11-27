@@ -84,22 +84,6 @@ const AddSlateForm = () => {
             <p className="text-red-500">{errors?.is_active?.message}</p>
           )}
 
-          <label>
-            Is Slate Locked?
-            <input {...register("is_locked")} type="checkbox" />
-          </label>
-          {errors?.is_locked?.message && (
-            <p className="text-red-500">{errors?.is_locked?.message}</p>
-          )}
-
-          <label>
-            Is Slate Complete?
-            <input {...register("is_complete")} type="checkbox" />
-          </label>
-          {errors?.is_complete?.message && (
-            <p className="text-red-500">{errors?.is_complete?.message}</p>
-          )}
-
           <button type="submit">Submit</button>
         </form>
       </div>
