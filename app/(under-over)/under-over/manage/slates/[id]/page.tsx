@@ -133,7 +133,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
               </p>
             )}
             <p>Prop Type: {prop.prop_type}</p>
-            {prop.prop_result && <p>Prop Result: {prop.prop_result}</p>}
+            <p>Prop Result: {prop.prop_result}</p>
             <p>Under Value: {prop.under_value}</p>
             <p>Under Price: {prop.under_price}</p>
             <p>Over Value: {prop.over_value}</p>
