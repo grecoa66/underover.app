@@ -1,9 +1,12 @@
+import {
+  DateInTimezone,
+  SimpleDateDisplay,
+} from "@/app/(under-over)/components/DateInTimezone";
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { DateTime } from "luxon";
 import Link from "next/link";
 import { FaPen } from "react-icons/fa";
 
@@ -53,17 +56,11 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
           </p>
         )}
         <p>
-          Start Date:{" "}
-          {DateTime.fromJSDate(slate.start_date, {
-            zone: "utc",
-          }).toLocaleString()}
+          Start Date: <SimpleDateDisplay date={slate.start_date} />
         </p>
         <p>{slate.league}</p>
         <p>
-          End Date:{" "}
-          {DateTime.fromJSDate(slate.end_date, {
-            zone: "utc",
-          }).toLocaleString()}
+          End Date: <SimpleDateDisplay date={slate.end_date} />
         </p>
         <p>
           Is Active?{" "}
@@ -90,16 +87,10 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
           )}
         </p>
         <p>
-          Created At:{" "}
-          {DateTime.fromJSDate(slate.created_at)
-            .toLocal()
-            .toFormat("t MM-dd-yyyy")}
+          Created At: <DateInTimezone date={slate.created_at} />
         </p>
         <p>
-          Last Modified:{" "}
-          {DateTime.fromJSDate(slate.modified_at)
-            .toLocal()
-            .toFormat("t MM-dd-yyyy")}
+          Last Modified: <DateInTimezone date={slate.modified_at} />
         </p>
 
         <Link
@@ -119,30 +110,23 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
           <ManagePanel key={prop.id}>
             <h3 className="text-lg">Prop #{prop.id}</h3>
             {prop.player_name && <p>Player: {prop.player_name}</p>}
-            {prop.team_name && <p>Team: {prop.team_name}</p>}
-            <p>Matchup: {prop.team_matchup}</p>
+            {prop.players_team && <p>Team: {prop.players_team}</p>}
+            <p>
+              Matchup: {prop.away_team} @ {prop.home_team}
+            </p>
             {prop.start_date && (
               <p>
-                Start Date:{" "}
-                {DateTime.fromJSDate(prop.start_date, {
-                  zone: "utc",
-                }).toLocaleString()}
+                Start Date: <SimpleDateDisplay date={prop.start_date} />
               </p>
             )}
             {prop.end_date && (
               <p>
-                End Date:{" "}
-                {DateTime.fromJSDate(prop.end_date, {
-                  zone: "utc",
-                }).toLocaleString()}
+                End Date: <SimpleDateDisplay date={prop.end_date} />
               </p>
             )}
             {prop.game_start_time && (
               <p>
-                Game Start Time:{" "}
-                {DateTime.fromJSDate(prop.game_start_time)
-                  .toLocal()
-                  .toFormat("t MM-dd-yyyy")}
+                Game Start Time: <DateInTimezone date={prop.game_start_time} />
               </p>
             )}
             <p>Prop Type: {prop.prop_type}</p>

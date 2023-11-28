@@ -1,38 +1,66 @@
 "use client";
 import TeamSelect from "@/app/(under-over)/components/TeamSelect";
-import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
+import {
+  EditPropFormFields,
+  EditPropFormSchema,
+  PropResult,
+} from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createProp } from "../../actions";
-const AddPropForm = ({
+import { props } from "@prisma/client";
+import { DateTime } from "luxon";
+import { isEnumValue } from "@/app/types/shared";
+import { editProp } from "../../actions";
+const EditPropForm = ({
   slate_id,
-  league,
+  prop,
 }: {
   slate_id: number;
-  league: League;
+  prop: props;
 }) => {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const league = isEnumValue(prop.league, League) ? prop.league : undefined;
+  if (!league) {
+    throw Error("League undefined");
+  }
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AddPropFormFields>({
-    resolver: zodResolver(AddPropFormSchema),
+  } = useForm<EditPropFormFields>({
+    resolver: zodResolver(EditPropFormSchema),
     defaultValues: {
+      ...prop,
       slate_id: slate_id,
       league: league,
-      prop_result: "active",
+      prop_result: isEnumValue(prop.prop_result, PropResult)
+        ? prop.prop_result
+        : undefined,
+      player_name: prop.player_name ?? undefined,
+      players_team: prop.players_team ?? undefined,
+      game_start_time: prop.game_start_time
+        ? DateTime.fromJSDate(prop.game_start_time, { zone: tz }).toFormat(
+            "yyyy-MM-dd HH:mm",
+          )
+        : undefined,
+      start_date: DateTime.fromJSDate(prop.start_date)
+        .toUTC()
+        .toFormat("yyyy-MM-dd"),
+      end_date: DateTime.fromJSDate(prop.end_date)
+        .toUTC()
+        .toFormat("yyyy-MM-dd"),
     },
   });
 
-  const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
-    console.log("onSubmit: ", data);
-    createProp(data);
+  const onSubmit: SubmitHandler<EditPropFormFields> = (data) => {
+    editProp(data);
   };
 
   return (
     <div className="flex flex-col">
-      {/* {errors && <p>{JSON.stringify(errors)}</p>} */}
       <form
         className="mx-6 flex flex-col space-y-2"
         onSubmit={handleSubmit(onSubmit)}
@@ -62,10 +90,10 @@ const AddPropForm = ({
 
         <label>
           Player&#39;s Team{" "}
-          <TeamSelect register={register("team_name")} league={league} />
+          <TeamSelect register={register("players_team")} league={league} />
         </label>
-        {errors?.team_name?.message && (
-          <p className="text-red-500">{errors?.team_name?.message}</p>
+        {errors?.players_team?.message && (
+          <p className="text-red-500">{errors?.players_team?.message}</p>
         )}
 
         <label>
@@ -102,10 +130,10 @@ const AddPropForm = ({
         <label>
           Result{" "}
           <select {...register("prop_result")}>
-            <option value={"active"}>Active</option>
-            <option value={"under"}>Under</option>
-            <option value={"over"}>Over</option>
-            <option value={"push"}>Push</option>
+            <option value={PropResult.Active}>Active</option>
+            <option value={PropResult.Under}>Under</option>
+            <option value={PropResult.Over}>Over</option>
+            <option value={PropResult.Push}>Push</option>
           </select>
         </label>
         {errors?.prop_result?.message && (
@@ -149,4 +177,4 @@ const AddPropForm = ({
   );
 };
 
-export default AddPropForm;
+export default EditPropForm;

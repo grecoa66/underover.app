@@ -14,6 +14,10 @@ const AddPropPage = async ({ params }: { params: { slateId: string } }) => {
     where: {
       id: Number(params.slateId),
     },
+    select: {
+      id: true,
+      league: true,
+    },
   });
 
   if (!slate) {

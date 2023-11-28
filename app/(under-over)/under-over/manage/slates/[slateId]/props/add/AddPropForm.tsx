@@ -1,6 +1,10 @@
 "use client";
 import TeamSelect from "@/app/(under-over)/components/TeamSelect";
-import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
+import {
+  AddPropFormFields,
+  AddPropFormSchema,
+  PropResult,
+} from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -21,12 +25,11 @@ const AddPropForm = ({
     defaultValues: {
       slate_id: slate_id,
       league: league,
-      prop_result: "active",
+      prop_result: PropResult.Active,
     },
   });
 
   const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
-    console.log("onSubmit: ", data);
     createProp(data);
   };
 
@@ -62,10 +65,10 @@ const AddPropForm = ({
 
         <label>
           Player&#39;s Team{" "}
-          <TeamSelect register={register("team_name")} league={league} />
+          <TeamSelect register={register("players_team")} league={league} />
         </label>
-        {errors?.team_name?.message && (
-          <p className="text-red-500">{errors?.team_name?.message}</p>
+        {errors?.players_team?.message && (
+          <p className="text-red-500">{errors?.players_team?.message}</p>
         )}
 
         <label>
@@ -102,10 +105,10 @@ const AddPropForm = ({
         <label>
           Result{" "}
           <select {...register("prop_result")}>
-            <option value={"active"}>Active</option>
-            <option value={"under"}>Under</option>
-            <option value={"over"}>Over</option>
-            <option value={"push"}>Push</option>
+            <option value={PropResult.Active}>Active</option>
+            <option value={PropResult.Under}>Under</option>
+            <option value={PropResult.Over}>Over</option>
+            <option value={PropResult.Push}>Push</option>
           </select>
         </label>
         {errors?.prop_result?.message && (

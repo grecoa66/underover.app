@@ -263,8 +263,8 @@ const nfl: Team = {
   },
 
   OAK: {
-    team_name: "Oakland Raiders",
-    name_abbrev: "OAK",
+    team_name: "Las Vegas Raiders",
+    name_abbrev: "LVR",
   },
 
   PHI: {
@@ -278,8 +278,8 @@ const nfl: Team = {
   },
 
   SD: {
-    team_name: "San Diego Chargers",
-    name_abbrev: "SD",
+    team_name: "Los Angeles Chargers",
+    name_abbrev: "LAC",
   },
 
   SEA: {
@@ -293,8 +293,8 @@ const nfl: Team = {
   },
 
   STL: {
-    team_name: "St. Louis Rams",
-    name_abbrev: "STL",
+    team_name: "Los Angeles Rams",
+    name_abbrev: "LAR",
   },
 
   TB: {
@@ -308,7 +308,7 @@ const nfl: Team = {
   },
 
   WAS: {
-    team_name: "Washington Redskins",
+    team_name: "Washington Commanders",
     name_abbrev: "WAS",
   },
 };

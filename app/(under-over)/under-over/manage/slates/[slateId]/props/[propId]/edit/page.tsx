@@ -4,14 +4,12 @@ import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import EditPropForm from "./EditPropForm";
 import { prisma } from "@/app/api/__prismaClient";
-import { League } from "@/app/types/slates";
 
 const EditPropPage = async ({
   params,
 }: {
   params: { slateId: string; propId: string };
 }) => {
-  console.log("params: ", params);
   // Page requires admin access
   await requireAdmin();
 
@@ -19,10 +17,22 @@ const EditPropPage = async ({
     where: {
       id: Number(params.slateId),
     },
+    select: {
+      id: true,
+    },
+  });
+
+  const prop = await prisma.props.findUnique({
+    where: {
+      id: Number(params.propId),
+    },
   });
 
   if (!slate) {
     throw Error("Slate not found");
+  }
+  if (!prop) {
+    throw Error("Prop not found");
   }
 
   return (
@@ -33,7 +43,7 @@ const EditPropPage = async ({
         backText={`Slate #${params.slateId}`}
       />
       <ManagePanel>
-        <EditPropForm slate_id={slate.id} league={slate.league as League} />
+        <EditPropForm slate_id={slate.id} prop={prop} />
       </ManagePanel>
     </ManageWrapper>
   );
