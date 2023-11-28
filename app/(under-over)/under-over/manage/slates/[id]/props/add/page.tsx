@@ -27,7 +27,7 @@ const AppPropPage = async ({ params }: { params: { id: string } }) => {
         backLink={`/under-over/manage/slates/${params.id}`}
       />
       <ManagePanel>
-        <AddPropForm league={slate?.league as League} />
+        <AddPropForm league={slate.league as League} />
       </ManagePanel>
     </ManageWrapper>
   );

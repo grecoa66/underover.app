@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { zfd } from "zod-form-data";
 import { League } from "./slates";
 
 export const AddPropFormSchema = z
@@ -9,7 +8,8 @@ export const AddPropFormSchema = z
     end_date: z.coerce.date(),
     player_name: z.string().optional(),
     team_name: z.string().optional(),
-    team_matchup: z.string(),
+    home_team: z.string(),
+    away_team: z.string(),
     game_start_time: z.coerce.date(), // Probably not correct. DB expects a timestamp
     prop_type: z.string(), // TODO: make an enum for these values
     prop_result: z.union([
@@ -30,6 +30,18 @@ export const AddPropFormSchema = z
     {
       message: "Start date must be before end date",
       path: ["end_date"],
+    },
+  )
+  .refine(
+    (values) => {
+      return (
+        values.team_name !== values.home_team &&
+        values.team_name !== values.away_team
+      );
+    },
+    {
+      message: "Player's team must match home or away team",
+      path: ["team_name"],
     },
   );
 

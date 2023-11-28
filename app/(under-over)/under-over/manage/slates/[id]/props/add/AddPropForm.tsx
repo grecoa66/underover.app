@@ -1,4 +1,5 @@
 "use client";
+import TeamSelect from "@/app/components/TeamSelect";
 import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,25 +44,34 @@ const AddPropForm = ({ league }: { league: League }) => {
         )}
 
         <label>
-          Player Name <input {...register("player_name")} />
+          Player&#39;s Name <input {...register("player_name")} />
         </label>
         {errors?.player_name?.message && (
           <p className="text-red-500">{errors?.player_name?.message}</p>
         )}
 
         <label>
-          Team Name <input {...register("team_name")} />
+          Player&#39;s Team{" "}
+          <TeamSelect register={register("team_name")} league={league} />
         </label>
         {errors?.team_name?.message && (
           <p className="text-red-500">{errors?.team_name?.message}</p>
         )}
 
-        {/* TODO: I want this to be two inputs. One for away team, one for fome team */}
         <label>
-          Matchup <input {...register("team_matchup")} />
+          Away Team{" "}
+          <TeamSelect register={register("away_team")} league={league} />
         </label>
-        {errors?.team_matchup?.message && (
-          <p className="text-red-500">{errors?.team_matchup?.message}</p>
+        {errors?.away_team?.message && (
+          <p className="text-red-500">{errors?.away_team?.message}</p>
+        )}
+
+        <label>
+          Home Team{" "}
+          <TeamSelect register={register("home_team")} league={league} />
+        </label>
+        {errors?.home_team?.message && (
+          <p className="text-red-500">{errors?.home_team?.message}</p>
         )}
 
         <label>
@@ -88,12 +98,13 @@ const AddPropForm = ({ league }: { league: League }) => {
             <option value={"push"}>Push</option>
           </select>
         </label>
-        {errors?.team_matchup?.message && (
-          <p className="text-red-500">{errors?.team_matchup?.message}</p>
+        {errors?.prop_result?.message && (
+          <p className="text-red-500">{errors?.prop_result?.message}</p>
         )}
 
         <label>
-          Under Value <input {...register("under_value")} type="number" />
+          Under Value{" "}
+          <input {...register("under_value")} type="number" step=".1" />
         </label>
         {errors?.under_value?.message && (
           <p className="text-red-500">{errors?.under_value?.message}</p>
@@ -107,7 +118,8 @@ const AddPropForm = ({ league }: { league: League }) => {
         )}
 
         <label>
-          Over Value <input {...register("over_value")} type="number" />
+          Over Value{" "}
+          <input {...register("over_value")} type="number" step=".1" />
         </label>
         {errors?.over_value?.message && (
           <p className="text-red-500">{errors?.over_value?.message}</p>

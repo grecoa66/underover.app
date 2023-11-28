@@ -1,40 +1,40 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 async function seedSlates() {
-  // const slates = await prisma.slates.createMany({
-  //   data: [
-  //     {
-  //       league: "nfl",
-  //       nfl_week: 9,
-  //       start_date: "2023-11-05T11:00:00.000Z",
-  //       end_date: "2023-11-05T23:00:00.000Z",
-  //       is_active: false,
-  //       is_locked: true,
-  //       is_complete: true,
-  //       created_by: 1,
-  //     },
-  //     {
-  //       league: "nfl",
-  //       nfl_week: 10,
-  //       start_date: "2023-11-12T11:00:00.000Z",
-  //       end_date: "2023-11-12T23:00:00.000Z",
-  //       is_active: false,
-  //       is_locked: true,
-  //       is_complete: true,
-  //       created_by: 1,
-  //     },
-  //     {
-  //       league: "nfl",
-  //       nfl_week: 11,
-  //       start_date: "2023-11-19T11:00:00.000Z",
-  //       end_date: "2023-11-19T23:00:00.000Z",
-  //       is_active: true,
-  //       is_locked: false,
-  //       is_complete: false,
-  //       created_by: 1,
-  //     },
-  //   ],
-  // });
+  const slates = await prisma.slates.createMany({
+    data: [
+      {
+        league: "nfl",
+        nfl_week: 9,
+        start_date: "2023-11-05T11:00:00.000Z",
+        end_date: "2023-11-05T23:00:00.000Z",
+        is_active: false,
+        is_locked: true,
+        is_complete: true,
+        created_by: 1,
+      },
+      {
+        league: "nfl",
+        nfl_week: 10,
+        start_date: "2023-11-12T11:00:00.000Z",
+        end_date: "2023-11-12T23:00:00.000Z",
+        is_active: false,
+        is_locked: true,
+        is_complete: true,
+        created_by: 1,
+      },
+      {
+        league: "nfl",
+        nfl_week: 11,
+        start_date: "2023-11-19T11:00:00.000Z",
+        end_date: "2023-11-19T23:00:00.000Z",
+        is_active: true,
+        is_locked: false,
+        is_complete: false,
+        created_by: 1,
+      },
+    ],
+  });
 
   const props = await prisma.props.createMany({
     data: [
@@ -105,6 +105,7 @@ async function seedSlates() {
         start_date: "2023-11-19T00:00:00.000Z",
         end_date: "2023-11-19T23:00:00.000Z",
         prop_type: "Passing TDs",
+        prop_result: "active",
         under_value: 1.5,
         under_price: -102,
         over_value: 1.5,
@@ -124,6 +125,7 @@ async function seedSlates() {
         start_date: "2023-11-19T00:00:00.000Z",
         end_date: "2023-11-19T23:00:00.000Z",
         prop_type: "Passing TDs",
+        prop_result: "active",
         under_value: 17.5,
         under_price: -102,
         over_value: 17.5,
@@ -137,7 +139,9 @@ async function seedSlates() {
     ],
   });
 
-  // console.log("Data: ", { slates, props });
+  console.log("Data: ", { slates, props });
+  // console.log("Data: ", { slates });
+  // console.log("Data: ", { props });
 }
 seedSlates()
   .then(async () => {
