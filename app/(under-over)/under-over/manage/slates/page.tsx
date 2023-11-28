@@ -1,6 +1,6 @@
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { Slates } from "./components/slate";
+import Slates from "../../../components/Slates";
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 

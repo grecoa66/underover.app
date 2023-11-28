@@ -25,6 +25,7 @@ const EditSlate = async ({ params }: { params: { id: string } }) => {
       <ManageHeader
         title={`Edit Slate #${params.id}`}
         backLink="/under-over/manage/slates"
+        backText="Slates"
       />
       <ManagePanel>
         <EditSlateForm slate={slate} />

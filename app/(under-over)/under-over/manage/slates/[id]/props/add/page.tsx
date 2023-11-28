@@ -25,6 +25,7 @@ const AppPropPage = async ({ params }: { params: { id: string } }) => {
       <ManageHeader
         title="Add a Prop"
         backLink={`/under-over/manage/slates/${params.id}`}
+        backText={`Slate #${params.id}`}
       />
       <ManagePanel>
         <AddPropForm slate_id={slate.id} league={slate.league as League} />

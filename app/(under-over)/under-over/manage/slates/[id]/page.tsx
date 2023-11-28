@@ -4,6 +4,8 @@ import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { DateTime } from "luxon";
+import Link from "next/link";
+import { FaPen } from "react-icons/fa";
 
 const SlatePage = async ({ params }: { params: { id: string } }) => {
   // Page requires admin access
@@ -40,6 +42,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
       <ManageHeader
         title={`Slate #${params.id}`}
         backLink="/under-over/manage/slates"
+        backText="Slates"
         addLink={`/under-over/manage/slates/${params.id}/props/add`}
       />
       {/* Slate data */}
@@ -98,6 +101,16 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
             .toLocal()
             .toFormat("t MM-dd-yyyy")}
         </p>
+
+        <Link
+          href={`/under-over/manage/slates/${params.id}/edit`}
+          className={
+            "flex h-8 w-24 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
+          }
+        >
+          <FaPen />
+          <button type="button">Edit</button>
+        </Link>
       </div>
 
       {/* List of props */}

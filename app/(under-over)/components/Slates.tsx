@@ -1,7 +1,7 @@
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
 import Link from "next/link";
-import { FaPen } from "react-icons/fa";
+import { FaEye, FaPen } from "react-icons/fa";
 
 const Slate = ({ slate }: { slate: slates }) => {
   return (
@@ -31,10 +31,27 @@ const Slates = ({
           className="my-2 flex flex-row items-center justify-between"
         >
           <Slate key={slate.id} slate={slate} />
-          <EditButton slateId={slate.id} />
+          <div className="flex flex-row">
+            <ViewButton slateId={slate.id} />
+            <EditButton slateId={slate.id} />
+          </div>
         </div>
       ))}
     </ManagePanel>
+  );
+};
+
+const ViewButton = ({ slateId }: { slateId: slates["id"] }) => {
+  return (
+    <Link
+      href={`/under-over/manage/slates/${slateId}`}
+      className={
+        "flex h-8 flex-row items-center justify-center space-x-2 rounded-lg p-2 hover:bg-mint hover:text-black"
+      }
+    >
+      <FaEye />
+      <button type="button">View</button>
+    </Link>
   );
 };
 
@@ -52,4 +69,4 @@ const EditButton = ({ slateId }: { slateId: slates["id"] }) => {
   );
 };
 
-export { Slates };
+export default Slates;

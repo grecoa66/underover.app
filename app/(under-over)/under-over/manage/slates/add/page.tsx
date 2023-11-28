@@ -6,7 +6,11 @@ import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 const AddSlate = () => {
   return (
     <ManageWrapper>
-      <ManageHeader title="Add a Slate" backLink="/under-over/manage/slates" />
+      <ManageHeader
+        title="Add a Slate"
+        backLink="/under-over/manage/slates"
+        backText="Slates"
+      />
       {/* Start Add Slate Form */}
       <ManagePanel>
         <AddSlateForm />

@@ -11,8 +11,6 @@ export const createProp = async (data: AddPropFormFields) => {
   const { home_team, away_team, slate_id, ...result } =
     AddPropFormSchema.parse(data);
 
-  console.log("after parse: ", result);
-
   await prisma.props.create({
     data: {
       ...result,
@@ -34,5 +32,5 @@ export const createProp = async (data: AddPropFormFields) => {
 
   revalidateTag("props");
 
-  redirect("/under-over/manage/slates", RedirectType.push);
+  redirect(`/under-over/manage/slates/${slate_id}`, RedirectType.push);
 };
