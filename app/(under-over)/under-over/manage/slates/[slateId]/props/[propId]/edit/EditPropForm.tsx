@@ -4,7 +4,7 @@ import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { createProp } from "../actions";
+import { createProp } from "../../actions";
 const AddPropForm = ({
   slate_id,
   league,

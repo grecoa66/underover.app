@@ -7,13 +7,13 @@ import { DateTime } from "luxon";
 import Link from "next/link";
 import { FaPen } from "react-icons/fa";
 
-const SlatePage = async ({ params }: { params: { id: string } }) => {
+const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   // Page requires admin access
   await requireAdmin();
 
   const slate = await prisma.slates.findUnique({
     where: {
-      id: Number(params.id),
+      id: Number(params.slateId),
     },
   });
 
@@ -29,7 +29,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
   // Fetch all props for slate
   const props = await prisma.props.findMany({
     where: {
-      slate_id: Number(params.id),
+      slate_id: Number(params.slateId),
     },
   });
 
@@ -40,10 +40,10 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
   return (
     <ManageWrapper>
       <ManageHeader
-        title={`Slate #${params.id}`}
+        title={`Slate #${params.slateId}`}
         backLink="/under-over/manage/slates"
         backText="Slates"
-        addLink={`/under-over/manage/slates/${params.id}/props/add`}
+        addLink={`/under-over/manage/slates/${params.slateId}/props/add`}
       />
       {/* Slate data */}
       <div>
@@ -103,7 +103,7 @@ const SlatePage = async ({ params }: { params: { id: string } }) => {
         </p>
 
         <Link
-          href={`/under-over/manage/slates/${params.id}/edit`}
+          href={`/under-over/manage/slates/${params.slateId}/edit`}
           className={
             "flex h-8 w-24 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
           }

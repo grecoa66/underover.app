@@ -1,18 +1,18 @@
+import { requireAdmin } from "@/app/api/auth/getUser";
+import { prisma } from "@/app/api/__prismaClient";
+import { EditSlateForm } from "./EditSlateForm";
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
-import { requireAdmin } from "@/app/api/auth/getUser";
-import AddPropForm from "./AddPropForm";
-import { prisma } from "@/app/api/__prismaClient";
-import { League } from "@/app/types/slates";
 
-const AppPropPage = async ({ params }: { params: { id: string } }) => {
+const EditSlate = async ({ params }: { params: { slateId: string } }) => {
   // Page requires admin access
   await requireAdmin();
 
+  // Fetch all the slates
   const slate = await prisma.slates.findUnique({
     where: {
-      id: Number(params.id),
+      id: Number(params.slateId),
     },
   });
 
@@ -23,15 +23,15 @@ const AppPropPage = async ({ params }: { params: { id: string } }) => {
   return (
     <ManageWrapper>
       <ManageHeader
-        title="Add a Prop"
-        backLink={`/under-over/manage/slates/${params.id}`}
-        backText={`Slate #${params.id}`}
+        title={`Edit Slate #${params.slateId}`}
+        backLink="/under-over/manage/slates"
+        backText="Slates"
       />
       <ManagePanel>
-        <AddPropForm slate_id={slate.id} league={slate.league as League} />
+        <EditSlateForm slate={slate} />
       </ManagePanel>
     </ManageWrapper>
   );
 };
 
-export default AppPropPage;
+export default EditSlate;
