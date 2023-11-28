@@ -4,7 +4,14 @@ import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-const AddPropForm = ({ league }: { league: League }) => {
+import { createProp } from "../actions";
+const AddPropForm = ({
+  slate_id,
+  league,
+}: {
+  slate_id: number;
+  league: League;
+}) => {
   const {
     register,
     handleSubmit,
@@ -12,13 +19,15 @@ const AddPropForm = ({ league }: { league: League }) => {
   } = useForm<AddPropFormFields>({
     resolver: zodResolver(AddPropFormSchema),
     defaultValues: {
+      slate_id: slate_id,
       league: league,
       prop_result: "active",
     },
   });
 
   const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
-    console.log("Submit Prop: ", data);
+    console.log("onSubmit: ", data);
+    createProp(data);
   };
 
   return (
@@ -29,6 +38,7 @@ const AddPropForm = ({ league }: { league: League }) => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <input type="hidden" {...register("league")} />
+        <input type="hidden" {...register("slate_id")} />
 
         <label>
           Start Date <input {...register("start_date")} type="date" />

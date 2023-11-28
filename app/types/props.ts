@@ -22,6 +22,7 @@ export const AddPropFormSchema = z
     under_price: z.coerce.number(),
     over_value: z.coerce.number(),
     over_price: z.coerce.number(),
+    slate_id: z.coerce.number(),
   })
   .refine(
     (values) => {
@@ -34,9 +35,11 @@ export const AddPropFormSchema = z
   )
   .refine(
     (values) => {
+      console.log("#1: ", values.team_name === values.home_team);
+      console.log("#2: ", values.team_name === values.away_team);
       return (
-        values.team_name !== values.home_team &&
-        values.team_name !== values.away_team
+        values.team_name === values.home_team ||
+        values.team_name === values.away_team
       );
     },
     {
