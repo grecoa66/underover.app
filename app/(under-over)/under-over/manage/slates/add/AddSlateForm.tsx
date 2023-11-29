@@ -85,6 +85,15 @@ const AddSlateForm = () => {
           {errors?.is_active?.message && (
             <p className="text-red-500">{errors?.is_active?.message}</p>
           )}
+
+          <label>
+            Post Slate Publicly?
+            <input {...register("is_public")} type="checkbox" />
+          </label>
+          {errors?.is_public?.message && (
+            <p className="text-red-500">{errors?.is_public?.message}</p>
+          )}
+
           <Button
             text={"Submit"}
             type="submit"

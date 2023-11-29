@@ -124,6 +124,14 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           )}
 
           <label>
+            Post Slate Publicly?
+            <input {...register("is_public")} type="checkbox" />
+          </label>
+          {errors?.is_public?.message && (
+            <p className="text-red-500">{errors?.is_public?.message}</p>
+          )}
+
+          <label>
             Is Slate Locked?
             <input {...register("is_locked")} type="checkbox" />
           </label>

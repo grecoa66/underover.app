@@ -15,6 +15,7 @@ export const AddSlateFormSchema = z
     start_date: z.coerce.date(),
     end_date: z.coerce.date(),
     is_active: z.boolean(),
+    is_public: z.boolean(),
   })
   .refine(
     (values) => {
@@ -41,6 +42,7 @@ export const EditSlateFormSchema = z
     start_date: z.string(),
     end_date: z.string(),
     is_active: z.boolean(),
+    is_public: z.boolean(),
     is_locked: z.boolean(),
     is_complete: z.boolean(),
   })

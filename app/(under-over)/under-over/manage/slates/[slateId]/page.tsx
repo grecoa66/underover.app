@@ -82,6 +82,14 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
             )}
           </p>
           <p>
+            Is Public?{" "}
+            {slate.is_public ? (
+              <span className="text-everglade dark:text-aero-600">Yes</span>
+            ) : (
+              <span>No</span>
+            )}
+          </p>
+          <p>
             Is Locked?{" "}
             {slate.is_locked ? (
               <span className="text-everglade dark:text-aero-600">Yes</span>
