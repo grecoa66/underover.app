@@ -1,7 +1,7 @@
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
-import Link from "next/link";
 import { FaEye, FaPen } from "react-icons/fa";
+import { LinkButton } from "./Button";
 
 const Slate = ({ slate }: { slate: slates }) => {
   return (
@@ -22,7 +22,7 @@ const Slates = ({
 }) => {
   return (
     <ManagePanel className="w-5/6 lg:w-1/3">
-      <p className="border-b-2 border-mint pb-2">
+      <p className="border-b-2 border-everglade pb-2 dark:border-mint">
         {areSlatesActive ? "Active" : "Inactive"} Slates
       </p>
       {slates.map((slate) => (
@@ -31,7 +31,7 @@ const Slates = ({
           className="my-2 flex flex-row items-center justify-between"
         >
           <Slate key={slate.id} slate={slate} />
-          <div className="flex flex-row">
+          <div className="flex flex-row space-x-4">
             <ViewButton slateId={slate.id} />
             <EditButton slateId={slate.id} />
           </div>
@@ -43,29 +43,21 @@ const Slates = ({
 
 const ViewButton = ({ slateId }: { slateId: slates["id"] }) => {
   return (
-    <Link
+    <LinkButton
       href={`/under-over/manage/slates/${slateId}`}
-      className={
-        "flex h-8 flex-row items-center justify-center space-x-2 rounded-lg p-2 hover:bg-mint hover:text-black"
-      }
-    >
-      <FaEye />
-      <button type="button">View</button>
-    </Link>
+      text="View"
+      StartIcon={FaEye}
+    />
   );
 };
 
 const EditButton = ({ slateId }: { slateId: slates["id"] }) => {
   return (
-    <Link
+    <LinkButton
       href={`/under-over/manage/slates/${slateId}/edit`}
-      className={
-        "flex h-8 flex-row items-center justify-center space-x-2 rounded-lg p-2 hover:bg-mint hover:text-black"
-      }
-    >
-      <FaPen />
-      <button type="button">Edit</button>
-    </Link>
+      text="Edit"
+      StartIcon={FaPen}
+    />
   );
 };
 

@@ -1,3 +1,4 @@
+import { LinkButton } from "@/app/(under-over)/components/Button";
 import {
   DateInTimezone,
   SimpleDateDisplay,
@@ -7,8 +8,7 @@ import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import Link from "next/link";
-import { FaPen } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
 
 const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   // Page requires admin access
@@ -33,6 +33,9 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   const props = await prisma.props.findMany({
     where: {
       slate_id: Number(params.slateId),
+    },
+    orderBy: {
+      id: "asc",
     },
   });
 
@@ -65,7 +68,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
         <p>
           Is Active?{" "}
           {slate.is_active ? (
-            <span className="text-aero-600">Yes</span>
+            <span className="text-everglade dark:text-aero-600">Yes</span>
           ) : (
             <span>No</span>
           )}
@@ -73,7 +76,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
         <p>
           Is Locked?{" "}
           {slate.is_locked ? (
-            <span className="text-aero-600">Yes</span>
+            <span className="text-everglade dark:text-aero-600">Yes</span>
           ) : (
             <span>No</span>
           )}
@@ -81,7 +84,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
         <p>
           is Complete?{" "}
           {slate.is_complete ? (
-            <span className="text-aero-600">Yes</span>
+            <span className="text-everglade dark:text-aero-600">Yes</span>
           ) : (
             <span>No</span>
           )}
@@ -93,15 +96,11 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
           Last Modified: <DateInTimezone date={slate.modified_at} />
         </p>
 
-        <Link
+        <LinkButton
           href={`/under-over/manage/slates/${params.slateId}/edit`}
-          className={
-            "flex h-8 w-24 flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
-          }
-        >
-          <FaPen />
-          <button type="button">Edit</button>
-        </Link>
+          text="Edit"
+          StartIcon={FaEye}
+        />
       </div>
 
       {/* List of props */}

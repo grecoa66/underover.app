@@ -10,7 +10,7 @@ const ManagePanel = ({
   return (
     <div
       className={twMerge(
-        "flex flex-col rounded-md border-2 border-mint p-4",
+        "flex flex-col rounded-md border-2 border-everglade p-4 dark:border-mint",
         className,
       )}
     >

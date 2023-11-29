@@ -1,12 +1,12 @@
 import React from "react";
-import Link from "next/link";
 import { requireAdmin } from "@/app/api/auth/getUser";
+import { LinkButton } from "../../components/Button";
 
 const ManageUnderOver = async () => {
   await requireAdmin();
   return (
     <div>
-      <Link href={"/under-over/manage/slates"}>Slates</Link>
+      <LinkButton href={"/under-over/manage/slates"} text="Slates" />
     </div>
   );
 };

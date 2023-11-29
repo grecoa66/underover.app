@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import { LinkButton } from "./Button";
 
 const ManageHeader = ({
   title,
@@ -28,26 +28,18 @@ const ManageHeader = ({
       {/* TODO: Abstract Button */}
       <div className="flex flex-row space-x-4">
         {backLink && (
-          <Link
+          <LinkButton
             href={backLink}
-            className={
-              "flex flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
-            }
-          >
-            <FaArrowLeft />
-            <button type="button">{backText || "Back"}</button>
-          </Link>
+            text={backText || "Back"}
+            StartIcon={FaArrowLeft}
+          />
         )}
         {addLink && (
-          <Link
+          <LinkButton
             href={addLink}
-            className={
-              "flex flex-row items-center justify-center space-x-2 rounded-lg border-2 border-mint p-2 hover:bg-mint hover:text-black"
-            }
-          >
-            <FaPlus />
-            <button type="button">{addText || "Add"}</button>
-          </Link>
+            text={addText || "Add"}
+            StartIcon={FaPlus}
+          />
         )}
       </div>
     </div>
