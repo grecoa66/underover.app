@@ -11,7 +11,8 @@ import {
 import { slates } from "@prisma/client";
 import { DateTime } from "luxon";
 import { deleteSlate, editSlate } from "../../actions";
-import { FaTrash } from "react-icons/fa";
+import { FaCheck, FaTrash } from "react-icons/fa";
+import { Button } from "@/app/components/Button";
 
 // TODO: Abstract form components
 // TODO: Abstract how dates are displayed into a compn\onent
@@ -61,7 +62,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
 
   return (
     <>
-      <div className="mx-6 flex flex-col">
+      <div className="mx-6 flex flex-col space-y-2">
         <form
           className="flex flex-col space-y-2"
           onSubmit={handleSubmit(handleEditSubmit)}
@@ -145,21 +146,25 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           {errors?.is_complete?.message && (
             <p className="text-red-500">{errors?.is_complete?.message}</p>
           )}
-          {/* Style this button, and the delete one */}
-          <button type="submit">Submit</button>
+
+          <Button
+            text={"Submit"}
+            type="submit"
+            className="w-28 text-everglade"
+            StartIcon={FaCheck}
+          />
         </form>
-        <div>
-          <button
-            type="button"
-            className="flex flex-row items-center rounded-lg border-2 border-red-400 p-3 text-red-400 hover:bg-red-400 hover:text-white"
-            onClick={() =>
-              handleDeleteOnClick({ id: slate.id, is_active: slate.is_active })
-            }
-          >
-            <FaTrash className="mr-2" />
-            <span>Delete</span>
-          </button>
-        </div>
+
+        <Button
+          text="Delete"
+          type="button"
+          variant="danger"
+          className="w-28"
+          StartIcon={FaTrash}
+          onClick={() =>
+            handleDeleteOnClick({ id: slate.id, is_active: slate.is_active })
+          }
+        />
       </div>
     </>
   );

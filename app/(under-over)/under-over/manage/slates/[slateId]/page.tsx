@@ -1,4 +1,4 @@
-import { LinkButton } from "@/app/(under-over)/components/Button";
+import { LinkButton } from "@/app/components/Button";
 import {
   DateInTimezone,
   SimpleDateDisplay,

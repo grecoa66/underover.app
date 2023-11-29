@@ -12,6 +12,8 @@ import { props } from "@prisma/client";
 import { DateTime } from "luxon";
 import { isEnumValue } from "@/app/types/shared";
 import { editProp } from "../../actions";
+import { FaCheck } from "react-icons/fa";
+import { Button } from "@/app/components/Button";
 const EditPropForm = ({
   slate_id,
   prop,
@@ -170,8 +172,12 @@ const EditPropForm = ({
           <p className="text-red-500">{errors?.over_price?.message}</p>
         )}
 
-        {/* TODO: Style this button, or use a styled one */}
-        <button type="submit">Submit</button>
+        <Button
+          text={"Submit"}
+          type="submit"
+          className="w-28 text-everglade"
+          StartIcon={FaCheck}
+        />
       </form>
     </div>
   );

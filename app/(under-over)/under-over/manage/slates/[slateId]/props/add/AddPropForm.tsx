@@ -9,6 +9,8 @@ import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { createProp } from "../actions";
+import { FaCheck } from "react-icons/fa";
+import { Button } from "@/app/components/Button";
 const AddPropForm = ({
   slate_id,
   league,
@@ -145,8 +147,12 @@ const AddPropForm = ({
           <p className="text-red-500">{errors?.over_price?.message}</p>
         )}
 
-        {/* TODO: Style this button, or use a styled one */}
-        <button type="submit">Submit</button>
+        <Button
+          text={"Submit"}
+          type="submit"
+          className="w-28 text-everglade"
+          StartIcon={FaCheck}
+        />
       </form>
     </div>
   );

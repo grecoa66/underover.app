@@ -1,6 +1,6 @@
 import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import { LinkButton } from "./Button";
+import { LinkButton } from "../../components/Button";
 
 const ManageHeader = ({
   title,
@@ -25,7 +25,6 @@ const ManageHeader = ({
       )}
     >
       <h2 className="text-xl">{title}</h2>
-      {/* TODO: Abstract Button */}
       <div className="flex flex-row space-x-4">
         {backLink && (
           <LinkButton

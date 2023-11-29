@@ -8,6 +8,8 @@ import {
   League,
 } from "@/app/types/slates";
 import { createSlate } from "../actions";
+import { Button } from "@/app/components/Button";
+import { FaCheck } from "react-icons/fa";
 
 // TODO: Abstract form components
 
@@ -83,8 +85,12 @@ const AddSlateForm = () => {
           {errors?.is_active?.message && (
             <p className="text-red-500">{errors?.is_active?.message}</p>
           )}
-          {/* TODO: Style this button, or use a styled one */}
-          <button type="submit">Submit</button>
+          <Button
+            text={"Submit"}
+            type="submit"
+            className="w-28 text-everglade"
+            StartIcon={FaCheck}
+          />
         </form>
       </div>
     </>

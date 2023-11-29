@@ -1,6 +1,6 @@
 import React from "react";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { LinkButton } from "../../components/Button";
+import { LinkButton } from "../../../components/Button";
 
 const ManageUnderOver = async () => {
   await requireAdmin();

@@ -1,7 +1,7 @@
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
 import { FaEye, FaPen } from "react-icons/fa";
-import { LinkButton } from "./Button";
+import { LinkButton } from "../../components/Button";
 
 const Slate = ({ slate }: { slate: slates }) => {
   return (

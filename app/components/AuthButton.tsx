@@ -1,33 +1,27 @@
 "use client";
 import { useSession, signOut, signIn } from "next-auth/react";
-
-const buttonClass =
-  "border-2 rounded-lg border-everglade p-2 hover:bg-everglade hover:border-everglade-600 hover:text-white";
+import { Button } from "./Button";
 
 const AuthButton = () => {
   const session = useSession();
   return (
     <>
       {session.status === "authenticated" ? (
-        <button
+        <Button
           type="button"
-          className={buttonClass}
+          text="Log Out"
           onClick={() => {
             signOut();
           }}
-        >
-          Log Out
-        </button>
+        />
       ) : (
-        <button
+        <Button
           type="button"
-          className={buttonClass}
+          text="Log In"
           onClick={() => {
             signIn();
           }}
-        >
-          Log In
-        </button>
+        />
       )}
     </>
   );
