@@ -10,7 +10,7 @@ const ManageHeader = ({
   addText,
   className,
 }: {
-  title: string;
+  title?: string;
   backLink?: string;
   backText?: string;
   addLink?: string;
@@ -24,7 +24,7 @@ const ManageHeader = ({
         className,
       )}
     >
-      <h2 className="text-xl">{title}</h2>
+      {title && <h2 className="text-xl">{title}</h2>}
       <div className="flex flex-row space-x-4">
         {backLink && (
           <LinkButton

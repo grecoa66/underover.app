@@ -175,7 +175,7 @@ const EditPropForm = ({
         <Button
           text={"Submit"}
           type="submit"
-          className="w-28 text-everglade"
+          className="w-28"
           StartIcon={FaCheck}
         />
       </form>

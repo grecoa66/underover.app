@@ -4,7 +4,6 @@ import { DateTime } from "luxon";
 
 export const DateInTimezone = ({ date }: { date: Date }) => {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log("TZ:", tz);
 
   return (
     <span>

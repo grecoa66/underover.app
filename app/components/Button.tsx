@@ -12,7 +12,7 @@ const getbuttonStyles = (variant: buttonVariants) => {
     case "base": {
       return twMerge(
         baseStyles,
-        "border-everglade p-2 hover:bg-everglade hover:text-white dark:border-mint dark:hover:bg-mint dark:hover:text-black",
+        "border-everglade p-2 text-everglade hover:bg-everglade hover:text-white dark:border-mint dark:hover:bg-mint dark:hover:text-black",
       );
     }
     case "danger": {
