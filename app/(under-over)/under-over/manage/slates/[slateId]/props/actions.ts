@@ -4,6 +4,7 @@ import { requireAdmin } from "@/app/api/auth/getUser";
 import {
   AddPropFormFields,
   AddPropFormSchema,
+  DeletePropData,
   EditPropFormFields,
   EditPropFormSchema,
 } from "@/app/types/props";
@@ -73,4 +74,42 @@ export const editProp = async (data: EditPropFormFields) => {
   revalidateTag("props");
 
   redirect(`/under-over/manage/slates/${slate_id}`, RedirectType.push);
+};
+
+export const deleteProp = async (data: DeletePropData) => {
+  await requireAdmin();
+
+  const slate = await prisma.slates.findUnique({
+    where: {
+      id: data.slate_id,
+    },
+    select: {
+      id: true,
+      is_active: true,
+      is_complete: true,
+      is_locked: true,
+    },
+  });
+
+  if (!slate) {
+    throw Error("Slate not found");
+  }
+  if (slate.is_active || slate.is_complete || slate.is_locked) {
+    throw Error(
+      "Can't delete prop while in slate is active, locked, or complete.",
+    );
+  }
+
+  await prisma.props.update({
+    where: {
+      id: data.id,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+
+  revalidateTag("props");
+
+  redirect(`/under-over/manage/slates/${data.slate_id}`, RedirectType.push);
 };

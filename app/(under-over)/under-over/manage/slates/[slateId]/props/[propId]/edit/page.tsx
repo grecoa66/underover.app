@@ -16,6 +16,7 @@ const EditPropPage = async ({
   const slate = await prisma.slates.findUnique({
     where: {
       id: Number(params.slateId),
+      deleted_at: null,
     },
     select: {
       id: true,
@@ -25,6 +26,7 @@ const EditPropPage = async ({
   const prop = await prisma.props.findUnique({
     where: {
       id: Number(params.propId),
+      deleted_at: null,
     },
   });
 

@@ -13,6 +13,7 @@ const AddPropPage = async ({ params }: { params: { slateId: string } }) => {
   const slate = await prisma.slates.findUnique({
     where: {
       id: Number(params.slateId),
+      deleted_at: null,
     },
     select: {
       id: true,

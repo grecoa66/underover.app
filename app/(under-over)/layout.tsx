@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <body className={sometype.className}>
         <AppProvider attribute="class">
           <UONavBar />
-          <div>{children}</div>
+          <div className="p-4">{children}</div>
         </AppProvider>
       </body>
     </html>

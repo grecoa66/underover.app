@@ -96,3 +96,10 @@ export const EditPropFormSchema = z
   );
 
 export type EditPropFormFields = z.infer<typeof EditPropFormSchema>;
+
+export const DeletePropSchema = z.object({
+  id: z.coerce.number(),
+  slate_id: z.coerce.number(),
+});
+
+export type DeletePropData = z.infer<typeof DeletePropSchema>;

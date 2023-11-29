@@ -61,6 +61,7 @@ model slates {
   created_by  Int?
   created_at      DateTime  @db.Timestamp(6) @default(now())
   modified_at     DateTime  @db.Timestamp(6) @default(now())
+  deleted_at      DateTime? @db.Timestamp(6)
   props       props[]
   users       users?   @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
@@ -84,6 +85,7 @@ model props {
   created_by      Int
   created_at      DateTime  @db.Timestamp(6) @default(now())
   modified_at     DateTime  @db.Timestamp(6) @default(now())
+  deleted_at      DateTime? @db.Timestamp(6)
   slate_id        Int
   is_active       Boolean   @default(false)
   users           users     @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)

@@ -44,7 +44,7 @@ export const editSlate = async (data: EditSlateFormFields) => {
   const { id, ...rest } = EditSlateFormSchema.parse(data);
 
   if (rest.is_active && rest.is_complete) {
-    throw new Error("Slate cannot be active and complete");
+    throw Error("Slate cannot be active and complete");
   }
 
   await prisma.slates.update({
@@ -74,12 +74,15 @@ export const deleteSlate = async (data: DeleteSlateData) => {
   await requireAdmin();
 
   if (data.is_active) {
-    throw new Error("Slate is active, cannot be deleted");
+    throw Error("Slate is active, cannot be deleted");
   }
 
-  await prisma.slates.delete({
+  await prisma.slates.update({
     where: {
       id: data.id,
+    },
+    data: {
+      deleted_at: new Date(),
     },
   });
 

@@ -1,4 +1,4 @@
-import { LinkButton } from "@/app/components/Button";
+import { Button, LinkButton } from "@/app/components/Button";
 import {
   DateInTimezone,
   SimpleDateDisplay,
@@ -8,7 +8,9 @@ import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { FaPen } from "react-icons/fa";
+import { FaPen, FaTrash } from "react-icons/fa";
+import { deleteProp } from "./props/actions";
+import { DeleteButton } from "@/app/(under-over)/components/DeleteButton";
 
 const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   // Page requires admin access
@@ -17,8 +19,11 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   const slate = await prisma.slates.findUnique({
     where: {
       id: Number(params.slateId),
+      deleted_at: null,
     },
   });
+
+  console.log("Slate: ", slate);
 
   const user = await prisma.users.findUnique({
     where: {
@@ -33,6 +38,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   const props = await prisma.props.findMany({
     where: {
       slate_id: Number(params.slateId),
+      deleted_at: null,
     },
     orderBy: {
       id: "asc",
@@ -146,6 +152,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
               StartIcon={FaPen}
               className="w-28"
             />
+            <DeleteButton propId={prop.id} slateId={slate.id} />
           </ManagePanel>
         );
       })}

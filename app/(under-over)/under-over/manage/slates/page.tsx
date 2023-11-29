@@ -9,7 +9,11 @@ const ManageSlates = async () => {
   await requireAdmin();
 
   // Fetch all the slates
-  const slates = await prisma.slates.findMany();
+  const slates = await prisma.slates.findMany({
+    where: {
+      deleted_at: null,
+    },
+  });
 
   const activeSlates = slates.filter((slate) => slate.is_active);
   const inactiveSlates = slates.filter((slate) => slate.is_active === false);
@@ -21,7 +25,7 @@ const ManageSlates = async () => {
         backLink="/under-over/manage"
         addLink="/under-over/manage/slates/add"
       />
-      <div className="flex flex-col items-center justify-around space-y-4 lg:flex-row lg:items-start lg:space-y-0">
+      <div className="flex flex-col items-center justify-around  space-y-4 ">
         <Slates slates={activeSlates} areSlatesActive={true} />
         <Slates slates={inactiveSlates} areSlatesActive={false} />
       </div>

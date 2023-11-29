@@ -21,17 +21,17 @@ const Slates = ({
   areSlatesActive: boolean;
 }) => {
   return (
-    <ManagePanel className="w-5/6 lg:w-1/3">
+    <ManagePanel className="w-11/12 lg:w-2/3">
       <p className="border-b-2 border-everglade pb-2 dark:border-mint">
         {areSlatesActive ? "Active" : "Inactive"} Slates
       </p>
       {slates.map((slate) => (
         <div
           key={slate.id}
-          className="my-2 flex flex-row items-center justify-between"
+          className="my-2 flex flex-row items-center justify-between space-y-4 lg:space-y-0"
         >
           <Slate key={slate.id} slate={slate} />
-          <div className="flex flex-row space-x-4">
+          <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
             <ViewButton slateId={slate.id} />
             <EditButton slateId={slate.id} />
           </div>

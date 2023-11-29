@@ -7,18 +7,18 @@ type buttonVariants = "base" | "danger";
 
 const getbuttonStyles = (variant: buttonVariants) => {
   const baseStyles =
-    "flex flex-row items-center justify-center space-x-2 rounded-lg border-2";
+    "flex flex-row items-center justify-center space-x-2 p-2 rounded-lg border-2";
   switch (variant) {
     case "base": {
       return twMerge(
         baseStyles,
-        "border-everglade p-2 text-everglade hover:bg-everglade hover:text-white dark:border-mint dark:hover:bg-mint dark:hover:text-black",
+        "border-everglade text-everglade dark:text-mint hover:bg-everglade hover:text-white dark:border-mint dark:hover:bg-mint dark:hover:text-black",
       );
     }
     case "danger": {
       return twMerge(
         baseStyles,
-        "border-red-400 p-3 text-red-400 hover:bg-red-400 hover:text-white",
+        "border-red-400 text-red-400 hover:bg-red-400 hover:text-white",
       );
     }
     default: {
