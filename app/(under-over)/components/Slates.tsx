@@ -1,7 +1,7 @@
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
 import { twMerge } from "tailwind-merge";
-import { FaEye, FaPen } from "react-icons/fa";
+import { FaAngleRight, FaEye, FaMedal, FaPen } from "react-icons/fa";
 import { LinkButton } from "../../components/Button";
 import { TimeUntilStart } from "./TimeUntilStart";
 
@@ -28,9 +28,13 @@ const EditButton = ({ slateId }: { slateId: slates["id"] }) => {
 const Slate = ({ slate }: { slate: slates }) => {
   return (
     <div className="flex flex-col justify-center">
-      <p className="text-lg">Slate # {slate.id}</p>
-      <p>League {slate.league}</p>{" "}
-      {slate.league === "nfl" && <p>Week {slate.nfl_week}</p>}
+      <p className="text-lg text-everglade underline">Slate # {slate.id}</p>
+      <div className="flex flex-row">
+        <p>
+          League {slate.league.toUpperCase()}{" "}
+          {slate.league === "nfl" && <span>- Week {slate.nfl_week}</span>}
+        </p>
+      </div>
     </div>
   );
 };
@@ -69,28 +73,45 @@ const ManageSlates = ({
 
 const PublicSlates = ({
   slates,
-  displayDaysUntilStart = false,
+  active = false,
+  open = false,
 }: {
   slates: slates[];
-  displayDaysUntilStart?: boolean;
+  active?: boolean;
+  open?: boolean;
 }) => {
   return (
-    <div className="rounded-lg border-2 border-mint p-2">
+    <div className="rounded-lg border-2 border-everglade p-2 dark:border-mint">
       {slates.length > 0 ? (
         slates.map((slate, index) => {
           return (
-            <div
-              key={slate.id}
-              className={twMerge(
-                "p-2",
-                slates.length > 1 &&
-                  index < slates.length - 1 &&
-                  "border-b-2 border-mint",
-              )}
-            >
-              <Slate slate={slate} />
-              {displayDaysUntilStart && (
-                <TimeUntilStart date={slate.start_date} />
+            <div key={slate.id}>
+              <div className={"flex flex-row items-center justify-between"}>
+                <div>
+                  <Slate slate={slate} />
+                  {!active && <TimeUntilStart date={slate.start_date} />}
+                </div>
+                {active && (
+                  <LinkButton
+                    text="Live Results"
+                    className="h-fit w-32 lg:w-fit"
+                    variant="inverse"
+                    EndIcon={FaAngleRight}
+                    href={`/under-over/slates/${slate.id}/results`} // TODO: Maybe rethink this route
+                  />
+                )}
+                {open && (
+                  <LinkButton
+                    text="Make your picks"
+                    className="h-fit w-32 lg:w-fit"
+                    variant="inverse"
+                    EndIcon={FaAngleRight}
+                    href={`/under-over/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
+                  />
+                )}
+              </div>
+              {slates.length > 1 && index < slates.length - 1 && (
+                <div className="my-2 border-b-2 border-everglade dark:border-mint" />
               )}
             </div>
           );

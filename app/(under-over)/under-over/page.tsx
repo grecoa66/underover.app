@@ -25,11 +25,11 @@ const UnderOver = async () => {
       </div>
       <div>
         <h3 className="mb-2 text-xl">Active Slates</h3>
-        <PublicSlates slates={activeSlates} />
+        <PublicSlates slates={activeSlates} active={true} />
       </div>
       <div>
         <h3 className="mb-2 text-xl">Upcoming Slates</h3>
-        <PublicSlates slates={upcomingSlates} displayDaysUntilStart={true} />
+        <PublicSlates slates={upcomingSlates} open={true} />
       </div>
       <div>
         <h3 className="mb-2 text-xl">Past Slates</h3>

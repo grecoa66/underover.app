@@ -3,7 +3,7 @@ import { ButtonHTMLAttributes } from "react";
 import { IconType } from "react-icons";
 import { twMerge } from "tailwind-merge";
 
-type buttonVariants = "base" | "danger";
+type buttonVariants = "base" | "danger" | "inverse";
 
 const getbuttonStyles = (variant: buttonVariants) => {
   const baseStyles =
@@ -19,6 +19,12 @@ const getbuttonStyles = (variant: buttonVariants) => {
       return twMerge(
         baseStyles,
         "border-red-400 text-red-400 hover:bg-red-400 hover:text-white",
+      );
+    }
+    case "inverse": {
+      return twMerge(
+        baseStyles,
+        "bg-everglade border-everglade text-white hover:bg-white hover:text-everglade dark:border-mint dark:bg-mint dark:text-black dark:hover:bg-black dark:hover:text-mint",
       );
     }
     default: {
