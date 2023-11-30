@@ -16,8 +16,6 @@ export const TimeUntilStart = ({ date }: { date: Date }) => {
   if (days >= 1) {
     return <p>{`Starts in ${days} day${days > 1 ? "s" : ""}`}</p>;
   }
-
-  // Event already started
   if (days <= -1) {
     return <p>{`Started ${Math.abs(days)} day${days < -1 ? "s" : ""} ago`}</p>;
   }
