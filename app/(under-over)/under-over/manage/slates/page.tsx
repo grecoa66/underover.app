@@ -1,10 +1,10 @@
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import Slates from "../../../components/Slates";
+import { ManageSlates } from "../../../components/Slates";
 import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 
-const ManageSlates = async () => {
+const ManageSlatesPage = async () => {
   // Page requires admin access
   await requireAdmin();
 
@@ -26,11 +26,11 @@ const ManageSlates = async () => {
         addLink="/under-over/manage/slates/add"
       />
       <div className="flex flex-col items-center justify-around  space-y-4 ">
-        <Slates slates={activeSlates} areSlatesActive={true} />
-        <Slates slates={inactiveSlates} areSlatesActive={false} />
+        <ManageSlates slates={activeSlates} areSlatesActive={true} />
+        <ManageSlates slates={inactiveSlates} areSlatesActive={false} />
       </div>
     </ManageWrapper>
   );
 };
 
-export default ManageSlates;
+export default ManageSlatesPage;

@@ -1,15 +1,14 @@
 import { getCurrentUser } from "@/app/api/auth/getUser";
 import { LinkButton } from "@/app/components/Button";
 import { FaCogs } from "react-icons/fa";
-import { getUpcomingSlates } from "./actions";
-import ManagePanel from "../components/ManagePanel";
-import { League } from "@/app/types/slates";
-import { DateTime } from "luxon";
-import { twMerge } from "tailwind-merge";
+import { getActiveSlates, getUpcomingSlates } from "./actions";
+import { PublicSlates } from "../components/Slates";
+import { PastSlatesButton } from "../components/PastSlatesButton";
 
 const UnderOver = async () => {
   const currentUser = await getCurrentUser();
 
+  const activeSlates = await getActiveSlates();
   const upcomingSlates = await getUpcomingSlates();
 
   return (
@@ -25,32 +24,16 @@ const UnderOver = async () => {
         )}
       </div>
       <div>
+        <h3 className="mb-2 text-xl">Active Slates</h3>
+        <PublicSlates slates={activeSlates} />
+      </div>
+      <div>
         <h3 className="mb-2 text-xl">Upcoming Slates</h3>
-        <div className="rounded-lg border-2 border-mint p-2">
-          {upcomingSlates.map((slate, index) => {
-            return (
-              <div
-                key={slate.id}
-                className={twMerge(
-                  "p-2",
-                  index < upcomingSlates.length - 1 && "border-b-2 border-mint",
-                )}
-              >
-                <p>Slate #{slate.id}</p>
-                <p>
-                  {slate.league} {slate.league === League.NFL && slate.nfl_week}
-                </p>
-                <p>
-                  Starts in{" "}
-                  {Math.floor(
-                    DateTime.fromJSDate(slate.start_date).diffNow().as("days"),
-                  )}{" "}
-                  days
-                </p>
-              </div>
-            );
-          })}
-        </div>
+        <PublicSlates slates={upcomingSlates} displayDaysUntilStart={true} />
+      </div>
+      <div>
+        <h3 className="mb-2 text-xl">Past Slates</h3>
+        <PastSlatesButton />
       </div>
     </div>
   );
