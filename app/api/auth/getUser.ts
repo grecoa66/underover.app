@@ -24,6 +24,16 @@ const getCurrentUserById = async (userId: string) => {
   return loggedInUser || undefined;
 };
 
+const requireUser = async () => {
+  const user = await getCurrentUser();
+
+  if (!user) {
+    throw Error("Not Authenticated");
+  }
+
+  return user;
+};
+
 const requireAdmin = async () => {
   const user = await getCurrentUser();
 
@@ -34,4 +44,4 @@ const requireAdmin = async () => {
   return user;
 };
 
-export { getCurrentUser, getCurrentUserById, requireAdmin };
+export { getCurrentUser, getCurrentUserById, requireUser, requireAdmin };

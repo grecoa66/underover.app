@@ -1,7 +1,6 @@
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import { slates } from "@prisma/client";
-import { twMerge } from "tailwind-merge";
-import { FaAngleRight, FaEye, FaMedal, FaPen } from "react-icons/fa";
+import { FaAngleRight, FaEye, FaPen } from "react-icons/fa";
 import { LinkButton } from "../../components/Button";
 import { TimeUntilStart } from "./TimeUntilStart";
 
