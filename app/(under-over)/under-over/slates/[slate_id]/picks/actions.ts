@@ -39,6 +39,8 @@ export const getUserPicksForSlate = async (slate_id: slates["id"]) => {
 
 export const validatePicks = async (data: PicksFormFields) => {
   console.log("VALIDATE PICKS DATA: ", data);
+
   const result = PicksFormSchema.parse(data);
   console.log("VALIDATE PICKS RESULT", result);
+  return result;
 };
