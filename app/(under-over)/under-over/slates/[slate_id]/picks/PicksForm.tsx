@@ -19,7 +19,6 @@ export const PicksForm = ({
   });
 
   const onSubmit: SubmitHandler<PicksFormFields> = (data) => {
-    console.log("onSubmit data: ", data);
     validatePicks(data);
   };
 
@@ -67,11 +66,7 @@ export const PicksForm = ({
             </div>
           </div>
         ))}
-        <Button
-          type="submit"
-          text="Submit"
-          onClick={() => console.log("clicking submit")}
-        />
+        <Button type="submit" text="Submit" />
       </form>
     </div>
   );
