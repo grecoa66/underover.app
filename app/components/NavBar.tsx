@@ -9,7 +9,7 @@ export const UONavBar = async () => {
   const currentUser = await getCurrentUser();
 
   return (
-    <div className="sticky top-0">
+    <div className="sticky top-0 h-20">
       <div className="flex flex-row items-center justify-between bg-gray-200 p-4 dark:bg-black">
         <Link href="/under-over">
           <h2 className="text-xl font-bold text-everglade">Under Overs</h2>
@@ -25,7 +25,7 @@ export const UONavBar = async () => {
 };
 
 const NavBar = () => (
-  <div className="sticky top-0">
+  <div className="sticky top-0 h-20">
     <div className="flex flex-row justify-between bg-white p-4 dark:bg-black">
       <Link href="/">
         <h2 className="text-xl text-everglade">A</h2>

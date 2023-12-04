@@ -17,7 +17,7 @@ const PicksPage = async ({ params }: { params: { slate_id: number } }) => {
   return (
     <div>
       <PicksForm slate_id={params.slate_id} props={props} />
-      {props.map((prop) => (
+      {/* {props.map((prop) => (
         <div key={prop.id} className="border-2 border-everglade">
           {prop.player_name && <p>Player: {prop.player_name}</p>}
           {prop.players_team && <p>Team: {prop.players_team}</p>}
@@ -53,7 +53,7 @@ const PicksPage = async ({ params }: { params: { slate_id: number } }) => {
           <p>Selection: {pick.selection}</p>
           {pick.pick_result && <p>Result: {pick.pick_result}</p>}
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

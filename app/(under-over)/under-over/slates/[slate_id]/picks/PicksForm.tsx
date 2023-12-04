@@ -18,6 +18,8 @@ import { validatePicks } from "./actions";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { zodResolver } from "@hookform/resolvers/zod";
+import useDynamicRefs from "@/app/hooks/useDynamicRefs";
+import { RefObject } from "react";
 
 export const PicksForm = ({
   slate_id,
@@ -26,6 +28,9 @@ export const PicksForm = ({
   slate_id: slates["id"];
   props: props[];
 }) => {
+  // When we create "bet" elements, we need to create a new ref
+  const [getRef, setRef] = useDynamicRefs<HTMLDivElement>();
+
   const {
     watch,
     register,
@@ -41,6 +46,20 @@ export const PicksForm = ({
   // We change the styling of the custom radio button when the values change
   watch(["pick"]);
 
+  const scrollNextBetIntoView = (index: number) => {
+    if (index + 1 < props.length) {
+      getRef(String(props[index + 1].id))?.current?.scrollIntoView({
+        block: "start",
+        behavior: "smooth",
+      });
+    } else {
+      getRef("picks-form-submit-button")?.current?.scrollIntoView({
+        block: "start",
+        behavior: "smooth",
+      });
+    }
+  };
+
   const onSubmit: SubmitHandler<PicksFormFields> = (data) => {
     validatePicks(data);
   };
@@ -52,7 +71,10 @@ export const PicksForm = ({
         {props.map((prop, index) => (
           <div
             key={prop.id}
-            className="flex flex-col border-2 border-black dark:border-white"
+            id={String(prop.id)}
+            // We'll use these refs to scroll the next bet into view
+            ref={setRef(String(prop.id)) as RefObject<HTMLDivElement>}
+            className="flex h-screen scroll-mt-20 flex-col border-2 border-black dark:border-white"
           >
             {prop.player_name && <p>Player: {prop.player_name}</p>}
 
@@ -113,6 +135,7 @@ export const PicksForm = ({
                     getValues(`pick.${index}.selection`) === "over" &&
                       "bg-everglade",
                   )}
+                  onClick={() => scrollNextBetIntoView(index)}
                 >
                   <p>Over</p>
                   <p>{prop.over_price}</p>
@@ -131,6 +154,7 @@ export const PicksForm = ({
                     getValues(`pick.${index}.selection`) === "under" &&
                       "bg-mint",
                   )}
+                  onClick={() => scrollNextBetIntoView(index)}
                 >
                   <p>Under</p>
                   <p>{prop.under_price}</p>
@@ -149,7 +173,13 @@ export const PicksForm = ({
               )}
           </div>
         ))}
-        <Button type="submit" text="Submit" />
+        <div
+          id="picks-form-submit-button"
+          ref={setRef("picks-form-submit-button") as RefObject<HTMLDivElement>}
+          className="flex h-screen items-center justify-center"
+        >
+          <Button type="submit" text="Submit" />
+        </div>
       </form>
     </div>
   );
