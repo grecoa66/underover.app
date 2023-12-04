@@ -27,11 +27,10 @@ export const PicksForm = ({
   props: props[];
 }) => {
   const {
-    register,
-    handleSubmit,
-    getValues,
-    setError,
     watch,
+    register,
+    getValues,
+    handleSubmit,
     formState: { errors },
   } = useForm<PicksFormFields>({
     resolver: zodResolver(PicksFormSchema),
@@ -110,24 +109,6 @@ export const PicksForm = ({
               <label>
                 <div
                   className={twMerge(
-                    "border-2 border-mint",
-                    getValues(`pick.${index}.selection`) === "under" &&
-                      "bg-mint",
-                  )}
-                >
-                  <p>Under</p>
-                  <p>{prop.under_price}</p>
-                </div>
-                <input
-                  type="radio"
-                  className="hidden"
-                  value={PickSelection.Under}
-                  {...register(`pick.${index}.selection`)}
-                />
-              </label>
-              <label>
-                <div
-                  className={twMerge(
                     "border-2 border-everglade",
                     getValues(`pick.${index}.selection`) === "over" &&
                       "bg-everglade",
@@ -140,6 +121,24 @@ export const PicksForm = ({
                   type="radio"
                   className="hidden"
                   value={PickSelection.Over}
+                  {...register(`pick.${index}.selection`)}
+                />
+              </label>
+              <label>
+                <div
+                  className={twMerge(
+                    "border-2 border-mint",
+                    getValues(`pick.${index}.selection`) === "under" &&
+                      "bg-mint",
+                  )}
+                >
+                  <p>Under</p>
+                  <p>{prop.under_price}</p>
+                </div>
+                <input
+                  type="radio"
+                  className="hidden"
+                  value={PickSelection.Under}
                   {...register(`pick.${index}.selection`)}
                 />
               </label>
