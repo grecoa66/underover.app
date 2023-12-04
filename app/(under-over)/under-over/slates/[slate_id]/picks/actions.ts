@@ -1,12 +1,12 @@
 "use server";
 
 import { prisma } from "@/app/api/__prismaClient";
-import { getCurrentUser } from "@/app/api/auth/getUser";
+import { requireUser } from "@/app/api/auth/getUser";
 import { PicksFormFields, PicksFormSchema } from "@/app/types/picks";
 import { slates } from "@prisma/client";
 
 export const getUserPicksForSlate = async (slate_id: slates["id"]) => {
-  const user = await getCurrentUser();
+  const user = await requireUser();
 
   const slate = await prisma.slates.findUnique({
     where: {
@@ -37,9 +37,22 @@ export const getUserPicksForSlate = async (slate_id: slates["id"]) => {
   return { props, picks };
 };
 
-export const validatePicks = async (data: PicksFormFields) => {
-  const result = PicksFormSchema.parse(data);
-  console.log("VALIDATE PICKS RESULT", result);
+export const createPicks = async (data: PicksFormFields) => {
+  const user = await requireUser();
 
-  return result;
+  const result = PicksFormSchema.parse(data);
+
+  const picks = await prisma.picks.createMany({
+    data: result.picks.map((pick) => ({
+      slate_id: result.slate_id,
+      prop_id: pick.prop_id,
+      selection: pick.selection,
+      is_locked: true,
+      created_by: user?.id,
+      created_at: new Date(),
+      modified_at: new Date(),
+    })),
+  });
+
+  return picks;
 };

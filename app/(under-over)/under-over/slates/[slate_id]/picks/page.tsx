@@ -14,6 +14,8 @@ const PicksPage = async ({ params }: { params: { slate_id: number } }) => {
 
   const { props, picks } = await getUserPicksForSlate(Number(params.slate_id));
 
+  console.log("Picks for user: ", user, picks);
+
   return (
     <div>
       <PicksForm slate_id={params.slate_id} props={props} />

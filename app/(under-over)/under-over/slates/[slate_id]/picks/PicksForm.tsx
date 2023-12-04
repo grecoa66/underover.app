@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  FieldError,
-  FieldErrors,
-  SubmitHandler,
-  useForm,
-} from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   PickSelection,
   PicksFormFields,
@@ -14,7 +9,7 @@ import {
 import { props, slates } from "@prisma/client";
 import { DateInTimezone } from "@/app/(under-over)/components/DateInTimezone";
 import { Button } from "@/app/components/Button";
-import { validatePicks } from "./actions";
+import { createPicks } from "./actions";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,26 +38,30 @@ export const PicksForm = ({
   });
 
   // Triggers re-render when pick inputs change.
-  // We change the styling of the custom radio button when the values change
-  watch(["pick"]);
+  // We change the styling of the custom radio button when the values change.
+  watch(["picks"]);
 
   const scrollNextBetIntoView = (index: number) => {
-    if (index + 1 < props.length) {
-      getRef(String(props[index + 1].id))?.current?.scrollIntoView({
-        block: "start",
-        behavior: "smooth",
-      });
-    } else {
-      getRef("picks-form-submit-button")?.current?.scrollIntoView({
-        block: "start",
-        behavior: "smooth",
-      });
-    }
+    setTimeout(() => {
+      if (index + 1 < props.length) {
+        getRef(String(props[index + 1].id))?.current?.scrollIntoView({
+          block: "start",
+          behavior: "smooth",
+        });
+      } else {
+        getRef("picks-form-submit-button")?.current?.scrollIntoView({
+          block: "start",
+          behavior: "smooth",
+        });
+      }
+    }, 750);
   };
 
   const onSubmit: SubmitHandler<PicksFormFields> = (data) => {
-    validatePicks(data);
+    console.log("Picks: ", createPicks(data));
   };
+
+  // TODO: i think it would cool to disable scrolling on this page. Scrolling should only be controlled by clicking buttons.
 
   return (
     <div>
@@ -126,13 +125,13 @@ export const PicksForm = ({
               <input
                 type="hidden"
                 value={prop.id}
-                {...register(`pick.${index}.prop_id`)}
+                {...register(`picks.${index}.prop_id`)}
               />
               <label>
                 <div
                   className={twMerge(
                     "border-2 border-everglade",
-                    getValues(`pick.${index}.selection`) === "over" &&
+                    getValues(`picks.${index}.selection`) === "over" &&
                       "bg-everglade",
                   )}
                   onClick={() => scrollNextBetIntoView(index)}
@@ -144,14 +143,14 @@ export const PicksForm = ({
                   type="radio"
                   className="hidden"
                   value={PickSelection.Over}
-                  {...register(`pick.${index}.selection`)}
+                  {...register(`picks.${index}.selection`)}
                 />
               </label>
               <label>
                 <div
                   className={twMerge(
                     "border-2 border-mint",
-                    getValues(`pick.${index}.selection`) === "under" &&
+                    getValues(`picks.${index}.selection`) === "under" &&
                       "bg-mint",
                   )}
                   onClick={() => scrollNextBetIntoView(index)}
@@ -163,12 +162,13 @@ export const PicksForm = ({
                   type="radio"
                   className="hidden"
                   value={PickSelection.Under}
-                  {...register(`pick.${index}.selection`)}
+                  {...register(`picks.${index}.selection`)}
                 />
               </label>
             </div>
-            {errors?.pick &&
-              errors?.pick[index]?.selection?.type === "invalid_type" && (
+            {/* TODO: How should we display these errors if someone scrolls past the pick without clicking on one? */}
+            {errors?.picks &&
+              errors?.picks[index]?.selection?.type === "invalid_type" && (
                 <p>Please select a value</p>
               )}
           </div>

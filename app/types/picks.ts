@@ -13,7 +13,7 @@ export enum PickResult {
 
 export const PicksFormSchema = z.object({
   slate_id: z.coerce.number(),
-  pick: z.array(
+  picks: z.array(
     z.object({
       prop_id: z.coerce.number(),
       selection: z.nativeEnum(PropResult), // We'll never use "active"
