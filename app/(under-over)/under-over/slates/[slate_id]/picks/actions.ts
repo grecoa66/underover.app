@@ -40,7 +40,7 @@ export const getUserPicksForSlate = async (slate_id: slates["id"]) => {
 export const createPicks = async (data: PicksFormFields) => {
   const user = await requireUser();
 
-  const result = PicksFormSchema.parse(data);
+  const result = await validateUserPicks(data);
 
   const picks = await prisma.picks.createMany({
     data: result.picks.map((pick) => ({
@@ -55,4 +55,26 @@ export const createPicks = async (data: PicksFormFields) => {
   });
 
   return picks;
+};
+
+const validateUserPicks = async (data: PicksFormFields) => {
+  await requireUser();
+
+  const result = PicksFormSchema.parse(data);
+
+  const props = await prisma.props.findMany({
+    where: {
+      slate_id: result.slate_id,
+      deleted_at: null,
+    },
+  });
+
+  const doAllPropsHaveBet = props.every((prop) => {
+    return result.picks.find((pick) => pick.prop_id === prop.id);
+  });
+
+  if (!doAllPropsHaveBet) {
+    throw Error("There is a prop missing a bet!");
+  }
+  return result;
 };

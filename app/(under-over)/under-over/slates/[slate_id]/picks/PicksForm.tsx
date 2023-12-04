@@ -58,7 +58,7 @@ export const PicksForm = ({
   };
 
   const onSubmit: SubmitHandler<PicksFormFields> = (data) => {
-    console.log("Picks: ", createPicks(data));
+    createPicks(data);
   };
 
   // TODO: i think it would cool to disable scrolling on this page. Scrolling should only be controlled by clicking buttons.
