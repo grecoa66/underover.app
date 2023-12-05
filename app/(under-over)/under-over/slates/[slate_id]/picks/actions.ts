@@ -42,6 +42,17 @@ export const createPicks = async (data: PicksFormFields) => {
 
   const result = await validateUserPicks(data);
 
+  // Check if this user has already made picks for this slate
+  const previousPicks = await prisma.picks.findMany({
+    where: {
+      slate_id: result.slate_id,
+    },
+  });
+
+  if (previousPicks.length > 0) {
+    throw Error("User has already made picks for this slate");
+  }
+
   const picks = await prisma.picks.createMany({
     data: result.picks.map((pick) => ({
       slate_id: result.slate_id,

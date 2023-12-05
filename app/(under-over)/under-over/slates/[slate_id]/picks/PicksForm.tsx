@@ -14,6 +14,7 @@ import { twMerge } from "tailwind-merge";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useDynamicRefs from "@/app/hooks/useDynamicRefs";
 import { RefObject, useState } from "react";
+import { redirect } from "next/navigation";
 
 const betButtonStyles = "w-1/2 text-center";
 
@@ -126,11 +127,12 @@ export const PicksForm = ({
       setIsLoading(true);
       await createPicks(data);
     } catch (e) {
+      console.log("Error creating picks: ", e);
       throw e;
     } finally {
       setIsLoading(false);
       setTimeout(() => {
-        // TODO: redirect somewhere
+        redirect(`/under-over/slates/${slate_id}/results`);
       }, 200);
     }
   };
@@ -263,7 +265,15 @@ export const PicksForm = ({
                   </div>
                 );
               })}
-          <Button type="submit" text={isLoading ? "Submitting..." : "Submit"} />
+          {/* TODO: Disable button, or dont render if picks still need to be made */}
+          <Button
+            type="submit"
+            text={isLoading ? "Submitting..." : "Submit"}
+            className={
+              getValues().picks?.length !== props.length ? "opacity-50" : ""
+            }
+            disabled={isLoading || getValues().picks?.length !== props.length}
+          />
         </div>
       </form>
     </div>
