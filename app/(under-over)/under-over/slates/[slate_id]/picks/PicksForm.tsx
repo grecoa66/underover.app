@@ -217,6 +217,7 @@ export const PicksForm = ({
                 type="button"
                 text="Back"
                 onClick={() => scrollPreviousBetIntoView(index)}
+                disabled={index === 0}
               />
               <Button
                 type="button"

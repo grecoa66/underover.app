@@ -7,24 +7,24 @@ type buttonVariants = "base" | "danger" | "inverse";
 
 const getbuttonStyles = (variant: buttonVariants) => {
   const baseStyles =
-    "flex flex-row items-center justify-center space-x-2 p-2 rounded-lg border-2";
+    "flex flex-row items-center justify-center space-x-2 p-2 rounded-lg border-2 disabled:opacity-50 disabled:cursor-not-allowed";
   switch (variant) {
     case "base": {
       return twMerge(
+        "border-everglade text-everglade dark:text-mint enabled:hover:bg-everglade enabled:hover:text-white dark:border-mint dark:enabled:hover:bg-mint dark:enabled:hover:text-black",
         baseStyles,
-        "border-everglade text-everglade dark:text-mint hover:bg-everglade hover:text-white dark:border-mint dark:hover:bg-mint dark:hover:text-black",
       );
     }
     case "danger": {
       return twMerge(
+        "border-red-400 text-red-400 enabled:hover:bg-red-400 enabled:hover:text-white",
         baseStyles,
-        "border-red-400 text-red-400 hover:bg-red-400 hover:text-white",
       );
     }
     case "inverse": {
       return twMerge(
+        "bg-everglade border-everglade text-white enabled:hover:bg-white enabled:hover:text-everglade dark:border-mint dark:bg-mint dark:text-black dark:enabled:hover:bg-black dark:enabled:hover:text-mint",
         baseStyles,
-        "bg-everglade border-everglade text-white hover:bg-white hover:text-everglade dark:border-mint dark:bg-mint dark:text-black dark:hover:bg-black dark:hover:text-mint",
       );
     }
     default: {
