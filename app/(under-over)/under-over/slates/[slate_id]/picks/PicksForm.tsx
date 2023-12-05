@@ -13,9 +13,66 @@ import { createPicks } from "./actions";
 import { twMerge } from "tailwind-merge";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useDynamicRefs from "@/app/hooks/useDynamicRefs";
-import { RefObject } from "react";
+import { RefObject, useState } from "react";
 
 const betButtonStyles = "w-1/2 text-center";
+
+const PropDescription = ({
+  prop,
+  fields,
+}: {
+  prop: props;
+  fields?: Partial<keyof props>[];
+}) => {
+  return (
+    <div className="text-center text-xl">
+      <div>
+        {fields?.includes("player_name") && prop.player_name && (
+          <h3 className="text-xl">{prop.player_name}</h3>
+        )}
+
+        {fields?.includes("under_value") && (
+          <div className="flex flex-row items-center justify-center space-x-2">
+            <span>
+              {prop.under_value} {prop.prop_type}{" "}
+            </span>
+          </div>
+        )}
+      </div>
+
+      <div>
+        {fields?.includes("players_team") && (
+          <p className="text-base">
+            <span
+              className={twMerge(
+                prop.players_team === prop.away_team &&
+                  "text-everglade dark:text-mint",
+              )}
+            >
+              {prop.away_team}
+            </span>{" "}
+            @{" "}
+            <span
+              className={twMerge(
+                prop.players_team === prop.home_team &&
+                  "text-everglade dark:text-mint",
+              )}
+            >
+              {prop.home_team}
+            </span>
+          </p>
+        )}
+
+        {fields?.includes("game_start_time") && prop.game_start_time && (
+          <DayAndMonthInTimezone
+            date={prop.game_start_time}
+            className="text-base"
+          />
+        )}
+      </div>
+    </div>
+  );
+};
 
 export const PicksForm = ({
   slate_id,
@@ -24,6 +81,7 @@ export const PicksForm = ({
   slate_id: slates["id"];
   props: props[];
 }) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // When we create "bet" elements, we need to create a new ref
   const [getRef, setRef] = useDynamicRefs<HTMLDivElement>();
 
@@ -42,33 +100,39 @@ export const PicksForm = ({
   // We change the styling of the custom radio button when the values change.
   watch(["picks"]);
 
+  const scrollRefIntoView = (elementId: number | string) => {
+    getRef(String(elementId))?.current?.scrollIntoView({
+      block: "center",
+      behavior: "smooth",
+    });
+  };
+
   const scrollNextBetIntoView = (index: number) => {
     if (index + 1 < props.length) {
-      getRef(String(props[index + 1].id))?.current?.scrollIntoView({
-        block: "center",
-        behavior: "smooth",
-      });
+      scrollRefIntoView(props[index + 1].id);
     } else {
-      console.log("submit btn scroll");
-      getRef("picks-form-submit-button")?.current?.scrollIntoView({
-        block: "center",
-        behavior: "smooth",
-      });
+      scrollRefIntoView("picks-form-submit-button");
     }
   };
 
   const scrollPreviousBetIntoView = (index: number) => {
-    console.log("prev: ", index, props.length);
     if (index > 0) {
-      getRef(String(props[index - 1].id))?.current?.scrollIntoView({
-        block: "center",
-        behavior: "smooth",
-      });
+      scrollRefIntoView(props[index - 1].id);
     }
   };
 
-  const onSubmit: SubmitHandler<PicksFormFields> = (data) => {
-    createPicks(data);
+  const onSubmit: SubmitHandler<PicksFormFields> = async (data) => {
+    try {
+      setIsLoading(true);
+      await createPicks(data);
+    } catch (e) {
+      throw e;
+    } finally {
+      setIsLoading(false);
+      setTimeout(() => {
+        // TODO: redirect somewhere
+      }, 200);
+    }
   };
 
   return (
@@ -81,48 +145,17 @@ export const PicksForm = ({
             id={String(prop.id)}
             // We'll use these refs to scroll the next bet into view
             ref={setRef(String(prop.id)) as RefObject<HTMLDivElement>}
-            className="flex h-5/6  flex-col justify-center space-y-4 text-center text-xl"
+            className="flex h-5/6 flex-col justify-center space-y-4"
           >
-            <div>
-              {prop.player_name && (
-                <h3 className="text-xl">{prop.player_name}</h3>
-              )}
-
-              <div className="flex flex-row items-center justify-center space-x-2">
-                <span>
-                  {prop.under_value} {prop.prop_type}{" "}
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-base">
-                <span
-                  className={twMerge(
-                    prop.players_team === prop.away_team &&
-                      "text-everglade dark:text-mint",
-                  )}
-                >
-                  {prop.away_team}
-                </span>{" "}
-                @{" "}
-                <span
-                  className={twMerge(
-                    prop.players_team === prop.home_team &&
-                      "text-everglade dark:text-mint",
-                  )}
-                >
-                  {prop.home_team}
-                </span>
-              </p>
-
-              {prop.game_start_time && (
-                <DayAndMonthInTimezone
-                  date={prop.game_start_time}
-                  className="text-base"
-                />
-              )}
-            </div>
+            <PropDescription
+              prop={prop}
+              fields={[
+                "player_name",
+                "under_value",
+                "players_team",
+                "game_start_time",
+              ]}
+            />
             <input
               type="hidden"
               value={prop.id}
@@ -194,116 +227,43 @@ export const PicksForm = ({
         <div
           id="picks-form-submit-button"
           ref={setRef("picks-form-submit-button") as RefObject<HTMLDivElement>}
-          className="flex h-5/6 flex-col items-center justify-center"
+          className="flex h-5/6 flex-col items-center justify-center space-y-4"
         >
-          <div>
-            {!getValues().picks
-              ? props.map((prop) => (
-                  <>
-                    <div>
-                      {prop.player_name && (
-                        <h3 className="text-xl">{prop.player_name}</h3>
-                      )}
-
-                      <div className="flex flex-row items-center justify-center space-x-2">
-                        <span>
-                          {prop.under_value} {prop.prop_type}{" "}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="text-base">
-                        <span
-                          className={twMerge(
-                            prop.players_team === prop.away_team &&
-                              "text-everglade dark:text-mint",
-                          )}
-                        >
-                          {prop.away_team}
-                        </span>{" "}
-                        @{" "}
-                        <span
-                          className={twMerge(
-                            prop.players_team === prop.home_team &&
-                              "text-everglade dark:text-mint",
-                          )}
-                        >
-                          {prop.home_team}
-                        </span>
-                      </p>
-                    </div>
-                    <Button
-                      type="button"
-                      text="Add Pick"
-                      onClick={() => {
-                        getRef(String(prop.id))?.current?.scrollIntoView({
-                          block: "center",
-                          behavior: "smooth",
-                        });
-                      }}
-                    />
-                  </>
-                ))
-              : getValues().picks?.map((pick) => {
-                  const prop = props.find((prop) => prop.id == pick.prop_id);
-
-                  return (
-                    <>
-                      {!pick.selection && prop && (
-                        <>
-                          <div>
-                            {prop.player_name && (
-                              <h3 className="text-xl">{prop.player_name}</h3>
-                            )}
-
-                            <div className="flex flex-row items-center justify-center space-x-2">
-                              <span>
-                                {prop.under_value} {prop.prop_type}{" "}
-                              </span>
-                            </div>
-                          </div>
-
-                          <div>
-                            <p className="text-base">
-                              <span
-                                className={twMerge(
-                                  prop.players_team === prop.away_team &&
-                                    "text-everglade dark:text-mint",
-                                )}
-                              >
-                                {prop.away_team}
-                              </span>{" "}
-                              @{" "}
-                              <span
-                                className={twMerge(
-                                  prop.players_team === prop.home_team &&
-                                    "text-everglade dark:text-mint",
-                                )}
-                              >
-                                {prop.home_team}
-                              </span>
-                            </p>
-                          </div>
-                          <Button
-                            type="button"
-                            text="Add Pick"
-                            onClick={() => {
-                              getRef(
-                                String(pick.prop_id),
-                              )?.current?.scrollIntoView({
-                                block: "center",
-                                behavior: "smooth",
-                              });
-                            }}
-                          />
-                        </>
-                      )}
-                    </>
-                  );
-                })}
-          </div>
-          <Button type="submit" text="Submit" />
+          {!getValues().picks
+            ? props.map((prop) => (
+                <div key={prop.id} className="flex flex-col items-center">
+                  <PropDescription
+                    prop={prop}
+                    fields={["player_name", "under_value"]}
+                  />
+                  <Button
+                    type="button"
+                    text="Add Pick"
+                    onClick={() => scrollRefIntoView(prop.id)}
+                  />
+                </div>
+              ))
+            : getValues().picks?.map((pick) => {
+                const prop = props.find((prop) => prop.id == pick.prop_id);
+                return (
+                  <div key={prop?.id} className="flex flex-col items-center">
+                    {!pick.selection && prop && (
+                      <>
+                        <PropDescription
+                          prop={prop}
+                          fields={["player_name", "under_value"]}
+                        />
+                        <Button
+                          type="button"
+                          text="Add Pick"
+                          onClick={() => scrollRefIntoView(pick.prop_id)}
+                        />
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+          <Button type="submit" text={isLoading ? "Submitting..." : "Submit"} />
         </div>
       </form>
     </div>
