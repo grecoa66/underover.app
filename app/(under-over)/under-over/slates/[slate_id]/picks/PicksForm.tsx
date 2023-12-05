@@ -13,7 +13,7 @@ import { createPicks } from "./actions";
 import { twMerge } from "tailwind-merge";
 import { zodResolver } from "@hookform/resolvers/zod";
 import useDynamicRefs from "@/app/hooks/useDynamicRefs";
-import { RefObject, useState } from "react";
+import { RefObject, useState, useTransition } from "react";
 import { redirect } from "next/navigation";
 
 const betButtonStyles = "w-1/2 text-center";
@@ -83,6 +83,7 @@ export const PicksForm = ({
   props: props[];
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [_isPending, startTransition] = useTransition();
   // When we create "bet" elements, we need to create a new ref
   const [getRef, setRef] = useDynamicRefs<HTMLDivElement>();
 
@@ -127,8 +128,9 @@ export const PicksForm = ({
       setIsLoading(true);
       await createPicks(data);
     } catch (e) {
-      console.log("Error creating picks: ", e);
-      throw e;
+      startTransition(() => {
+        throw e;
+      });
     } finally {
       setIsLoading(false);
       setTimeout(() => {
