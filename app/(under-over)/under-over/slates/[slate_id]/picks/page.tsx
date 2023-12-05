@@ -1,10 +1,6 @@
 import { requireUser } from "@/app/api/auth/getUser";
 import { redirect } from "next/navigation";
 import { getUserPicksForSlate } from "./actions";
-import {
-  DateInTimezone,
-  SimpleDateDisplay,
-} from "@/app/(under-over)/components/DateInTimezone";
 import { PicksForm } from "./PicksForm";
 
 const PicksPage = async ({ params }: { params: { slate_id: number } }) => {
@@ -14,10 +10,8 @@ const PicksPage = async ({ params }: { params: { slate_id: number } }) => {
 
   const { props, picks } = await getUserPicksForSlate(Number(params.slate_id));
 
-  console.log("Picks for user: ", user, picks);
-
   return (
-    <div>
+    <div className="h-full overflow-hidden">
       <PicksForm slate_id={params.slate_id} props={props} />
       {/* {props.map((prop) => (
         <div key={prop.id} className="border-2 border-everglade">

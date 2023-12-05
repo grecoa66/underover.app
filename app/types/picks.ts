@@ -16,7 +16,7 @@ export const PicksFormSchema = z.object({
   picks: z.array(
     z.object({
       prop_id: z.coerce.number(),
-      selection: z.nativeEnum(PropResult), // We'll never use "active"
+      selection: z.nativeEnum(PickSelection), // We'll never use "active"
     }),
   ),
 });

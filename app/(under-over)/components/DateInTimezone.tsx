@@ -2,11 +2,17 @@
 
 import { DateTime } from "luxon";
 
-export const DateInTimezone = ({ date }: { date: Date }) => {
+export const DateInTimezone = ({
+  date,
+  className,
+}: {
+  date: Date;
+  className?: string;
+}) => {
   const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   return (
-    <span>
+    <span className={className}>
       {DateTime.fromJSDate(date, { zone: tz })
         .toLocal()
         .toFormat("t, MM-dd-yyyy")}
@@ -14,8 +20,34 @@ export const DateInTimezone = ({ date }: { date: Date }) => {
   );
 };
 
-export const SimpleDateDisplay = ({ date }: { date: Date }) => {
+export const DayAndMonthInTimezone = ({
+  date,
+  className,
+}: {
+  date: Date;
+  className?: string;
+}) => {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   return (
-    <span>{DateTime.fromJSDate(date, { zone: "UTC" }).toLocaleString()}</span>
+    <span className={className}>
+      {DateTime.fromJSDate(date, { zone: tz })
+        .toLocal()
+        .toFormat("cccc, LLL d @ t")}
+    </span>
+  );
+};
+
+export const SimpleDateDisplay = ({
+  date,
+  className,
+}: {
+  date: Date;
+  className?: string;
+}) => {
+  return (
+    <span className={className}>
+      {DateTime.fromJSDate(date, { zone: "UTC" }).toLocaleString()}
+    </span>
   );
 };
