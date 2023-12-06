@@ -19,10 +19,7 @@ const SlateResultsPage = async ({
       <h3>Slate {params.slate_id} Results</h3>
       <div className="">
         {Object.entries(slateResults).map((result) => {
-          const userId = result[0];
           const picks = orderBy(result[1], (r) => r.prop_id);
-
-          console.log("entries: ", userId, picks);
 
           return (
             <div className="m-2 border-2 border-black p-2 dark:border-white">

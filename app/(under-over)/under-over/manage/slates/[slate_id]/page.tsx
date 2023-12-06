@@ -1,4 +1,4 @@
-import { Button, LinkButton } from "@/app/components/Button";
+import { LinkButton } from "@/app/components/Button";
 import {
   DateInTimezone,
   SimpleDateDisplay,
@@ -8,9 +8,8 @@ import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { FaPen, FaTrash } from "react-icons/fa";
-import { deleteProp } from "./props/actions";
-import { DeleteButton } from "@/app/(under-over)/components/DeleteButton";
+import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { DeletePropButton } from "@/app/(under-over)/components/DeleteButton";
 
 const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
   // Page requires admin access
@@ -154,13 +153,21 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
               <p>Over Value: {prop.over_value}</p>
               <p>Over Price: {prop.over_price}</p>
             </div>
-            <LinkButton
-              href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/edit`}
-              text="Edit"
-              StartIcon={FaPen}
-              className="w-28"
-            />
-            <DeleteButton prop_id={prop.id} slate_id={slate.id} />
+            <div className="flex flex-row space-x-2">
+              <LinkButton
+                href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/edit`}
+                text="Edit"
+                StartIcon={FaPen}
+                className="w-28"
+              />
+              <LinkButton
+                href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/picks`}
+                text="View Picks"
+                StartIcon={FaEye}
+                className=""
+              />
+              <DeletePropButton prop_id={prop.id} slate_id={slate.id} />
+            </div>
           </ManagePanel>
         );
       })}

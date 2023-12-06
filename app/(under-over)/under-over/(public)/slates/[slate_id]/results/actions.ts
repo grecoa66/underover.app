@@ -5,7 +5,7 @@ import { groupBy } from "lodash";
 export const getSlateResults = async (id: slates["id"]) => {
   const slate = await prisma.slates.findUnique({
     where: {
-      id: Number(id),
+      id: id,
     },
   });
 
@@ -27,7 +27,6 @@ export const getSlateResults = async (id: slates["id"]) => {
   const picksGroupByUser = groupBy(picks, (pick) => {
     return pick.created_by;
   });
-  console.log("getSlateResults: ", picksGroupByUser);
 
   return picksGroupByUser;
 };
