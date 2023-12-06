@@ -1,43 +1,26 @@
 import { requireUser } from "@/app/api/auth/getUser";
 import { redirect } from "next/navigation";
-import { getSlateResults } from "./actions";
-import { orderBy } from "lodash";
+import { getResultOfPicks } from "./actions";
+import { PicksByUser } from "@/app/(under-over)/components/Picks";
 
 const SlateResultsPage = async ({
   params,
 }: {
-  params: { slate_id: number };
+  params: { slate_id: string };
 }) => {
   const user = await requireUser().catch(() => {
     redirect("/api/auth/signin");
   });
 
-  const slateResults = await getSlateResults(params.slate_id);
+  const slateResults = await getResultOfPicks({
+    slate_id: Number(params.slate_id),
+  });
 
   return (
     <div>
       <h3>Slate {params.slate_id} Results</h3>
       <div className="">
-        {Object.entries(slateResults).map((result) => {
-          const picks = orderBy(result[1], (r) => r.prop_id);
-
-          return (
-            <div className="m-2 border-2 border-black p-2 dark:border-white">
-              <p className="text-underline text-xl">{picks[0].users.name}</p>
-              {picks.map((pick) => (
-                <>
-                  <p>{pick.props.player_name}</p>
-                  <p>
-                    {pick.props.under_value} {pick.props.prop_type}
-                  </p>
-                  <p>Pick: {pick.selection}</p>
-                  <p>Result: {pick.props.prop_result || "Not Decided"}</p>
-                </>
-              ))}
-              <p></p>
-            </div>
-          );
-        })}
+        <PicksByUser picks={slateResults} />
       </div>
     </div>
   );

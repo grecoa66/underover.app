@@ -8,8 +8,9 @@ import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
-import { FaEye, FaPen, FaTrash } from "react-icons/fa";
+import { FaCoins, FaEye, FaPen, FaTrash } from "react-icons/fa";
 import { DeletePropButton } from "@/app/(under-over)/components/DeleteButton";
+import { SettlePropButtons } from "@/app/(under-over)/components/SettlePickButtons";
 
 const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
   // Page requires admin access
@@ -21,8 +22,6 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
       deleted_at: null,
     },
   });
-
-  console.log("Slate: ", slate);
 
   const user = await prisma.users.findUnique({
     where: {
@@ -154,17 +153,20 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
               <p>Over Price: {prop.over_price}</p>
             </div>
             <div className="flex flex-row space-x-2">
+              <SettlePropButtons prop={prop} />
+            </div>
+            <div className="flex flex-row space-x-2">
+              <LinkButton
+                href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/picks`}
+                text="Picks"
+                StartIcon={FaCoins}
+                className=""
+              />
               <LinkButton
                 href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/edit`}
                 text="Edit"
                 StartIcon={FaPen}
                 className="w-28"
-              />
-              <LinkButton
-                href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/picks`}
-                text="View Picks"
-                StartIcon={FaEye}
-                className=""
               />
               <DeletePropButton prop_id={prop.id} slate_id={slate.id} />
             </div>

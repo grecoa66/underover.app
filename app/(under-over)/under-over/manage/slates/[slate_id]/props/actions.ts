@@ -1,13 +1,16 @@
 "use server";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
+import { PickResult } from "@/app/types/picks";
 import {
   AddPropFormFields,
   AddPropFormSchema,
   DeletePropData,
   EditPropFormFields,
   EditPropFormSchema,
+  PropResult,
 } from "@/app/types/props";
+import { props } from "@prisma/client";
 import { DateTime } from "luxon";
 import { revalidateTag } from "next/cache";
 import { RedirectType, redirect } from "next/navigation";
@@ -45,8 +48,6 @@ export const editProp = async (data: EditPropFormFields) => {
 
   const { id, slate_id, start_date, end_date, game_start_time, ...result } =
     EditPropFormSchema.parse(data);
-
-  console.log("game start: ", game_start_time);
 
   await prisma.props.update({
     where: {
@@ -112,4 +113,77 @@ export const deleteProp = async (data: DeletePropData) => {
   revalidateTag("props");
 
   redirect(`/under-over/manage/slates/${data.slate_id}`, RedirectType.push);
+};
+
+export const settleProp = async (
+  prop_id: props["id"],
+  propResult: props["prop_result"],
+) => {
+  await requireAdmin();
+
+  await prisma.props.update({
+    where: {
+      id: prop_id,
+    },
+    data: {
+      prop_result: propResult,
+    },
+  });
+
+  const picks = await prisma.picks.findMany({
+    where: {
+      prop_id: prop_id,
+      deleted_at: null,
+    },
+  });
+
+  if (propResult === PropResult.Active) {
+    // Set "pick_result" back to null for all picks
+    return await prisma.picks.updateMany({
+      where: {
+        prop_id: prop_id,
+        deleted_at: null,
+      },
+      data: {
+        pick_result: null,
+      },
+    });
+  }
+
+  const pickUpdates = picks.map((pick) => {
+    if (propResult === PropResult.Push) {
+      return prisma.picks.update({
+        where: {
+          id: pick.id,
+        },
+        data: {
+          pick_result: PickResult.Push,
+        },
+      });
+    }
+    if (pick.selection === propResult) {
+      return prisma.picks.update({
+        where: {
+          id: pick.id,
+        },
+        data: {
+          pick_result: PickResult.Win,
+        },
+      });
+    }
+
+    return prisma.picks.update({
+      where: {
+        id: pick.id,
+      },
+      data: {
+        pick_result: PickResult.Lose,
+      },
+    });
+  });
+
+  await prisma.$transaction(pickUpdates);
+
+  revalidateTag("props");
+  revalidateTag("picks");
 };
