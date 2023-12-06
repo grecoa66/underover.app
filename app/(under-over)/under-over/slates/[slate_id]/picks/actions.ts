@@ -46,6 +46,7 @@ export const createPicks = async (data: PicksFormFields) => {
   const previousPicks = await prisma.picks.findMany({
     where: {
       slate_id: result.slate_id,
+      created_by: user.id,
     },
   });
 

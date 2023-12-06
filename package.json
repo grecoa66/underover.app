@@ -31,6 +31,7 @@
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.202",
     "@types/luxon": "^3.3.4",
     "@types/node": "^20.8.10",
     "@types/pg": "^8.10.9",

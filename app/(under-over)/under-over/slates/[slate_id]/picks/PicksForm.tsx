@@ -127,15 +127,12 @@ export const PicksForm = ({
     try {
       setIsLoading(true);
       await createPicks(data);
+      setIsLoading(false);
+      redirect(`/under-over/slates/${slate_id}/results`);
     } catch (e) {
       startTransition(() => {
         throw e;
       });
-    } finally {
-      setIsLoading(false);
-      setTimeout(() => {
-        redirect(`/under-over/slates/${slate_id}/results`);
-      }, 200);
     }
   };
 
