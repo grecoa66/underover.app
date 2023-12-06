@@ -12,13 +12,13 @@ import { FaPen, FaTrash } from "react-icons/fa";
 import { deleteProp } from "./props/actions";
 import { DeleteButton } from "@/app/(under-over)/components/DeleteButton";
 
-const SlatePage = async ({ params }: { params: { slateId: string } }) => {
+const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
   // Page requires admin access
   await requireAdmin();
 
   const slate = await prisma.slates.findUnique({
     where: {
-      id: Number(params.slateId),
+      id: Number(params.slate_id),
       deleted_at: null,
     },
   });
@@ -37,7 +37,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   // Fetch all props for slate
   const props = await prisma.props.findMany({
     where: {
-      slate_id: Number(params.slateId),
+      slate_id: Number(params.slate_id),
       deleted_at: null,
     },
     orderBy: {
@@ -52,10 +52,10 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
   return (
     <ManageWrapper>
       <ManageHeader
-        title={`Slate #${params.slateId}`}
+        title={`Slate #${params.slate_id}`}
         backLink="/under-over/manage/slates"
         backText="Slates"
-        addLink={`/under-over/manage/slates/${params.slateId}/props/add`}
+        addLink={`/under-over/manage/slates/${params.slate_id}/props/add`}
         addText="Add Prop"
       />
       {/* Slate data */}
@@ -113,7 +113,7 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
           </p>
         </div>
         <LinkButton
-          href={`/under-over/manage/slates/${params.slateId}/edit`}
+          href={`/under-over/manage/slates/${params.slate_id}/edit`}
           text="Edit"
           StartIcon={FaPen}
           className="w-28"
@@ -155,12 +155,12 @@ const SlatePage = async ({ params }: { params: { slateId: string } }) => {
               <p>Over Price: {prop.over_price}</p>
             </div>
             <LinkButton
-              href={`/under-over/manage/slates/${params.slateId}/props/${prop.id}/edit`}
+              href={`/under-over/manage/slates/${params.slate_id}/props/${prop.id}/edit`}
               text="Edit"
               StartIcon={FaPen}
               className="w-28"
             />
-            <DeleteButton propId={prop.id} slateId={slate.id} />
+            <DeleteButton prop_id={prop.id} slate_id={slate.id} />
           </ManagePanel>
         );
       })}

@@ -4,20 +4,20 @@ import { FaAngleRight, FaEye, FaPen } from "react-icons/fa";
 import { LinkButton } from "../../components/Button";
 import { TimeUntilStart } from "./TimeUntilStart";
 
-const ViewButton = ({ slateId }: { slateId: slates["id"] }) => {
+const ViewButton = ({ slate_id }: { slate_id: slates["id"] }) => {
   return (
     <LinkButton
-      href={`/under-over/manage/slates/${slateId}`}
+      href={`/under-over/manage/slates/${slate_id}`}
       text="View"
       StartIcon={FaEye}
     />
   );
 };
 
-const EditButton = ({ slateId }: { slateId: slates["id"] }) => {
+const EditButton = ({ slate_id }: { slate_id: slates["id"] }) => {
   return (
     <LinkButton
-      href={`/under-over/manage/slates/${slateId}/edit`}
+      href={`/under-over/manage/slates/${slate_id}/edit`}
       text="Edit"
       StartIcon={FaPen}
     />
@@ -58,8 +58,8 @@ const ManageSlates = ({
           >
             <Slate key={slate.id} slate={slate} />
             <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
-              <ViewButton slateId={slate.id} />
-              <EditButton slateId={slate.id} />
+              <ViewButton slate_id={slate.id} />
+              <EditButton slate_id={slate.id} />
             </div>
           </div>
         ))

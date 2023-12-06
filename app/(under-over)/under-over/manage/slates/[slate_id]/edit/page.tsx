@@ -5,14 +5,14 @@ import ManageHeader from "@/app/(under-over)/components/ManageHeader";
 import ManagePanel from "@/app/(under-over)/components/ManagePanel";
 import ManageWrapper from "@/app/(under-over)/components/ManageWrapper";
 
-const EditSlate = async ({ params }: { params: { slateId: string } }) => {
+const EditSlate = async ({ params }: { params: { slate_id: string } }) => {
   // Page requires admin access
   await requireAdmin();
 
   // Fetch all the slates
   const slate = await prisma.slates.findUnique({
     where: {
-      id: Number(params.slateId),
+      id: Number(params.slate_id),
       deleted_at: null,
     },
   });
@@ -24,7 +24,7 @@ const EditSlate = async ({ params }: { params: { slateId: string } }) => {
   return (
     <ManageWrapper>
       <ManageHeader
-        title={`Edit Slate #${params.slateId}`}
+        title={`Edit Slate #${params.slate_id}`}
         backLink="/under-over/manage/slates"
         backText="Slates"
       />
