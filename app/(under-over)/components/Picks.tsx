@@ -1,14 +1,19 @@
 import { orderBy } from "lodash";
-import { getSlateResults } from "../under-over/(public)/slates/[slate_id]/results/actions";
+import { getResultOfPicks } from "../under-over/(public)/slates/[slate_id]/results/actions";
 
-type PicksByUserType = Awaited<ReturnType<typeof getSlateResults>>;
+type PicksByUserType = Awaited<ReturnType<typeof getResultOfPicks>>;
+
 export const PicksByUser = ({ picks }: { picks: PicksByUserType }) => {
   return (
     <>
-      {Object.entries(picks).map((result) => {
-        const picksByUser = orderBy(result[1], (r) => r.prop_id);
+      {Object.values(picks).map((result) => {
+        const picksByUser = orderBy(result, (r) => r.prop_id);
+
         return (
-          <div className="m-2 border-2 border-black p-2 dark:border-white">
+          <div
+            key={picksByUser[0].id}
+            className="m-2 border-2 border-black p-2 dark:border-white"
+          >
             <p className="text-underline text-xl">
               {picksByUser[0].users.name}
             </p>
