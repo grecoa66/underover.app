@@ -80,9 +80,9 @@ model props {
   start_date      DateTime  @db.Date
   end_date        DateTime  @db.Date
   prop_type       String    @db.VarChar(250)
-  under_value     Int
+  under_value     Float
   under_price     Int
-  over_value      Int
+  over_value      Float
   over_price      Int
   prop_result     String    @db.VarChar(50)
   created_by      Int

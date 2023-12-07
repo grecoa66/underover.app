@@ -34,3 +34,19 @@ export const PicksByUser = ({ picks }: { picks: PicksByUserType }) => {
     </>
   );
 };
+
+export const LeaderboardForSlate = ({ picks }: { picks: PicksByUserType }) => {
+  return (
+    <div>
+      <h3 className="text-xl">Leaderboard</h3>
+      {Object.values(picks).map((result) => {
+        const picksByUser = orderBy(result, (r) => r.prop_id);
+        return (
+          <div key={picksByUser[0].users.id}>
+            <div></div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};

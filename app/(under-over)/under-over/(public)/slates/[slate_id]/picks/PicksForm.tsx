@@ -174,7 +174,10 @@ export const PicksForm = ({
                     onClick={() => scrollNextBetIntoView(index)}
                   >
                     <p>Over</p>
-                    <p>{prop.over_price}</p>
+                    <p>
+                      {prop.over_price > 0 ? "+" : ""}
+                      {prop.over_price}
+                    </p>
                   </div>
                   <input
                     type="radio"
@@ -195,7 +198,10 @@ export const PicksForm = ({
                     onClick={() => scrollNextBetIntoView(index)}
                   >
                     <p>Under</p>
-                    <p>{prop.under_price}</p>
+                    <p>
+                      {prop.under_price > 0 ? "+" : ""}
+                      {prop.under_price}
+                    </p>
                   </div>
                   <input
                     type="radio"
