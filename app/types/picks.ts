@@ -1,5 +1,5 @@
+import { picks, props, users } from "@prisma/client";
 import { z } from "zod";
-import { PropResult } from "./props";
 
 export enum PickSelection {
   Under = "under",
@@ -22,3 +22,12 @@ export const PicksFormSchema = z.object({
 });
 
 export type PicksFormFields = z.infer<typeof PicksFormSchema>;
+
+export type LeaderboardResult = {
+  user_id: string;
+  picks: ({
+    props: props;
+    users: users;
+  } & picks)[];
+  record: { wins: number; losses: number; active: number };
+};

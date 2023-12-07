@@ -1,7 +1,7 @@
 import { requireUser } from "@/app/api/auth/getUser";
 import { redirect } from "next/navigation";
-import { getResultOfPicks } from "./actions";
-import { PicksByUser } from "@/app/(under-over)/components/Picks";
+import { getResultForLeaderboard } from "./actions";
+import { LeaderboardForSlate } from "@/app/(under-over)/components/Picks";
 
 const SlateResultsPage = async ({
   params,
@@ -12,7 +12,7 @@ const SlateResultsPage = async ({
     redirect("/api/auth/signin");
   });
 
-  const slateResults = await getResultOfPicks({
+  const LeaderboardResults = await getResultForLeaderboard({
     slate_id: Number(params.slate_id),
   });
 
@@ -20,7 +20,7 @@ const SlateResultsPage = async ({
     <div>
       <h3>Slate {params.slate_id} Results</h3>
       <div className="">
-        <PicksByUser picks={slateResults} />
+        <LeaderboardForSlate results={LeaderboardResults} />
       </div>
     </div>
   );
