@@ -1,8 +1,9 @@
 import Link from "next/link";
-import DarkModeButton from "./DarkMode";
+import { DarkModeButton } from "./DarkMode";
 import AuthButton from "./AuthButton";
 import GoogleAvatar from "./GoogleAvatar";
 import { getCurrentUser } from "../api/auth/getUser";
+import { HeaderMenu } from "./HeaderMenu";
 
 // Slightly modified nav bar for the under/overs app
 export const UONavBar = async () => {
@@ -12,7 +13,7 @@ export const UONavBar = async () => {
     <div className="sticky top-0 h-20">
       <div className="flex flex-row items-center justify-between bg-gray-200 p-4 dark:bg-black">
         <Link href="/under-over">
-          <h2 className="text-xl font-bold text-everglade">Under Overs</h2>
+          <h2 className="text-xl font-bold text-everglade">Under Over</h2>
         </Link>
         <div className="flex flex-row space-x-4">
           <DarkModeButton />
@@ -26,11 +27,11 @@ export const UONavBar = async () => {
 
 const NavBar = () => (
   <div className="sticky top-0 h-20">
-    <div className="flex flex-row justify-between bg-white p-4 dark:bg-black">
+    <div className="flex h-full flex-row justify-between bg-white p-4 dark:bg-black">
       <Link href="/">
         <h2 className="text-xl text-everglade">A</h2>
       </Link>
-      <DarkModeButton />
+      <HeaderMenu />
     </div>
   </div>
 );

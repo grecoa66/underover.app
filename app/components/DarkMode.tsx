@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 import { FaCog, FaMoon, FaSun } from "react-icons/fa";
 import Dropdown from "./Dropdown";
 
-const DarkModeButton = () => {
+export const DarkModeButton = () => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
@@ -42,5 +42,3 @@ const DarkModeButton = () => {
     />
   );
 };
-
-export default DarkModeButton;
