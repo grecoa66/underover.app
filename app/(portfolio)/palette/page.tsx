@@ -16,7 +16,7 @@ const Shades = ({
           <div
             key={shade}
             className={twMerge(
-              "flex h-20 flex-row items-center justify-center",
+              "flex h-16 flex-row items-center justify-center",
               shade,
               index === shades.length - 1 && className,
             )}
@@ -37,9 +37,9 @@ const Palette = () => {
   };
 
   return (
-    <div className="bg-gray-200 dark:bg-gray-400 flex h-full ">
+    <div className="flex h-full bg-gray-200 dark:bg-gray-400 ">
       <div className="flex w-full flex-col items-center justify-center space-y-8 py-8">
-        <h1 className="text-black text-4xl">Color Palette</h1>
+        <h1 className="text-4xl text-black">Color Palette</h1>
         <div className="flex w-full flex-row items-center justify-center">
           {Object.values(colors).map((color, index) => (
             <div key={color.className} className="w-1/6">
