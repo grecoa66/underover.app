@@ -1,7 +1,7 @@
 import { requireUser } from "@/app/api/auth/getUser";
 import { redirect } from "next/navigation";
 import { getResultForLeaderboard } from "./actions";
-import { LeaderboardForSlate } from "@/app/(under-over)/components/Picks";
+import { SlateLeaderboard } from "@/app/(under-over)/components/SlateLeaderboard";
 
 const SlateResultsPage = async ({
   params,
@@ -20,7 +20,7 @@ const SlateResultsPage = async ({
     <div>
       <h3>Slate {params.slate_id} Results</h3>
       <div className="">
-        <LeaderboardForSlate results={LeaderboardResults} />
+        <SlateLeaderboard results={LeaderboardResults} />
       </div>
     </div>
   );
