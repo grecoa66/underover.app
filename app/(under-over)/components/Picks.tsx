@@ -1,8 +1,18 @@
 import { Dictionary, orderBy } from "lodash";
-import { LeaderboardResult, PicksWithUserAndProp } from "@/app/types/picks";
+import {
+  LeaderboardResult,
+  PickResult,
+  PicksWithUserAndProp,
+} from "@/app/types/picks";
 import { FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
-import { FaCircleXmark, FaTrophy } from "react-icons/fa6";
+import { FaCircleArrowRight, FaCircleXmark, FaTrophy } from "react-icons/fa6";
+import { twMerge } from "tailwind-merge";
 
+/**
+ * Given a dictionary of picks, display picks by user.
+ * The dictionary keys are the id of the pick.
+ * The dictionary values are the pick with the user and prop.
+ */
 export const PicksByUser = ({
   picks,
 }: {
@@ -39,6 +49,71 @@ export const PicksByUser = ({
   );
 };
 
+export const PickResultComponent = ({
+  result,
+  text,
+  className,
+}: {
+  result?: PickResult;
+  text: string | number;
+  className?: string;
+}) => (
+  <div
+    className={twMerge(
+      "flex flex-row items-center justify-center space-x-2",
+      className,
+    )}
+  >
+    {result === PickResult.Win && (
+      <>
+        <FaCheckCircle className="text-everglade-300" /> <p>{text}</p>
+      </>
+    )}
+    {result === PickResult.Lose && (
+      <>
+        <FaCircleXmark className="text-red-400" /> <p>{text}</p>
+      </>
+    )}
+    {result === PickResult.Push && (
+      <>
+        <FaCircleArrowRight className="text-gray-400" /> <p>{text}</p>
+      </>
+    )}
+    {!result && (
+      <>
+        <FaHourglassHalf className="text-gray-400" /> <p>{text}</p>
+      </>
+    )}
+  </div>
+);
+
+/**
+ * Give a list of picks, render the selection with prop and user details
+ */
+export const UsersPicks = ({ picks }: { picks: PicksWithUserAndProp }) => {
+  return (
+    <div className="flex flex-col space-y-2">
+      {picks.map((pick) => (
+        <div
+          key={pick.id}
+          className="flex flex-row justify-between space-x-1 p-1 text-center odd:bg-gray-200"
+        >
+          <p className="w-1/3">{pick.props.player_name}</p>
+          <p className="w-1/3">
+            {pick.props.under_value} {pick.props.prop_type}
+          </p>
+          <div className="w-1/3">
+            <PickResultComponent
+              result={pick.pick_result as PickResult}
+              text={pick.selection}
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export const LeaderboardForSlate = ({
   results,
 }: {
@@ -54,33 +129,37 @@ export const LeaderboardForSlate = ({
             return (
               <div
                 key={x.user_id}
-                className="my-4 flex flex-row rounded-lg border-2 border-everglade p-4 dark:border-mint"
+                className="my-4 flex flex-col rounded-lg border-2 border-everglade p-4 dark:border-mint"
               >
-                <p className="mx-2 flex w-1/4 flex-row items-center text-xl text-everglade dark:text-mint">
-                  {leaderboardPosition}
-                  {leaderboardPosition === 1 && (
-                    <span className="ml-2">
-                      <FaTrophy className="text-gold-600" />
-                    </span>
-                  )}
-                </p>
-                <div className="flex w-3/4 flex-col items-center ">
-                  <p className="line-clamp-1 overflow-hidden text-ellipsis">
-                    {x.picks[0].users.name}
+                <div className="flex flex-row">
+                  <p className="mx-2 flex w-1/4 flex-row items-center text-xl text-everglade dark:text-mint">
+                    {leaderboardPosition}
+                    {leaderboardPosition === 1 && (
+                      <span className="ml-2">
+                        <FaTrophy className="text-gold-600" />
+                      </span>
+                    )}
                   </p>
+                  <div className="flex w-3/4 flex-col items-center ">
+                    <p className="line-clamp-1 overflow-hidden text-ellipsis">
+                      {x.picks[0].users.name}
+                    </p>
 
-                  <div className="flex flex-row space-x-5">
-                    <p className="flex flex-row items-center space-x-2">
-                      <FaCheckCircle /> <span>{x.record.wins}</span>
-                    </p>
-                    <p className="flex flex-row items-center space-x-2">
-                      <FaCircleXmark /> <span>{x.record.losses}</span>
-                    </p>
-                    <p className="flex flex-row items-center space-x-2">
-                      <FaHourglassHalf /> <span>{x.record.active}</span>
-                    </p>
+                    <div className="flex flex-row space-x-5">
+                      <PickResultComponent
+                        result={PickResult.Win}
+                        text={x.record.wins}
+                      />
+                      <PickResultComponent
+                        result={PickResult.Lose}
+                        text={x.record.losses}
+                      />
+                      <PickResultComponent text={x.record.active} />
+                    </div>
                   </div>
                 </div>
+                {/* TODO: put this in a togglable drawer */}
+                <UsersPicks picks={x.picks} />
               </div>
             );
           });
