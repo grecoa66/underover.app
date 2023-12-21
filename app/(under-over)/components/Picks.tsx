@@ -1,12 +1,13 @@
-import { orderBy } from "lodash";
-import { getResultOfPicks } from "../under-over/(public)/slates/[slate_id]/results/actions";
-import { LeaderboardResult, PickResult } from "@/app/types/picks";
+import { Dictionary, orderBy } from "lodash";
+import { LeaderboardResult, PicksWithUserAndProp } from "@/app/types/picks";
 import { FaCheckCircle, FaHourglassHalf } from "react-icons/fa";
 import { FaCircleXmark, FaTrophy } from "react-icons/fa6";
 
-type PicksByUserType = Awaited<ReturnType<typeof getResultOfPicks>>;
-
-export const PicksByUser = ({ picks }: { picks: PicksByUserType }) => {
+export const PicksByUser = ({
+  picks,
+}: {
+  picks: Dictionary<PicksWithUserAndProp>;
+}) => {
   return (
     <>
       {Object.values(picks).map((result) => {

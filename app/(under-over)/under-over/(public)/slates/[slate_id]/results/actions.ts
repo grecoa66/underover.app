@@ -1,7 +1,11 @@
 import { prisma } from "@/app/api/__prismaClient";
-import { LeaderboardResult, PickResult } from "@/app/types/picks";
-import { picks, props, slates, users } from "@prisma/client";
-import { groupBy, orderBy } from "lodash";
+import {
+  LeaderboardResult,
+  PickResult,
+  PicksWithUserAndProp,
+} from "@/app/types/picks";
+import { props, slates } from "@prisma/client";
+import { Dictionary, groupBy, orderBy } from "lodash";
 
 export const getResultOfPicks = async ({
   slate_id,
@@ -9,7 +13,7 @@ export const getResultOfPicks = async ({
 }: {
   slate_id?: slates["id"];
   prop_id?: props["id"];
-}) => {
+}): Promise<Dictionary<PicksWithUserAndProp>> => {
   if (slate_id) {
     const slate = await prisma.slates.findUnique({
       where: {
