@@ -7,79 +7,77 @@ import {
 import { props, slates } from "@prisma/client";
 import { Dictionary, groupBy, orderBy } from "lodash";
 
-export const getResultOfPicks = async ({
+export const getResultsForSlate = async ({
   slate_id,
+}: {
+  slate_id: slates["id"];
+}): Promise<Dictionary<PicksWithUserAndProp>> => {
+  const slate = await prisma.slates.findUnique({
+    where: {
+      id: slate_id,
+    },
+  });
+
+  if (!slate) {
+    throw Error("Slate not found");
+  }
+  const picks = await prisma.picks.findMany({
+    where: {
+      slate_id: slate.id,
+      deleted_at: null,
+    },
+    include: {
+      users: true,
+      props: true,
+    },
+  });
+
+  const picksGroupByUser = groupBy(picks, (pick) => {
+    return pick.created_by;
+  });
+
+  return picksGroupByUser;
+};
+
+export const getResultForProp = async ({
   prop_id,
 }: {
-  slate_id?: slates["id"];
-  prop_id?: props["id"];
+  prop_id: props["id"];
 }): Promise<Dictionary<PicksWithUserAndProp>> => {
-  if (slate_id) {
-    const slate = await prisma.slates.findUnique({
-      where: {
-        id: slate_id,
-      },
-    });
+  const prop = await prisma.props.findUnique({
+    where: {
+      id: prop_id,
+    },
+  });
 
-    if (!slate) {
-      throw Error("Slate not found");
-    }
-    const picks = await prisma.picks.findMany({
-      where: {
-        slate_id: slate.id,
-        deleted_at: null,
-      },
-      include: {
-        users: true,
-        props: true,
-      },
-    });
-
-    const picksGroupByUser = groupBy(picks, (pick) => {
-      return pick.created_by;
-    });
-
-    return picksGroupByUser;
-  } else if (prop_id) {
-    const prop = await prisma.props.findUnique({
-      where: {
-        id: prop_id,
-      },
-    });
-
-    if (!prop) {
-      throw Error("Prop not found");
-    }
-
-    const picks = await prisma.picks.findMany({
-      where: {
-        prop_id: prop.id,
-        deleted_at: null,
-      },
-      include: {
-        users: true,
-        props: true,
-      },
-    });
-
-    const picksGroupByUser = groupBy(picks, (pick) => {
-      return pick.created_by;
-    });
-
-    return picksGroupByUser;
-  } else {
-    throw Error("Slate or Prop id not supplied");
+  if (!prop) {
+    throw Error("Prop not found");
   }
+
+  const picks = await prisma.picks.findMany({
+    where: {
+      prop_id: prop.id,
+      deleted_at: null,
+    },
+    include: {
+      users: true,
+      props: true,
+    },
+  });
+
+  const picksGroupByUser = groupBy(picks, (pick) => {
+    return pick.created_by;
+  });
+
+  return picksGroupByUser;
 };
 
 export const getResultForLeaderboard = async ({
   slate_id,
-  prop_id,
 }: {
-  slate_id?: slates["id"];
-  prop_id?: props["id"];
+  slate_id: slates["id"];
 }): Promise<{ [key: string]: LeaderboardResult[] }> => {
-  const resultOfPicks = await getResultOfPicks({ slate_id, prop_id });
+  const resultOfPicks = await getResultsForSlate({ slate_id });
 
   const leaderboardResults = Object.entries(resultOfPicks).map((entry) => {
     const picksRecord = entry[1].reduce(
