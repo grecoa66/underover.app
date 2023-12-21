@@ -39,7 +39,7 @@ export const getResultsForSlate = async ({
   return picksGroupByUser;
 };
 
-export const getResultForProp = async ({
+export const getResultsForProp = async ({
   prop_id,
 }: {
   prop_id: props["id"];
