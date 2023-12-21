@@ -46,36 +46,45 @@ export const LeaderboardForSlate = ({
   return (
     <div>
       <h3 className="text-xl">Leaderboard</h3>
-      {Object.entries(results).map((r) => {
-        return r[1].map((x) => {
-          const place = Number(r[0]) + 1;
-          return (
-            <div key={x.user_id} className="my-4">
-              <p className="flex flex-row items-center space-x-2">
-                <span className="text-xl">
-                  {place} {x.picks[0].users.name}
-                </span>
-                {place === 1 && (
-                  <span>
-                    <FaTrophy className="text-gold-600" />
-                  </span>
-                )}
-              </p>
-              <div className="flex flex-row space-x-2">
-                <p className="flex flex-row items-center space-x-2">
-                  <FaCheckCircle /> <span>{x.record.wins}</span>
+      <div className="max-w-80 ">
+        {Object.entries(results).map((r) => {
+          const leaderboardPosition = Number(r[0]) + 1;
+          return r[1].map((x) => {
+            return (
+              <div
+                key={x.user_id}
+                className="my-4 flex flex-row rounded-lg border-2 border-everglade p-4 dark:border-mint"
+              >
+                <p className="mx-2 flex w-1/4 flex-row items-center text-xl text-everglade dark:text-mint">
+                  {leaderboardPosition}
+                  {leaderboardPosition === 1 && (
+                    <span className="ml-2">
+                      <FaTrophy className="text-gold-600" />
+                    </span>
+                  )}
                 </p>
-                <p className="flex flex-row items-center space-x-2">
-                  <FaCircleXmark /> <span>{x.record.losses}</span>
-                </p>
-                <p className="flex flex-row items-center space-x-2">
-                  <FaHourglassHalf /> <span>{x.record.active}</span>
-                </p>
+                <div className="flex w-3/4 flex-col items-center ">
+                  <p className="line-clamp-1 overflow-hidden text-ellipsis">
+                    {x.picks[0].users.name}
+                  </p>
+
+                  <div className="flex flex-row space-x-5">
+                    <p className="flex flex-row items-center space-x-2">
+                      <FaCheckCircle /> <span>{x.record.wins}</span>
+                    </p>
+                    <p className="flex flex-row items-center space-x-2">
+                      <FaCircleXmark /> <span>{x.record.losses}</span>
+                    </p>
+                    <p className="flex flex-row items-center space-x-2">
+                      <FaHourglassHalf /> <span>{x.record.active}</span>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          );
-        });
-      })}
+            );
+          });
+        })}
+      </div>
     </div>
   );
 };
