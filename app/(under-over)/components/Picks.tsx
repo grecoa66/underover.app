@@ -48,11 +48,11 @@ export const PicksByUser = ({
  */
 export const UsersPicks = ({ picks }: { picks: PicksWithUserAndProp }) => {
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col">
       {picks.map((pick) => (
         <div
           key={pick.id}
-          className="flex flex-row justify-between space-x-1 p-1 text-center odd:bg-gray-200"
+          className="flex flex-row justify-between space-x-1 p-1 text-center odd:bg-gray-200 dark:odd:bg-gray-600"
         >
           <p className="w-1/3">{pick.props.player_name}</p>
           <p className="w-1/3">

@@ -47,6 +47,7 @@ export const SlateLeaderboard = ({
                     </div>
                   </div>
                 </div>
+
                 {/* TODO: put this in a togglable drawer */}
                 <UsersPicks picks={x.picks} />
               </div>
