@@ -16,14 +16,7 @@ const SlateResultsPage = async ({
     slate_id: Number(params.slate_id),
   });
 
-  return (
-    <div>
-      <h3>Slate {params.slate_id} Results</h3>
-      <div className="">
-        <SlateLeaderboard results={LeaderboardResults} />
-      </div>
-    </div>
-  );
+  return <SlateLeaderboard results={LeaderboardResults} />;
 };
 
 export default SlateResultsPage;

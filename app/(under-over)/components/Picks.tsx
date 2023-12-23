@@ -54,8 +54,10 @@ export const UsersPicks = ({ picks }: { picks: PicksWithUserAndProp }) => {
           key={pick.id}
           className="flex flex-row justify-between space-x-1 p-1 text-center odd:bg-gray-200 dark:odd:bg-gray-600"
         >
-          <p className="w-1/3">{pick.props.player_name}</p>
-          <p className="w-1/3">
+          <p className="w-1/3 overflow-hidden text-ellipsis">
+            {pick.props.player_name}
+          </p>
+          <p className="w-1/3 overflow-hidden text-ellipsis">
             {pick.props.under_value} {pick.props.prop_type}
           </p>
           <div className="w-1/3">

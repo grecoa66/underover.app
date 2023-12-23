@@ -2,6 +2,7 @@ import { LeaderboardResult, PickResult } from "@/app/types/picks";
 import { FaTrophy } from "react-icons/fa";
 import { UsersPicks } from "./Picks";
 import { PickResultComponent } from "./PickResultComponent";
+import { Accordion } from "@/app/components/Accordion";
 
 export const SlateLeaderboard = ({
   results,
@@ -47,9 +48,9 @@ export const SlateLeaderboard = ({
                     </div>
                   </div>
                 </div>
-
-                {/* TODO: put this in a togglable drawer */}
-                <UsersPicks picks={x.picks} />
+                <Accordion openedText="Hide Picks" closedText="Show Picks">
+                  <UsersPicks picks={x.picks} />
+                </Accordion>
               </div>
             );
           });
