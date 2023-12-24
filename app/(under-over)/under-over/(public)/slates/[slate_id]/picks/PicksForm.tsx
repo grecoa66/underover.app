@@ -27,7 +27,7 @@ const PropDescription = ({
 }) => {
   return (
     <div className="text-center text-xl">
-      <div>
+      <div className="mb-6">
         {fields?.includes("player_name") && prop.player_name && (
           <h3 className="text-xl">{prop.player_name}</h3>
         )}
