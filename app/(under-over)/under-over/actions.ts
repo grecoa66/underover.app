@@ -38,9 +38,6 @@ export const getUpcomingSlates = async () => {
   const currentDate = new Date();
   const slates = prisma.slates.findMany({
     where: {
-      start_date: {
-        gte: currentDate,
-      },
       deleted_at: null,
       is_active: false,
       is_public: true,
