@@ -35,7 +35,6 @@ export const getActiveSlates = async () => {
 };
 
 export const getUpcomingSlates = async () => {
-  const currentDate = new Date();
   const slates = prisma.slates.findMany({
     where: {
       deleted_at: null,
