@@ -90,22 +90,21 @@ const PublicSlates = ({
                   <Slate slate={slate} />
                   {!active && <TimeUntilStart date={slate.start_date} />}
                 </div>
-                {active && (
-                  <LinkButton
-                    text="Live Results"
-                    className="h-fit w-32 lg:w-fit"
-                    variant="inverse"
-                    EndIcon={FaAngleRight}
-                    href={`/under-over/slates/${slate.id}/results`} // TODO: Maybe rethink this route
-                  />
-                )}
-                {open && (
+                {open ? (
                   <LinkButton
                     text="Make your picks"
                     className="h-fit w-32 lg:w-fit"
                     variant="inverse"
                     EndIcon={FaAngleRight}
                     href={`/under-over/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
+                  />
+                ) : (
+                  <LinkButton
+                    text={active ? "Live Results" : "Results"}
+                    className="h-fit w-32 lg:w-fit"
+                    variant="inverse"
+                    EndIcon={FaAngleRight}
+                    href={`/under-over/slates/${slate.id}/results`} // TODO: Maybe rethink this route
                   />
                 )}
               </div>
