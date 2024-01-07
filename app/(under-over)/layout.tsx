@@ -11,7 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <body className={sometype.className}>
         <AppProvider attribute="class">
           <UONavBar />
-          <div className="p-4">{children}</div>
+          <div className="h-[calc(100vh-theme(space.16))] p-4">{children}</div>
         </AppProvider>
       </body>
     </html>

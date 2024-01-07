@@ -11,7 +11,7 @@ const pool = new Pool({
 });
 
 export const authOptions: NextAuthOptions = {
-  // Secret for Next-auth, without this JWT encryption/decryption won't work
+  // Secret for Next-auth. Without this, JWT encryption/decryption won't work
   secret: process.env.NEXTAUTH_SECRET,
 
   adapter: PostgresAdapter(pool),
