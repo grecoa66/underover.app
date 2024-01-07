@@ -32,6 +32,10 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+    redirect: async ({ url }) => {
+      // Redirect to the url the user came from
+      return url;
+    },
   },
 };
 
