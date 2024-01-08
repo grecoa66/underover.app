@@ -33,4 +33,5 @@ export type LeaderboardResult = {
   user_id: string;
   picks: PicksWithUserAndProp;
   record: { wins: number; losses: number; active: number };
+  position: number;
 };

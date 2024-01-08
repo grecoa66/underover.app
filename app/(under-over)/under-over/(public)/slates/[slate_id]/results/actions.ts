@@ -76,7 +76,7 @@ export const getResultForLeaderboard = async ({
   slate_id,
 }: {
   slate_id: slates["id"];
-}): Promise<{ [key: string]: LeaderboardResult[] }> => {
+}): Promise<LeaderboardResult[]> => {
   const resultOfPicks = await getResultsForSlate({ slate_id });
 
   const leaderboardResults = Object.entries(resultOfPicks).map((entry) => {
@@ -102,6 +102,7 @@ export const getResultForLeaderboard = async ({
       user_id: entry[0],
       picks: entry[1],
       record: picksRecord,
+      position: 0,
     };
   });
 
@@ -110,39 +111,29 @@ export const getResultForLeaderboard = async ({
   return ranked;
 };
 
-const sortAndRankPicks = (leaderboardResults: LeaderboardResult[]) => {
+const sortAndRankPicks = (
+  leaderboardResults: LeaderboardResult[],
+): LeaderboardResult[] => {
   const usersSortedByWins = orderBy(
     leaderboardResults,
     (r) => r.record.wins,
     "desc",
   );
 
-  const output: {
-    [key: string]: LeaderboardResult[];
-  } = {};
+  let position = 1;
 
-  let place = 0;
-
-  usersSortedByWins.forEach((r, i) => {
-    if (i === 0) {
-      output[i] = [];
-      return output[i].push(r);
+  return usersSortedByWins.map((result, index) => {
+    if (result.record.wins === 0 && result.record.losses === 0) {
+      return { ...result, position: 0 };
     }
-    const lastRecordsWins = usersSortedByWins[i - 1].record.wins;
-    if (r.record.wins > lastRecordsWins) {
-      throw Error("leaderboard results not sorted correctly");
+    if (index === 0) {
+      return { ...result, position: 1 };
     }
-    if (r.record.wins === lastRecordsWins) {
-      return output[place].push(r);
+    if (result.record.wins < usersSortedByWins[index - 1].record.wins) {
+      position++;
     }
-    if (r.record.wins < lastRecordsWins) {
-      place++;
-      output[place] = [];
-      return output[place].push(r);
-    }
+    return { ...result, position: position };
   });
-
-  return output;
 };
 
 const testData = [
