@@ -35,12 +35,10 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
       end_date: DateTime.fromJSDate(slate.end_date)
         .toUTC()
         .toFormat("yyyy-MM-dd"),
-      nfl_week: slate.nfl_week || undefined,
       league: slate.league as League,
     },
   });
 
-  const watchLeague = watch("league", slate.league as League);
   // active & complete both can't be true, watch their values so we can toggle the other off.
   const watchIsActive = watch("is_active", slate.is_active);
   const watchIsComplete = watch("is_complete", slate.is_complete);
@@ -69,6 +67,9 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
         >
           <input type="hidden" {...register("id")} />
           <label>
+            Slate Title <input {...register("title")} type="text" />
+          </label>
+          <label>
             League{" "}
             <select {...register("league")}>
               <option value={League.NFL}>NFL</option>
@@ -79,18 +80,6 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           </label>
           {errors?.league?.message && (
             <p className="text-red-500">{errors?.league?.message}</p>
-          )}
-
-          {watchLeague === League.NFL && (
-            <>
-              <label>
-                NFL Week #
-                <input {...register("nfl_week")} type="number" />
-              </label>
-              {errors?.nfl_week?.message && (
-                <p className="text-red-500">{errors?.nfl_week?.message}</p>
-              )}
-            </>
           )}
 
           <label>

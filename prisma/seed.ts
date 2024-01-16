@@ -5,7 +5,7 @@ async function seedSlates() {
   //   data: [
   //     {
   //       league: "nfl",
-  //       nfl_week: 9,
+  //       title: "NFL Week 9",
   //       start_date: "2023-11-05T11:00:00.000Z",
   //       end_date: "2023-11-05T23:00:00.000Z",
   //       is_active: false,
@@ -15,7 +15,7 @@ async function seedSlates() {
   //     },
   //     {
   //       league: "nfl",
-  //       nfl_week: 10,
+  //       title: "NFL Week 10",
   //       start_date: "2023-11-12T11:00:00.000Z",
   //       end_date: "2023-11-12T23:00:00.000Z",
   //       is_active: false,
@@ -25,7 +25,7 @@ async function seedSlates() {
   //     },
   //     {
   //       league: "nfl",
-  //       nfl_week: 11,
+  //       title: "NFL Week 11",
   //       start_date: "2023-11-19T11:00:00.000Z",
   //       end_date: "2023-11-19T23:00:00.000Z",
   //       is_active: true,

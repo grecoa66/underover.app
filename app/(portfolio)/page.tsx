@@ -2,7 +2,7 @@ import "../components/Header.css";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-white p-12 dark:bg-black lg:p-24">
+    <main className="flex min-h-[calc(100vh-theme(space.16))] flex-col bg-white p-12 dark:bg-black lg:p-24">
       <div className="space-y-8 lg:w-2/3">
         <p className="text-everglade-200 dark:text-mint">Hi, my name is</p>
         <h1 className="name-gradient text-8xl">Alex Greco</h1>

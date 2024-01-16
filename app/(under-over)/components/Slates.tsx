@@ -27,12 +27,9 @@ const EditButton = ({ slate_id }: { slate_id: slates["id"] }) => {
 const Slate = ({ slate }: { slate: slates }) => {
   return (
     <div className="flex flex-col justify-center">
-      <p className="text-lg text-everglade underline">Slate # {slate.id}</p>
+      <p className="text-lg text-everglade underline">{slate.title}</p>
       <div className="flex flex-row">
-        <p>
-          League {slate.league.toUpperCase()}{" "}
-          {slate.league === "nfl" && <span>- Week {slate.nfl_week}</span>}
-        </p>
+        <p>League {slate.league.toUpperCase()} </p>
       </div>
     </div>
   );
@@ -56,7 +53,7 @@ const ManageSlates = ({
             key={slate.id}
             className="my-2 flex flex-row items-center justify-between space-y-4 p-2 lg:space-y-0"
           >
-            <Slate key={slate.id} slate={slate} />
+            <Slate slate={slate} />
             <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
               <ViewButton slate_id={slate.id} />
               <EditButton slate_id={slate.id} />

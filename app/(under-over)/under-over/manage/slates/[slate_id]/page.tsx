@@ -50,7 +50,7 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
   return (
     <ManageWrapper>
       <ManageHeader
-        title={`Slate #${params.slate_id}`}
+        title={`${slate.title}`}
         backLink="/under-over/manage/slates"
         backText="Slates"
         addLink={`/under-over/manage/slates/${params.slate_id}/props/add`}
@@ -59,6 +59,7 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
       {/* Slate data */}
       <div className="space-y-2">
         <div>
+          <p>Slate {slate.id}</p>
           {user && (
             <p>
               Created By: {user?.name} ({user?.id})
@@ -67,7 +68,7 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
           <p>
             Start Date: <SimpleDateDisplay date={slate.start_date} />
           </p>
-          <p>{slate.league}</p>
+          <p>League {slate.league}</p>
           <p>
             End Date: <SimpleDateDisplay date={slate.end_date} />
           </p>

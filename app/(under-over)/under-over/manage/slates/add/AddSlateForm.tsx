@@ -16,7 +16,6 @@ import { FaCheck } from "react-icons/fa";
 const AddSlateForm = () => {
   const {
     register,
-    watch,
     handleSubmit,
     formState: { errors },
   } = useForm<AddSlateFormFields>({
@@ -25,8 +24,6 @@ const AddSlateForm = () => {
       league: League.NFL,
     },
   });
-
-  const watchLeague = watch("league", League.NFL);
 
   const onSubmit: SubmitHandler<AddSlateFormFields> = (data) => {
     createSlate(data);
@@ -40,6 +37,9 @@ const AddSlateForm = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <label>
+            Slate Title <input {...register("title")} type="text" />
+          </label>
+          <label>
             League{" "}
             <select {...register("league")}>
               <option value={League.NFL}>NFL</option>
@@ -50,18 +50,6 @@ const AddSlateForm = () => {
           </label>
           {errors?.league?.message && (
             <p className="text-red-500">{errors?.league?.message}</p>
-          )}
-
-          {watchLeague === League.NFL && (
-            <>
-              <label>
-                NFL Week #
-                <input {...register("nfl_week")} type="number" />
-              </label>
-              {errors?.nfl_week?.message && (
-                <p className="text-red-500">{errors?.nfl_week?.message}</p>
-              )}
-            </>
           )}
 
           <label>

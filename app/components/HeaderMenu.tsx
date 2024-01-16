@@ -14,7 +14,7 @@ export const HeaderMenu = () => {
 
   const { setTheme } = useTheme();
   const buttonStyle =
-    "right-0 top-6 flex w-36 flex-row items-center space-x-2 p-2 text-celtic dark:text-everglade-400 hover:text-everglade dark:hover:text-everglade-200";
+    "right-0 top-6 flex w-36 flex-row items-center space-x-2 p-2 my-2 text-celtic dark:text-everglade-400 hover:text-everglade dark:hover:text-everglade-200";
 
   return (
     <div>
@@ -43,28 +43,26 @@ export const HeaderMenu = () => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
       >
-        <div>
-          <div
-            className={twMerge(
-              "absolute top-16 flex w-full flex-col border-2 border-everglade bg-white transition-all duration-300 dark:bg-black",
-              isOpen ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <Link className={buttonStyle} href="/under-over">
-              <FaCoins />
-              <p>Under Overs</p>
-            </Link>
-            <div className="h-0.5 border-t-2 border-everglade dark:border-everglade-400" />
-            <button className={buttonStyle} onClick={() => setTheme("light")}>
-              <FaSun /> <span>Light</span>
-            </button>
-            <button className={buttonStyle} onClick={() => setTheme("dark")}>
-              <FaMoon /> <span>Dark</span>
-            </button>
-            <button className={buttonStyle} onClick={() => setTheme("system")}>
-              <FaCog /> <span>System</span>
-            </button>
-          </div>
+        <div
+          className={twMerge(
+            "absolute top-16 flex w-full flex-col border-2 border-everglade bg-white transition-all duration-300 dark:bg-black",
+            isOpen ? "opacity-100" : "opacity-0",
+          )}
+        >
+          <Link className={buttonStyle} href="/under-over">
+            <FaCoins />
+            <p>Under Overs</p>
+          </Link>
+          <div className="h-0.5 border-t-2 border-everglade dark:border-everglade-400" />
+          <button className={buttonStyle} onClick={() => setTheme("light")}>
+            <FaSun /> <span>Light</span>
+          </button>
+          <button className={buttonStyle} onClick={() => setTheme("dark")}>
+            <FaMoon /> <span>Dark</span>
+          </button>
+          <button className={buttonStyle} onClick={() => setTheme("system")}>
+            <FaCog /> <span>System</span>
+          </button>
         </div>
       </Transition>
     </div>
