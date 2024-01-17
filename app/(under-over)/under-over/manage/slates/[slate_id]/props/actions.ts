@@ -18,14 +18,13 @@ import { RedirectType, redirect } from "next/navigation";
 export const createProp = async (data: AddPropFormFields) => {
   const currentUser = await requireAdmin();
 
-  const { slate_id, end_date, under_value, ...result } =
-    AddPropFormSchema.parse(data);
+  const { slate_id, end_date, ...result } = AddPropFormSchema.parse(data);
 
   await prisma.props.create({
     data: {
       ...result,
       ...(end_date ? { end_date } : { end_date: result.start_date }),
-      ...(under_value ? { under_value } : { under_value: result.over_value }),
+      prop_result: PropResult.Active,
       created_at: new Date(),
       modified_at: new Date(),
       users: {
@@ -55,19 +54,9 @@ export const editProp = async (data: EditPropFormFields) => {
     start_date,
     end_date,
     game_start_time,
-    under_value,
     timezone,
     ...result
   } = EditPropFormSchema.parse(data);
-
-  console.log(
-    "game start time: ",
-    game_start_time,
-    " Timezone: ",
-    timezone,
-    " to js date: ",
-    DateTime.fromISO(game_start_time).toJSDate(),
-  );
 
   await prisma.props.update({
     where: {
@@ -75,15 +64,16 @@ export const editProp = async (data: EditPropFormFields) => {
     },
     data: {
       ...result,
-      ...(under_value && { under_value }),
+      modified_at: new Date(),
       start_date: new Date(start_date).toISOString(),
+      // If no end_date supplied, use the start date
       end_date: end_date
         ? new Date(end_date).toISOString()
         : new Date(start_date).toISOString(),
+      // Take the timezone from the client and save as a JS date
       game_start_time: DateTime.fromISO(game_start_time, {
         zone: timezone,
       }).toJSDate(),
-      modified_at: new Date(),
       users: {
         connect: {
           id: currentUser.id,

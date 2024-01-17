@@ -148,10 +148,9 @@ const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
               )}
               <p>Prop Type: {prop.prop_type}</p>
               <p>Prop Result: {prop.prop_result}</p>
-              <p>Under Value: {prop.under_value}</p>
-              <p>Under Price: {prop.under_price}</p>
-              <p>Over Value: {prop.over_value}</p>
+              <p>Prop Value: {prop.prop_value}</p>
               <p>Over Price: {prop.over_price}</p>
+              <p>Under Price: {prop.under_price}</p>
             </div>
             <div className="flex flex-row space-x-2">
               <SettlePropButtons prop={prop} />

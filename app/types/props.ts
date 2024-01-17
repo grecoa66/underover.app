@@ -23,10 +23,8 @@ export const AddPropFormSchema = z
     away_team: z.string().min(1),
     game_start_time: z.coerce.date(), // Probably not correct. DB expects a timestamp
     prop_type: z.string().min(1), // TODO: make an enum for these values
-    prop_result: z.nativeEnum(PropResult),
-    over_value: z.coerce.number(),
+    prop_value: z.coerce.number(),
     over_price: z.coerce.number(),
-    under_value: z.coerce.number().optional(),
     under_price: z.coerce.number(),
     slate_id: z.coerce.number(),
   })
@@ -35,6 +33,7 @@ export const AddPropFormSchema = z
       if (values.end_date) {
         return values.start_date <= values.end_date;
       }
+      return true;
     },
     {
       message: "Start date must be before end date",
@@ -81,6 +80,7 @@ export const EditPropFormSchema = z
       if (values.end_date) {
         return values.start_date <= values.end_date;
       }
+      return true;
     },
     {
       message: "Start date must be before end date",

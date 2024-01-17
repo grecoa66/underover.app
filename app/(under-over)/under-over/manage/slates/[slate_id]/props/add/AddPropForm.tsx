@@ -30,11 +30,11 @@ const AddPropForm = ({
     defaultValues: {
       slate_id: slate_id,
       league: league,
-      prop_result: PropResult.Active,
     },
   });
 
   const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
+    console.log("data: ", data);
     createProp(data);
   };
 
@@ -70,12 +70,11 @@ const AddPropForm = ({
             <label>
               End Date <input {...register("end_date")} type="date" />
             </label>
-            {errors?.end_date?.message && (
-              <p className="text-red-500">{errors?.end_date?.message}</p>
-            )}
           </>
         ) : null}
-
+        {errors?.end_date?.message && (
+          <p className="text-red-500">{errors?.end_date?.message}</p>
+        )}
         <label>
           Player&#39;s Name <input {...register("player_name")} />
         </label>
@@ -122,40 +121,14 @@ const AddPropForm = ({
           <p className="text-red-500">{errors?.prop_type?.message}</p>
         )}
 
-        <label>
-          Result{" "}
-          <select {...register("prop_result")}>
-            <option value={PropResult.Active}>Active</option>
-            <option value={PropResult.Under}>Under</option>
-            <option value={PropResult.Over}>Over</option>
-            <option value={PropResult.Push}>Push</option>
-          </select>
-        </label>
-        {errors?.prop_result?.message && (
-          <p className="text-red-500">{errors?.prop_result?.message}</p>
-        )}
-
-        <label>
-          Under Value{" "}
-          <input {...register("under_value")} type="number" step=".1" />
-        </label>
-        {errors?.under_value?.message && (
-          <p className="text-red-500">{errors?.under_value?.message}</p>
-        )}
-
-        <label>
-          Under Price <input {...register("under_price")} type="number" />
-        </label>
-        {errors?.under_price?.message && (
-          <p className="text-red-500">{errors?.under_price?.message}</p>
-        )}
+        {/* Odds fields */}
 
         <label>
           Over Value{" "}
-          <input {...register("over_value")} type="number" step=".1" />
+          <input {...register("prop_value")} type="number" step=".1" />
         </label>
-        {errors?.over_value?.message && (
-          <p className="text-red-500">{errors?.over_value?.message}</p>
+        {errors?.prop_value?.message && (
+          <p className="text-red-500">{errors?.prop_value?.message}</p>
         )}
 
         <label>
@@ -163,6 +136,13 @@ const AddPropForm = ({
         </label>
         {errors?.over_price?.message && (
           <p className="text-red-500">{errors?.over_price?.message}</p>
+        )}
+
+        <label>
+          Under Price <input {...register("under_price")} type="number" />
+        </label>
+        {errors?.under_price?.message && (
+          <p className="text-red-500">{errors?.under_price?.message}</p>
         )}
 
         <Button

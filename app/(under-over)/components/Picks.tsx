@@ -29,7 +29,7 @@ export const PicksByUser = ({
               <div key={pick.id}>
                 <p>{pick.props.player_name}</p>
                 <p>
-                  {pick.props.under_value} {pick.props.prop_type}
+                  {pick.props.prop_value} {pick.props.prop_type}
                 </p>
                 <p>Pick: {pick.selection}</p>
                 <p>Result: {pick.props.prop_result || "Not Decided"}</p>
@@ -58,7 +58,7 @@ export const UsersPicks = ({ picks }: { picks: PicksWithUserAndProp }) => {
             {pick.props.player_name}
           </p>
           <p className="w-1/3 overflow-hidden text-ellipsis">
-            {pick.props.under_value} {pick.props.prop_type}
+            {pick.props.prop_value} {pick.props.prop_type}
           </p>
           <div className="w-1/3">
             <PickResultComponent
