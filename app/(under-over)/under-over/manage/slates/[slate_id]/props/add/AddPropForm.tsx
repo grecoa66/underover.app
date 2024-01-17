@@ -11,6 +11,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { createProp } from "../actions";
 import { FaCheck } from "react-icons/fa";
 import { Button } from "@/app/components/Button";
+import { useState } from "react";
 const AddPropForm = ({
   slate_id,
   league,
@@ -18,6 +19,8 @@ const AddPropForm = ({
   slate_id: number;
   league: League;
 }) => {
+  const [showEndDate, setShowEndDate] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -34,6 +37,8 @@ const AddPropForm = ({
   const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
     createProp(data);
   };
+
+  console.log("FORM ERRORS: ", errors);
 
   return (
     <div className="flex flex-col">
@@ -52,11 +57,24 @@ const AddPropForm = ({
           <p className="text-red-500">{errors?.start_date?.message}</p>
         )}
         <label>
-          End Date <input {...register("end_date")} type="date" />
+          {" "}
+          Different End Date?
+          <input
+            type="checkbox"
+            checked={showEndDate}
+            onChange={() => setShowEndDate(!showEndDate)}
+          />
         </label>
-        {errors?.end_date?.message && (
-          <p className="text-red-500">{errors?.end_date?.message}</p>
-        )}
+        {showEndDate ? (
+          <>
+            <label>
+              End Date <input {...register("end_date")} type="date" />
+            </label>
+            {errors?.end_date?.message && (
+              <p className="text-red-500">{errors?.end_date?.message}</p>
+            )}
+          </>
+        ) : null}
 
         <label>
           Player&#39;s Name <input {...register("player_name")} />

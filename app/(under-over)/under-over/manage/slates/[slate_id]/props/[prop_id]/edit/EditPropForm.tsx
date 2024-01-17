@@ -36,16 +36,17 @@ const EditPropForm = ({
     resolver: zodResolver(EditPropFormSchema),
     defaultValues: {
       ...prop,
+      league,
+      timezone: tz,
       slate_id: slate_id,
-      league: league,
+      player_name: prop.player_name ?? undefined,
+      players_team: prop.players_team ?? undefined,
       prop_result: isEnumValue(prop.prop_result, PropResult)
         ? prop.prop_result
         : undefined,
-      player_name: prop.player_name ?? undefined,
-      players_team: prop.players_team ?? undefined,
       game_start_time: prop.game_start_time
         ? DateTime.fromJSDate(prop.game_start_time, { zone: tz }).toFormat(
-            "yyyy-MM-dd HH:mm",
+            `yyyy-MM-dd'T'HH:mm`,
           )
         : undefined,
       start_date: DateTime.fromJSDate(prop.start_date)
@@ -69,6 +70,7 @@ const EditPropForm = ({
       >
         <input type="hidden" {...register("league")} />
         <input type="hidden" {...register("slate_id")} />
+        <input type="hidden" {...register("timezone")} />
 
         <label>
           Start Date <input {...register("start_date")} type="date" />
