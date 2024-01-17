@@ -1,10 +1,6 @@
 "use client";
 import TeamSelect from "@/app/(under-over)/components/TeamSelect";
-import {
-  AddPropFormFields,
-  AddPropFormSchema,
-  PropResult,
-} from "@/app/types/props";
+import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -34,11 +30,8 @@ const AddPropForm = ({
   });
 
   const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
-    console.log("data: ", data);
     createProp(data);
   };
-
-  console.log("FORM ERRORS: ", errors);
 
   return (
     <div className="flex flex-col">
@@ -70,11 +63,12 @@ const AddPropForm = ({
             <label>
               End Date <input {...register("end_date")} type="date" />
             </label>
+            {errors?.end_date?.message && (
+              <p className="text-red-500">{errors?.end_date?.message}</p>
+            )}
           </>
         ) : null}
-        {errors?.end_date?.message && (
-          <p className="text-red-500">{errors?.end_date?.message}</p>
-        )}
+
         <label>
           Player&#39;s Name <input {...register("player_name")} />
         </label>
@@ -124,7 +118,7 @@ const AddPropForm = ({
         {/* Odds fields */}
 
         <label>
-          Over Value{" "}
+          Prop Value{" "}
           <input {...register("prop_value")} type="number" step=".1" />
         </label>
         {errors?.prop_value?.message && (

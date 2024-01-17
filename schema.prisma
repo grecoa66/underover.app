@@ -37,9 +37,9 @@ model users {
   emailVerified DateTime? @db.Timestamptz(6)
   image         String?
   role          String?
+  picks         picks[]
   props         props[]
   slates        slates[]
-  picks         picks[]
 }
 
 model verification_token {
@@ -52,8 +52,8 @@ model verification_token {
 
 model slates {
   id          Int       @id @default(autoincrement())
-  title       String    @db.VarChar(255) @default("")
-  league      String    @db.VarChar(255) 
+  title       String    @default("") @db.VarChar(255)
+  league      String    @db.VarChar(255)
   start_date  DateTime  @db.Date
   end_date    DateTime  @db.Date
   is_active   Boolean   @default(false)
@@ -64,9 +64,9 @@ model slates {
   created_at  DateTime  @default(now()) @db.Timestamp(6)
   modified_at DateTime  @default(now()) @db.Timestamp(6)
   deleted_at  DateTime? @db.Timestamp(6)
+  picks       picks[]
   props       props[]
   users       users?    @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  picks       picks[]
 }
 
 model props {
@@ -90,15 +90,15 @@ model props {
   deleted_at      DateTime? @db.Timestamp(6)
   slate_id        Int
   is_active       Boolean   @default(false)
+  picks           picks[]
   users           users     @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
   slates          slates    @relation(fields: [slate_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  picks           picks[]
 }
 
 model picks {
   id          Int       @id @default(autoincrement())
   selection   String    @db.VarChar(50)
-  pick_result String?    @db.VarChar(50)
+  pick_result String?   @db.VarChar(50)
   is_locked   Boolean   @default(false)
   created_by  Int
   prop_id     Int

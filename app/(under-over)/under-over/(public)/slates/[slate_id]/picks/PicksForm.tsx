@@ -32,10 +32,10 @@ const PropDescription = ({
           <h3 className="text-xl">{prop.player_name}</h3>
         )}
 
-        {fields?.includes("under_value") && (
+        {fields?.includes("prop_value") && (
           <div className="flex flex-row items-center justify-center space-x-2">
             <span>
-              {prop.under_value} {prop.prop_type}{" "}
+              {prop.prop_value} {prop.prop_type}{" "}
             </span>
           </div>
         )}
@@ -152,7 +152,7 @@ export const PicksForm = ({
               prop={prop}
               fields={[
                 "player_name",
-                "under_value",
+                "prop_value",
                 "players_team",
                 "game_start_time",
               ]}
@@ -242,7 +242,7 @@ export const PicksForm = ({
                 <div key={prop.id} className="flex flex-col items-center">
                   <PropDescription
                     prop={prop}
-                    fields={["player_name", "under_value"]}
+                    fields={["player_name", "prop_value"]}
                   />
                   <Button
                     type="button"
@@ -259,7 +259,7 @@ export const PicksForm = ({
                       <>
                         <PropDescription
                           prop={prop}
-                          fields={["player_name", "under_value"]}
+                          fields={["player_name", "prop_value"]}
                         />
                         <Button
                           type="button"

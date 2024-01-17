@@ -45,7 +45,7 @@ const EditPropPage = async ({
         backText={`Slate #${params.slate_id}`}
       />
       <ManagePanel>
-        <EditPropForm slate_id={slate.id} prop={prop} />
+        <EditPropForm slate_id={slate.id} props={prop} />
       </ManagePanel>
     </ManageWrapper>
   );

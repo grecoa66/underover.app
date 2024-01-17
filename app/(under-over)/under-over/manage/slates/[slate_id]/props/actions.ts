@@ -23,6 +23,7 @@ export const createProp = async (data: AddPropFormFields) => {
   await prisma.props.create({
     data: {
       ...result,
+      // If no end_date supplied, use the start date
       ...(end_date ? { end_date } : { end_date: result.start_date }),
       prop_result: PropResult.Active,
       created_at: new Date(),
@@ -48,15 +49,8 @@ export const createProp = async (data: AddPropFormFields) => {
 export const editProp = async (data: EditPropFormFields) => {
   const currentUser = await requireAdmin();
 
-  const {
-    id,
-    slate_id,
-    start_date,
-    end_date,
-    game_start_time,
-    timezone,
-    ...result
-  } = EditPropFormSchema.parse(data);
+  const { id, slate_id, game_start_time, end_date, timezone, ...result } =
+    EditPropFormSchema.parse(data);
 
   await prisma.props.update({
     where: {
@@ -65,11 +59,8 @@ export const editProp = async (data: EditPropFormFields) => {
     data: {
       ...result,
       modified_at: new Date(),
-      start_date: new Date(start_date).toISOString(),
       // If no end_date supplied, use the start date
-      end_date: end_date
-        ? new Date(end_date).toISOString()
-        : new Date(start_date).toISOString(),
+      ...(end_date ? { end_date } : { end_date: result.start_date }),
       // Take the timezone from the client and save as a JS date
       game_start_time: DateTime.fromISO(game_start_time, {
         zone: timezone,

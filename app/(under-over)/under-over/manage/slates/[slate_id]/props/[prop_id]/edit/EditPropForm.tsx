@@ -14,19 +14,29 @@ import { isEnumValue } from "@/app/types/shared";
 import { editProp } from "../../actions";
 import { FaCheck } from "react-icons/fa";
 import { Button } from "@/app/components/Button";
+import { useState } from "react";
+
 const EditPropForm = ({
   slate_id,
-  prop,
+  props,
 }: {
   slate_id: number;
-  prop: props;
+  props: props;
 }) => {
-  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // take start_date out of props because we need to treat it as a string for the form field's default value
+  // but as a date for the validator that the react-hook-form relies on. Weird, I know.
+  const { start_date, end_date, ...defaultProps } = props;
 
-  const league = isEnumValue(prop.league, League) ? prop.league : undefined;
-  if (!league) {
+  const [showEndDate, setShowEndDate] = useState(start_date < end_date);
+
+  const validateLeague = () => {
+    if (isEnumValue(defaultProps.league, League)) {
+      return defaultProps.league;
+    }
     throw Error("League undefined");
-  }
+  };
+
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const {
     register,
@@ -35,26 +45,20 @@ const EditPropForm = ({
   } = useForm<EditPropFormFields>({
     resolver: zodResolver(EditPropFormSchema),
     defaultValues: {
-      ...prop,
-      league,
+      ...defaultProps,
+      league: validateLeague(),
       timezone: tz,
       slate_id: slate_id,
-      player_name: prop.player_name ?? undefined,
-      players_team: prop.players_team ?? undefined,
-      prop_result: isEnumValue(prop.prop_result, PropResult)
-        ? prop.prop_result
+      player_name: defaultProps.player_name ?? undefined,
+      players_team: defaultProps.players_team ?? undefined,
+      prop_result: isEnumValue(defaultProps.prop_result, PropResult)
+        ? defaultProps.prop_result
         : undefined,
-      game_start_time: prop.game_start_time
-        ? DateTime.fromJSDate(prop.game_start_time, { zone: tz }).toFormat(
-            `yyyy-MM-dd'T'HH:mm`,
-          )
+      game_start_time: defaultProps.game_start_time
+        ? DateTime.fromJSDate(defaultProps.game_start_time, {
+            zone: tz,
+          }).toFormat(`yyyy-MM-dd'T'HH:mm`)
         : undefined,
-      start_date: DateTime.fromJSDate(prop.start_date)
-        .toUTC()
-        .toFormat("yyyy-MM-dd"),
-      end_date: DateTime.fromJSDate(prop.end_date)
-        .toUTC()
-        .toFormat("yyyy-MM-dd"),
     },
   });
 
@@ -73,17 +77,44 @@ const EditPropForm = ({
         <input type="hidden" {...register("timezone")} />
 
         <label>
-          Start Date <input {...register("start_date")} type="date" />
+          Start Date{" "}
+          <input
+            {...register("start_date")}
+            type="date"
+            defaultValue={DateTime.fromJSDate(start_date)
+              .toUTC()
+              .toFormat("yyyy-MM-dd")}
+          />
         </label>
         {errors?.start_date?.message && (
           <p className="text-red-500">{errors?.start_date?.message}</p>
         )}
         <label>
-          End Date <input {...register("end_date")} type="date" />
+          {" "}
+          Different End Date?
+          <input
+            type="checkbox"
+            checked={showEndDate}
+            onChange={() => setShowEndDate(!showEndDate)}
+          />
         </label>
-        {errors?.end_date?.message && (
-          <p className="text-red-500">{errors?.end_date?.message}</p>
-        )}
+        {showEndDate ? (
+          <>
+            <label>
+              End Date{" "}
+              <input
+                {...register("end_date")}
+                type="date"
+                defaultValue={DateTime.fromJSDate(end_date)
+                  .toUTC()
+                  .toFormat("yyyy-MM-dd")}
+              />
+            </label>
+            {errors?.end_date?.message && (
+              <p className="text-red-500">{errors?.end_date?.message}</p>
+            )}
+          </>
+        ) : null}
 
         <label>
           Player&#39;s Name <input {...register("player_name")} />
@@ -94,7 +125,10 @@ const EditPropForm = ({
 
         <label>
           Player&#39;s Team{" "}
-          <TeamSelect register={register("players_team")} league={league} />
+          <TeamSelect
+            register={register("players_team")}
+            league={validateLeague()}
+          />
         </label>
         {errors?.players_team?.message && (
           <p className="text-red-500">{errors?.players_team?.message}</p>
@@ -102,7 +136,10 @@ const EditPropForm = ({
 
         <label>
           Away Team{" "}
-          <TeamSelect register={register("away_team")} league={league} />
+          <TeamSelect
+            register={register("away_team")}
+            league={validateLeague()}
+          />
         </label>
         {errors?.away_team?.message && (
           <p className="text-red-500">{errors?.away_team?.message}</p>
@@ -110,7 +147,10 @@ const EditPropForm = ({
 
         <label>
           Home Team{" "}
-          <TeamSelect register={register("home_team")} league={league} />
+          <TeamSelect
+            register={register("home_team")}
+            league={validateLeague()}
+          />
         </label>
         {errors?.home_team?.message && (
           <p className="text-red-500">{errors?.home_team?.message}</p>
@@ -144,27 +184,14 @@ const EditPropForm = ({
           <p className="text-red-500">{errors?.prop_result?.message}</p>
         )}
 
-        <label>
-          Under Value{" "}
-          <input {...register("under_value")} type="number" step=".1" />
-        </label>
-        {errors?.under_value?.message && (
-          <p className="text-red-500">{errors?.under_value?.message}</p>
-        )}
+        {/* Odds fields */}
 
         <label>
-          Under Price <input {...register("under_price")} type="number" />
+          Prop Value{" "}
+          <input {...register("prop_value")} type="number" step=".1" />
         </label>
-        {errors?.under_price?.message && (
-          <p className="text-red-500">{errors?.under_price?.message}</p>
-        )}
-
-        <label>
-          Over Value{" "}
-          <input {...register("over_value")} type="number" step=".1" />
-        </label>
-        {errors?.over_value?.message && (
-          <p className="text-red-500">{errors?.over_value?.message}</p>
+        {errors?.prop_value?.message && (
+          <p className="text-red-500">{errors?.prop_value?.message}</p>
         )}
 
         <label>
@@ -172,6 +199,13 @@ const EditPropForm = ({
         </label>
         {errors?.over_price?.message && (
           <p className="text-red-500">{errors?.over_price?.message}</p>
+        )}
+
+        <label>
+          Under Price <input {...register("under_price")} type="number" />
+        </label>
+        {errors?.under_price?.message && (
+          <p className="text-red-500">{errors?.under_price?.message}</p>
         )}
 
         <Button
