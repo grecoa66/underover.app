@@ -84,6 +84,7 @@ export const PicksForm = ({
 }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [_isPending, startTransition] = useTransition();
+  const [error, setError] = useState<null | string>(null);
   // When we create "bet" elements, we need to create a new ref
   const [getRef, setRef] = useDynamicRefs<HTMLDivElement>();
 
@@ -131,162 +132,176 @@ export const PicksForm = ({
       redirect(`/over-under/slates/${slate_id}/results`);
     } catch (e) {
       startTransition(() => {
-        throw e;
+        // @ts-ignore
+        setError(e?.message);
       });
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="h-screen">
-        <input type="hidden" {...register("slate_id")} />
-        {props.map((prop, index) => (
-          <div
-            key={prop.id}
-            id={String(prop.id)}
-            // We'll use these refs to scroll the next bet into view
-            ref={setRef(String(prop.id)) as RefObject<HTMLDivElement>}
-            className="flex h-5/6 flex-col justify-center space-y-4"
-          >
-            <PropDescription
-              prop={prop}
-              fields={[
-                "player_name",
-                "prop_value",
-                "players_team",
-                "game_start_time",
-              ]}
-            />
-            <input
-              type="hidden"
-              value={prop.id}
-              {...register(`picks.${index}.prop_id`)}
-            />
-            <div className="mt-4 flex flex-row items-center justify-center space-x-2">
-              <div className={betButtonStyles}>
-                <label>
-                  <div
-                    className={twMerge(
-                      "border-2 border-everglade",
-                      getValues(`picks.${index}.selection`) ===
-                        PickSelection.Over && "bg-everglade",
-                    )}
-                    onClick={() => scrollNextBetIntoView(index)}
-                  >
-                    <p>Over</p>
-                    <p>
-                      {prop.over_price > 0 ? "+" : ""}
-                      {prop.over_price}
-                    </p>
+    <>
+      {error ? (
+        <p>{error}</p>
+      ) : (
+        <div>
+          <form onSubmit={handleSubmit(onSubmit)} className="h-screen">
+            <input type="hidden" {...register("slate_id")} />
+            {props.map((prop, index) => (
+              <div
+                key={prop.id}
+                id={String(prop.id)}
+                // We'll use these refs to scroll the next bet into view
+                ref={setRef(String(prop.id)) as RefObject<HTMLDivElement>}
+                className="flex h-5/6 flex-col justify-center space-y-4"
+              >
+                <PropDescription
+                  prop={prop}
+                  fields={[
+                    "player_name",
+                    "prop_value",
+                    "players_team",
+                    "game_start_time",
+                  ]}
+                />
+                <input
+                  type="hidden"
+                  value={prop.id}
+                  {...register(`picks.${index}.prop_id`)}
+                />
+                <div className="mt-4 flex flex-row items-center justify-center space-x-2">
+                  <div className={betButtonStyles}>
+                    <label>
+                      <div
+                        className={twMerge(
+                          "border-2 border-everglade",
+                          getValues(`picks.${index}.selection`) ===
+                            PickSelection.Over && "bg-everglade",
+                        )}
+                        onClick={() => scrollNextBetIntoView(index)}
+                      >
+                        <p>Over</p>
+                        <p>
+                          {prop.over_price > 0 ? "+" : ""}
+                          {prop.over_price}
+                        </p>
+                      </div>
+                      <input
+                        type="radio"
+                        className="hidden"
+                        value={PickSelection.Over}
+                        {...register(`picks.${index}.selection`)}
+                      />
+                    </label>
                   </div>
-                  <input
-                    type="radio"
-                    className="hidden"
-                    value={PickSelection.Over}
-                    {...register(`picks.${index}.selection`)}
-                  />
-                </label>
-              </div>
-              <div className={betButtonStyles}>
-                <label>
-                  <div
-                    className={twMerge(
-                      "border-2 border-mint",
-                      getValues(`picks.${index}.selection`) ===
-                        PickSelection.Under && "bg-mint",
-                    )}
-                    onClick={() => scrollNextBetIntoView(index)}
-                  >
-                    <p>Under</p>
-                    <p>
-                      {prop.under_price > 0 ? "+" : ""}
-                      {prop.under_price}
-                    </p>
+                  <div className={betButtonStyles}>
+                    <label>
+                      <div
+                        className={twMerge(
+                          "border-2 border-mint",
+                          getValues(`picks.${index}.selection`) ===
+                            PickSelection.Under && "bg-mint",
+                        )}
+                        onClick={() => scrollNextBetIntoView(index)}
+                      >
+                        <p>Under</p>
+                        <p>
+                          {prop.under_price > 0 ? "+" : ""}
+                          {prop.under_price}
+                        </p>
+                      </div>
+                      <input
+                        type="radio"
+                        className="hidden"
+                        value={PickSelection.Under}
+                        {...register(`picks.${index}.selection`)}
+                      />
+                    </label>
                   </div>
-                  <input
-                    type="radio"
-                    className="hidden"
-                    value={PickSelection.Under}
-                    {...register(`picks.${index}.selection`)}
-                  />
-                </label>
-              </div>
-            </div>
-            {/* TODO: How should we display these errors if someone scrolls past the pick without clicking on one? */}
-            {errors?.picks &&
-              errors?.picks[index]?.selection?.type === "invalid_type" && (
-                <p>Please select a value</p>
-              )}
-            <div className="flex flex-row items-center justify-center space-x-2">
-              <Button
-                type="button"
-                text="Back"
-                onClick={() => scrollPreviousBetIntoView(index)}
-                disabled={index === 0}
-              />
-              <Button
-                type="button"
-                text="Next"
-                onClick={() => scrollNextBetIntoView(index)}
-              />
-            </div>
-          </div>
-        ))}
-        <div
-          id="picks-form-submit-button"
-          ref={setRef("picks-form-submit-button") as RefObject<HTMLDivElement>}
-          className="flex h-5/6 flex-col items-center justify-center space-y-4"
-        >
-          {!getValues().picks
-            ? props.map((prop) => (
-                <div key={prop.id} className="flex flex-col items-center">
-                  <PropDescription
-                    prop={prop}
-                    fields={["player_name", "prop_value"]}
+                </div>
+                {/* TODO: How should we display these errors if someone scrolls past the pick without clicking on one? */}
+                {errors?.picks &&
+                  errors?.picks[index]?.selection?.type === "invalid_type" && (
+                    <p>Please select a value</p>
+                  )}
+                <div className="flex flex-row items-center justify-center space-x-2">
+                  <Button
+                    type="button"
+                    text="Back"
+                    onClick={() => scrollPreviousBetIntoView(index)}
+                    disabled={index === 0}
                   />
                   <Button
                     type="button"
-                    text="Add Pick"
-                    onClick={() => scrollRefIntoView(prop.id)}
+                    text="Next"
+                    onClick={() => scrollNextBetIntoView(index)}
                   />
                 </div>
-              ))
-            : getValues().picks?.map((pick) => {
-                const prop = props.find((prop) => prop.id == pick.prop_id);
-                return (
-                  <div key={prop?.id} className="flex flex-col items-center">
-                    {!pick.selection && prop && (
-                      <>
-                        <PropDescription
-                          prop={prop}
-                          fields={["player_name", "prop_value"]}
-                        />
-                        <Button
-                          type="button"
-                          text="Add Pick"
-                          onClick={() => scrollRefIntoView(pick.prop_id)}
-                        />
-                      </>
-                    )}
-                  </div>
-                );
-              })}
-          <Button
-            type="button"
-            text="Back"
-            onClick={() => scrollPreviousBetIntoView(props.length)}
-          />
-          {/* TODO: Disable button, or dont render if picks still need to be made */}
-          <Button
-            type="submit"
-            text={isLoading ? "Submitting..." : "Submit"}
-            className={
-              getValues().picks?.length !== props.length ? "opacity-50" : ""
-            }
-            disabled={isLoading || getValues().picks?.length !== props.length}
-          />
+              </div>
+            ))}
+            <div
+              id="picks-form-submit-button"
+              ref={
+                setRef("picks-form-submit-button") as RefObject<HTMLDivElement>
+              }
+              className="flex h-5/6 flex-col items-center justify-center space-y-4"
+            >
+              {!getValues().picks
+                ? props.map((prop) => (
+                    <div key={prop.id} className="flex flex-col items-center">
+                      <PropDescription
+                        prop={prop}
+                        fields={["player_name", "prop_value"]}
+                      />
+                      <Button
+                        type="button"
+                        text="Add Pick"
+                        onClick={() => scrollRefIntoView(prop.id)}
+                      />
+                    </div>
+                  ))
+                : getValues().picks?.map((pick) => {
+                    const prop = props.find((prop) => prop.id == pick.prop_id);
+                    return (
+                      <div
+                        key={prop?.id}
+                        className="flex flex-col items-center"
+                      >
+                        {!pick.selection && prop && (
+                          <>
+                            <PropDescription
+                              prop={prop}
+                              fields={["player_name", "prop_value"]}
+                            />
+                            <Button
+                              type="button"
+                              text="Add Pick"
+                              onClick={() => scrollRefIntoView(pick.prop_id)}
+                            />
+                          </>
+                        )}
+                      </div>
+                    );
+                  })}
+              <Button
+                type="button"
+                text="Back"
+                onClick={() => scrollPreviousBetIntoView(props.length)}
+              />
+              {/* TODO: Disable button, or dont render if picks still need to be made */}
+              <Button
+                type="submit"
+                text={isLoading ? "Submitting..." : "Submit"}
+                className={
+                  getValues().picks?.length !== props.length ? "opacity-50" : ""
+                }
+                disabled={
+                  isLoading || getValues().picks?.length !== props.length
+                }
+              />
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
