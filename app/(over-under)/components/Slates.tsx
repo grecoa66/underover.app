@@ -88,13 +88,22 @@ const PublicSlates = ({
                   {!active && <TimeUntilStart date={slate.start_date} />}
                 </div>
                 {open ? (
-                  <LinkButton
-                    text="Make your picks"
-                    className="h-fit w-32 lg:w-fit"
-                    variant="inverse"
-                    EndIcon={FaAngleRight}
-                    href={`/over-under/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
-                  />
+                  <div className={" flex flex-col lg:mx-2 lg:flex-row"}>
+                    <LinkButton
+                      text="Make your picks"
+                      className="my-1 h-fit w-32 lg:mx-2 lg:w-fit"
+                      variant="inverse"
+                      EndIcon={FaAngleRight}
+                      href={`/over-under/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
+                    />
+                    <LinkButton
+                      text={"View Picks"}
+                      className="my-1 h-fit w-32 lg:mx-2 lg:w-fit"
+                      variant="inverse"
+                      EndIcon={FaAngleRight}
+                      href={`/over-under/slates/${slate.id}/results`} // TODO: Maybe rethink this route
+                    />
+                  </div>
                 ) : (
                   <LinkButton
                     text={active ? "Live Results" : "Results"}
