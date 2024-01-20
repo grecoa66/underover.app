@@ -96,6 +96,7 @@ const PublicSlates = ({
                       EndIcon={FaAngleRight}
                       href={`/over-under/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
                     />
+                    {/* TODO: only show this if a user has made picks */}
                     <LinkButton
                       text={"View Picks"}
                       className="my-1 h-fit w-32 lg:mx-2 lg:w-fit"

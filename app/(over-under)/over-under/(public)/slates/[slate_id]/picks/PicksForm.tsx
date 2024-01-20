@@ -271,6 +271,11 @@ export const PicksForm = ({
                   </div>
                 );
               })}
+          <Button
+            type="button"
+            text="Back"
+            onClick={() => scrollPreviousBetIntoView(props.length)}
+          />
           {/* TODO: Disable button, or dont render if picks still need to be made */}
           <Button
             type="submit"
