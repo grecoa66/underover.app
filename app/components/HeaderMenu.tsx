@@ -49,9 +49,9 @@ export const HeaderMenu = () => {
             isOpen ? "opacity-100" : "opacity-0",
           )}
         >
-          <Link className={buttonStyle} href="/under-over">
+          <Link className={buttonStyle} href="/over-under">
             <FaCoins />
-            <p>Under Overs</p>
+            <p>Over Under</p>
           </Link>
           <div className="h-0.5 border-t-2 border-everglade dark:border-everglade-400" />
           <button className={buttonStyle} onClick={() => setTheme("light")}>
