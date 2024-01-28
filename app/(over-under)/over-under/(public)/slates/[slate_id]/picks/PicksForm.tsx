@@ -82,6 +82,7 @@ export const PicksForm = ({
   slate_id: slates["id"];
   props: props[];
 }) => {
+  // TODO: add a pending/loading state
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [_isPending, startTransition] = useTransition();
   const [error, setError] = useState<null | string>(null);
@@ -128,13 +129,14 @@ export const PicksForm = ({
     try {
       setIsLoading(true);
       await createPicks(data);
-      setIsLoading(false);
-      redirect(`/over-under/slates/${slate_id}/results`);
     } catch (e) {
       startTransition(() => {
         // @ts-ignore
         setError(e?.message);
       });
+    } finally {
+      setIsLoading(false);
+      redirect(`/over-under/slates/${slate_id}/results`);
     }
   };
 
