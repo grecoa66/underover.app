@@ -1,6 +1,7 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import PostgresAdapter from "@auth/pg-adapter";
+import type { Adapter } from "next-auth/adapters";
 import { Pool } from "pg";
 
 const pool = new Pool({
@@ -14,7 +15,7 @@ export const authOptions: NextAuthOptions = {
   // Secret for Next-auth. Without this, JWT encryption/decryption won't work
   secret: process.env.NEXTAUTH_SECRET,
 
-  adapter: PostgresAdapter(pool),
+  adapter: PostgresAdapter(pool) as Adapter,
 
   // Configure one or more authentication providers
   providers: [
