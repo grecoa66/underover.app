@@ -37,10 +37,10 @@ const Palette = () => {
   };
 
   return (
-    <div className="flex h-full bg-gray-200 dark:bg-gray-400 ">
+    <div className="flex h-full">
       <div className="flex w-full flex-col items-center justify-center space-y-8 py-8">
         <h1 className="text-4xl text-black">Color Palette</h1>
-        <div className="flex w-full flex-row items-center justify-center">
+        <div className="flex w-full flex-row items-center justify-center px-8">
           {Object.values(colors).map((color, index) => (
             <div key={color.className} className="w-1/6">
               <div
@@ -51,7 +51,10 @@ const Palette = () => {
                   color.className,
                   color.className === "bg-black" && "text-white",
                   color.className === "bg-everglade" && "text-white",
+                  color.className === "bg-celtic" && "text-white",
                   color.className === "bg-white" && "text-black",
+                  color.className === "bg-mint" && "text-black",
+                  color.className === "bg-aero" && "text-black",
                   index === 0 && "rounded-tl-lg",
                   index === Object.keys(colors).length - 1 && "rounded-tr-lg",
                 )}
@@ -87,6 +90,21 @@ type Color = {
 };
 
 const colors: Color = {
+  white: {
+    className: "bg-white",
+    hex: "#FFFFFF",
+    shades: [
+      "bg-white-100",
+      "bg-white-200",
+      "bg-white-300",
+      "bg-white-400",
+      "bg-white-500",
+      "bg-white-600",
+      "bg-white-700",
+      "bg-white-800",
+      "bg-white-900",
+    ],
+  },
   black: {
     className: "bg-black",
     hex: "#191919",
@@ -102,19 +120,19 @@ const colors: Color = {
       "bg-black-900",
     ],
   },
-  white: {
-    className: "bg-white",
-    hex: "#FFFFFF",
+  celtic: {
+    className: "bg-celtic",
+    hex: "#153626",
     shades: [
-      "bg-white-100",
-      "bg-white-200",
-      "bg-white-300",
-      "bg-white-400",
-      "bg-white-500",
-      "bg-white-600",
-      "bg-white-700",
-      "bg-white-800",
-      "bg-white-900",
+      "bg-celtic-100",
+      "bg-celtic-200",
+      "bg-celtic-300",
+      "bg-celtic-400",
+      "bg-celtic-500",
+      "bg-celtic-600",
+      "bg-celtic-700",
+      "bg-celtic-800",
+      "bg-celtic-900",
     ],
   },
   everglad: {
@@ -132,34 +150,34 @@ const colors: Color = {
       "bg-everglade-900",
     ],
   },
-  gold: {
-    className: "bg-gold",
-    hex: "#C8C372",
+  mint: {
+    className: "bg-mint",
+    hex: "#B1FFDA",
     shades: [
-      "bg-gold-100",
-      "bg-gold-200",
-      "bg-gold-300",
-      "bg-gold-400",
-      "bg-gold-500",
-      "bg-gold-600",
-      "bg-gold-700",
-      "bg-gold-800",
-      "bg-gold-900",
+      "bg-mint-100",
+      "bg-mint-200",
+      "bg-mint-300",
+      "bg-mint-400",
+      "bg-mint-500",
+      "bg-mint-600",
+      "bg-mint-700",
+      "bg-mint-800",
+      "bg-mint-900",
     ],
   },
-  brandy: {
-    className: "bg-brandy",
-    hex: "#D9782D",
+  aero: {
+    className: "bg-aero",
+    hex: "#D8FFED",
     shades: [
-      "bg-brandy-100",
-      "bg-brandy-200",
-      "bg-brandy-300",
-      "bg-brandy-400",
-      "bg-brandy-500",
-      "bg-brandy-600",
-      "bg-brandy-700",
-      "bg-brandy-800",
-      "bg-brandy-900",
+      "bg-aero-100",
+      "bg-aero-200",
+      "bg-aero-300",
+      "bg-aero-400",
+      "bg-aero-500",
+      "bg-aero-600",
+      "bg-aero-700",
+      "bg-aero-800",
+      "bg-aero-900",
     ],
   },
 };

@@ -1,14 +1,15 @@
 .name-gradient {
-  background: radial-gradient(circle, #b1ffda 20%, #52bc70 40%, #20533b 80%);
+  /* background: radial-gradient(circle, #b1ffda 20%, #52bc70 40%, #20533b 80%); */
+  background: radial-gradient(circle, #79ffbf 30%, #35884c 60%, #2c714f 80%);
+
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  -webkit-animation: Animation 10s linear infinite;
-  -moz-animation: Animation 10s linear infinite;
-  animation: Animation 10s linear infinite;
+  -webkit-animation: Animation 8s linear infinite;
+  -moz-animation: Animation 8s linear infinite;
+  animation: Animation 8s linear infinite;
 }
-
 @-webkit-keyframes Animation {
   0% {
     background-position: 200% 50%;
