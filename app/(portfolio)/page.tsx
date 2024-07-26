@@ -1,5 +1,6 @@
 import "../components/Header.css";
 import { Pill } from "../(over-under)/components/Pill";
+import { ReactNode } from "react";
 
 const ExperienceGrid = ({
   date,
@@ -9,17 +10,19 @@ const ExperienceGrid = ({
 }: {
   date: string;
   title: string;
-  description: string;
-  tech: React.ReactNode;
+  description: ReactNode;
+  tech: ReactNode;
 }) => {
   return (
     <div className="my-8 h-fit">
       <div className="grid grid-cols-4">
-        <div className="col-span-1 pt-1 text-xs text-celtic dark:text-mint-400">
+        <div className="col-span-1 pt-1 text-sm text-celtic dark:text-mint-400">
           {date}
         </div>
         <div className="col-span-3">
-          <h3 className="text-celtic dark:text-mint-400">{title}</h3>
+          <h3 className="mb-2 text-lg text-celtic dark:text-mint-400">
+            {title}
+          </h3>
           {/* Icon pills for tech I used */}
           <p>{description}</p>
           <div className="mt-4 flex flex-row flex-wrap gap-2">{tech}</div>
@@ -31,19 +34,21 @@ const ExperienceGrid = ({
 
 export default function Home() {
   const PopText = ({ text }: { text: string }) => (
-    <span className="font-semibold text-celtic-300 dark:text-mint-400">
+    <span className="font-semibold text-celtic-200 dark:text-mint-400">
       {text}
     </span>
   );
   return (
     <main className="flex min-h-[calc(100vh-theme(space.16))] flex-col content-center bg-white p-12 dark:bg-black lg:p-24">
       <div className="space-y-8 lg:w-full">
-        <p className="text-everglade-200 dark:text-mint-400">Hi, my name is</p>
+        <p className="text-lg text-celtic-200 dark:text-mint-400">
+          Hi, my name is
+        </p>
         <h1 className="name-gradient text-8xl">Alex Greco</h1>
-        <h3 className="text-6xl text-celtic dark:text-everglade-300">
+        <h3 className="text-6xl text-celtic-400 dark:text-everglade-300">
           I build things for the web.
         </h3>
-        <p className="text-celtic dark:text-everglade-300">
+        <p className="text-lg text-celtic-400 dark:text-everglade-300">
           I&apos;m a software engineer specializing in fullstack{" "}
           <PopText text="Javscript" /> development. My favorite tools are{" "}
           <PopText text="React," /> <PopText text="Typescript" /> and{" "}
@@ -81,7 +86,11 @@ export default function Home() {
       <ExperienceGrid
         date="Jun 2021 - Dec 2021"
         title="Senior Fullstack Engineer - NorthOne"
-        description=""
+        description={
+          <p className="text-sm text-celtic-300 dark:text-everglade-300">
+            Full stack developer working on core banking features
+          </p>
+        }
         tech={
           <>
             <Pill text="React" />

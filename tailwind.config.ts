@@ -7,8 +7,17 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   darkMode: "class",
+
   theme: {
     extend: {
+      listStyleType: {
+        none: "none",
+        disc: "disc",
+        decimal: "decimal",
+        square: "square",
+        roman: "upper-roman",
+        circle: "circle",
+      },
       colors: {
         black: {
           DEFAULT: "#191919",
