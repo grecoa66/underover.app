@@ -4,6 +4,7 @@ import { AppProvider } from "../components/providers";
 import { HeaderMenu } from "../components/HeaderMenu";
 
 import "../globals.css";
+import { twMerge } from "tailwind-merge";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={twMerge(inter.className, "relative")}>
         <AppProvider attribute="class">
           <HeaderMenu />
           {children}

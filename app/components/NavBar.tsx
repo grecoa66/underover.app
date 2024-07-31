@@ -3,7 +3,6 @@ import { DarkModeButton } from "./DarkMode";
 import AuthButton from "./AuthButton";
 import GoogleAvatar from "./GoogleAvatar";
 import { getCurrentUser } from "../api/auth/getUser";
-import { HeaderMenu } from "./HeaderMenu";
 
 // Slightly modified nav bar for the under/overs app
 export const UONavBar = async () => {
@@ -24,16 +23,3 @@ export const UONavBar = async () => {
     </div>
   );
 };
-
-const NavBar = () => (
-  <div className="sticky top-0 h-16">
-    <div className="flex h-full flex-row items-center justify-between bg-white p-4 dark:bg-black">
-      <Link href="/">
-        <h2 className="text-xl text-everglade">A</h2>
-      </Link>
-      <HeaderMenu />
-    </div>
-  </div>
-);
-
-export default NavBar;
