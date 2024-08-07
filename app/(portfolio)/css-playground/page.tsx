@@ -1,6 +1,6 @@
 "use client";
 import { twMerge } from "tailwind-merge";
-import { colorVariants } from "./grid-background/page";
+import { colorVariants } from "./grid-background/backgrounds";
 
 const CSSPlayground = () => {
   return (
