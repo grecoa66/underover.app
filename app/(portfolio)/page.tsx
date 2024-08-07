@@ -10,7 +10,7 @@ const ExperienceGrid = ({
 }: {
   date: string;
   title: string;
-  description: ReactNode;
+  description?: ReactNode;
   tech: ReactNode;
 }) => {
   return (
@@ -24,7 +24,7 @@ const ExperienceGrid = ({
             {title}
           </h3>
           {/* Icon pills for tech I used */}
-          <p>{description}</p>
+          {description ? description : null}
           <div className="mt-4 flex flex-row flex-wrap gap-2">{tech}</div>
         </div>
       </div>
@@ -58,7 +58,6 @@ export default function Home() {
       <ExperienceGrid
         date="Jan 2024 - Present"
         title={"Senior Frontend Engineer - Dust Identity"}
-        description=""
         tech={
           <>
             <Pill text="Remix" />
@@ -72,7 +71,6 @@ export default function Home() {
       <ExperienceGrid
         date="Jan 2022 - Oct 2023"
         title="Senior Fullstack Engineer - UDisc"
-        description=""
         tech={
           <>
             <Pill text="Remix" />
@@ -102,7 +100,6 @@ export default function Home() {
       <ExperienceGrid
         date="Jul 2018 - Jun 2021"
         title="Senior Software Engineer - Harry's, Inc."
-        description=""
         tech={
           <>
             <Pill text="React" />
