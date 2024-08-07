@@ -28,6 +28,7 @@ const GridBackground = () => {
         <div className="mb-8 flex flex-row gap-2">
           {Object.keys(colorVariants).map((color) => (
             <button
+              key={color}
               className="rounded-xl border border-black bg-white p-4 hover:bg-mint hover:text-black dark:border-white dark:bg-black dark:hover:bg-mint"
               type="button"
               onClick={() => {
