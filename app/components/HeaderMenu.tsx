@@ -1,4 +1,5 @@
 "use client";
+
 import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useClickOutside";
 import { twMerge } from "tailwind-merge";
@@ -19,7 +20,10 @@ export const HeaderMenu = () => {
     <div className="sticky top-0 h-16" id="header-menu">
       <div className="flex h-full flex-row items-center justify-between bg-white p-4 dark:bg-black">
         <Link href="/">
-          <h2 className="text-xl text-everglade">A</h2>
+          <div className="relative">
+            <span className="absolute -top-0.5 left-2 h-8 w-6 border-b-2 border-t-2 border-everglade dark:border-mint" />
+            <h2 className=" text-xl text-everglade ">AKG</h2>
+          </div>
         </Link>
         <div className="relative flex flex-row" ref={ref}>
           <DarkModeButton />
