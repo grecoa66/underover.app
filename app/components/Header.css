@@ -5,9 +5,9 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  -webkit-animation: Animation 8s linear infinite;
-  -moz-animation: Animation 8s linear infinite;
-  animation: Animation 8s linear infinite;
+  -webkit-animation: Animation 6s linear infinite;
+  -moz-animation: Animation 6s linear infinite;
+  animation: Animation 6s linear infinite;
 }
 @-webkit-keyframes Animation {
   0% {
