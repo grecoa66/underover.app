@@ -60,7 +60,9 @@ export default function Home() {
         <ExperienceGrid
           date="Jan 2024 - Present"
           title={"Senior Frontend Engineer - Dust Identity"}
-          description={""}
+          description={
+            "Rewrote a legacy React Admin application by leveraging Remix, React, Typescript, and Material UI, resulting in enhanced performance and a more intuitive user interface. Replaced a native iOS app with React Native, Typescript, and Expo, delivering a seamless cross-platform experience, modernized app functionality, and increased team velocity by enabling more team members to contribute."
+          }
           tech={
             <>
               <Pill text="Remix" />
