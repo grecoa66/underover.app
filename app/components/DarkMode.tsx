@@ -36,8 +36,8 @@ export const DarkModeButton = () => {
       ]}
       onChange={setTheme}
       defaultValue={theme || "system"}
-      containerClassName="flex h-full w-6 flex-row items-center justify-center mr-4"
-      menuClassName="border-mint border-2 mt-2"
+      containerClassName="flex h-5 flex-row items-center justify-center mr-4"
+      menuClassName="border-everglade border-2 mt-2"
       optionsClassName="p-4"
     />
   );

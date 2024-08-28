@@ -14,7 +14,7 @@ export const HeaderMenu = () => {
   useOnClickOutside(ref, () => setIsOpen(false));
 
   const buttonStyle =
-    "right-0 top-6 flex flex-row items-center space-x-2 p-2 my-2 text-celtic dark:text-everglade-400 hover:text-everglade dark:hover:text-everglade-200";
+    "flex flex-row items-center gap-2 p-4 text-celtic-200 dark:text-mint-400 hover:text-everglade dark:hover:text-everglade hover:bg-mint dark:hover:bg-mint";
 
   return (
     <div className="sticky top-0 h-16" id="header-menu">
@@ -28,11 +28,11 @@ export const HeaderMenu = () => {
         <div className="relative flex flex-row" ref={ref}>
           <DarkModeButton />
           <button
-            className="text-celtic duration-300 hover:scale-110 hover:text-everglade dark:text-everglade-400 dark:hover:text-everglade-200"
+            className="text-everglade duration-300 hover:scale-110 hover:text-everglade dark:text-everglade-400 dark:hover:text-everglade-200"
             type="button"
             onClick={() => setIsOpen(!isOpen)}
           >
-            <FaBars className="text-lg" />
+            <FaBars className="h-5 text-lg " />
           </button>
         </div>
       </div>
@@ -46,10 +46,9 @@ export const HeaderMenu = () => {
         leaveTo="opacity-0"
       >
         <div
-          className={twMerge(
-            "flex w-full flex-row border-2 border-everglade bg-white transition-all duration-300 dark:bg-black",
-            isOpen ? "opacity-100" : "opacity-0",
-          )}
+          className={
+            "flex w-full flex-row gap-4 border-2 border-everglade bg-white transition-all duration-300 dark:bg-black"
+          }
         >
           <Link className={buttonStyle} href="/over-under">
             <FaCoins />
