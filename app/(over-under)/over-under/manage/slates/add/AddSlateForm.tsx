@@ -10,8 +10,8 @@ import {
   ListboxOptions,
 } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RedirectType, redirect } from "next/navigation";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 
@@ -29,14 +29,14 @@ import { createSlate } from "../actions";
 const inputClasses = "bg-gray-200 p-2 dark:bg-gray-500";
 
 const AddSlateForm = () => {
+  const router = useRouter();
   // manage submit button loading state
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     control,
     watch,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<AddSlateFormFields>({
     resolver: zodResolver(AddSlateFormSchema),
     defaultValues: {
@@ -47,16 +47,13 @@ const AddSlateForm = () => {
   const league = watch("league");
 
   const onSubmit: SubmitHandler<AddSlateFormFields> = async (data) => {
-    setIsSubmitting(true);
     try {
       await createSlate(data);
-      redirect("/over-under/manage/slates", RedirectType.push);
+      router.push("/over-under/manage/slates");
       // TODO: Add a toast message for this
     } catch (e) {
       // TODO: Add a toast message for this
       console.log("Error creating slate", e);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -68,7 +65,7 @@ const AddSlateForm = () => {
     <>
       <div className="flex w-fit flex-col">
         <form
-          className="mx-6 flex flex-col space-y-2"
+          className="mx-6 flex flex-col space-y-4"
           onSubmit={handleSubmit(onSubmit)}
         >
           <Field className="flex flex-col gap-2 ">
@@ -131,12 +128,12 @@ const AddSlateForm = () => {
             />
             <ErrorText message={errors?.end_date?.message} />
           </Field>
-          <Field className="flex flex-col gap-2 ">
+          <Field className="flex flex-col gap-2 items-start">
             <Label>Is Slate Active</Label>
             <Input {...register("is_active")} type="checkbox" />
             <ErrorText message={errors?.is_active?.message} />
           </Field>
-          <Field className="flex flex-col gap-2 ">
+          <Field className="flex flex-col gap-2 items-start">
             <Label>Post Slate Publicly</Label>
             <Input {...register("is_public")} type="checkbox" />
             <ErrorText message={errors?.is_public?.message} />
@@ -145,7 +142,7 @@ const AddSlateForm = () => {
             text={"Submit"}
             type="submit"
             disabled={isSubmitting}
-            className="w-28"
+            className="w-28 mt-8"
             StartIcon={FaCheck}
           />
         </form>

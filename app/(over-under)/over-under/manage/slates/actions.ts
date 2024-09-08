@@ -1,5 +1,9 @@
 "use server";
 
+import { slates } from "@prisma/client";
+import { revalidateTag } from "next/cache";
+import { RedirectType, redirect } from "next/navigation";
+
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import {
@@ -9,9 +13,6 @@ import {
   EditSlateFormFields,
   EditSlateFormSchema,
 } from "@/app/types/slates";
-import { slates } from "@prisma/client";
-import { revalidateTag } from "next/cache";
-import { RedirectType, redirect } from "next/navigation";
 
 // Create a new slate from the client side.
 export const createSlate = async (
