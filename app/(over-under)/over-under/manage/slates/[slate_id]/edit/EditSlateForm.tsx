@@ -16,6 +16,11 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { FaCheck, FaTrash } from "react-icons/fa";
 
 import { ErrorText } from "@/app/(over-under)/components/forms/ErrorText";
+import {
+  checkboxClasses,
+  checkboxInputClasses,
+  inputClasses,
+} from "@/app/(over-under)/components/forms/Styles";
 import { Button } from "@/app/components/Button";
 import {
   DeleteSlateData,
@@ -28,9 +33,6 @@ import { deleteSlate, editSlate } from "../../actions";
 
 // TODO: Abstract form components
 // TODO: Abstract how dates are displayed into a compnonent
-
-const inputClasses = "bg-gray-200 p-2 dark:bg-gray-500";
-const checkboxClasses = "h-5 w-5";
 
 const EditSlateForm = ({ slate }: { slate: slates }) => {
   const {
@@ -139,7 +141,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           <ErrorText message={errors?.end_date?.message} />
         </Field>
 
-        <Field className="flex flex-col gap-2 items-start">
+        <Field className={checkboxInputClasses}>
           <Label>Slate Active</Label>
           <Input
             {...register("is_active")}
@@ -154,7 +156,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           <ErrorText message={errors?.is_active?.message} />
         </Field>
 
-        <Field className="flex flex-col gap-2 items-start">
+        <Field className={checkboxInputClasses}>
           <Label>Post Slate Publicly</Label>
           <Input
             {...register("is_public")}
@@ -164,7 +166,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           <ErrorText message={errors?.is_public?.message} />
         </Field>
 
-        <Field className="flex flex-col gap-2 items-start">
+        <Field className={checkboxInputClasses}>
           <Label>Slate Locked</Label>
           <Input
             {...register("is_locked")}
@@ -174,7 +176,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           <ErrorText message={errors?.is_locked?.message} />
         </Field>
 
-        <Field className="flex flex-col gap-2 items-start">
+        <Field className={checkboxInputClasses}>
           <Label>Slate Complete</Label>
           <Input
             {...register("is_complete")}

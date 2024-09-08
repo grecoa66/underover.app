@@ -16,6 +16,10 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 
 import { ErrorText } from "@/app/(over-under)/components/forms/ErrorText";
+import {
+  checkboxInputClasses,
+  inputClasses,
+} from "@/app/(over-under)/components/forms/Styles";
 import { Button } from "@/app/components/Button";
 import {
   AddSlateFormFields,
@@ -26,8 +30,6 @@ import {
 import { createSlate } from "../actions";
 
 // TODO: Abstract form components
-
-const inputClasses = "bg-gray-200 p-2 dark:bg-gray-500";
 
 const AddSlateForm = () => {
   const router = useRouter();
@@ -120,12 +122,12 @@ const AddSlateForm = () => {
           />
           <ErrorText message={errors?.end_date?.message} />
         </Field>
-        <Field className="flex flex-col gap-2 items-start">
+        <Field className={checkboxInputClasses}>
           <Label>Slate Active</Label>
           <Input {...register("is_active")} type="checkbox" />
           <ErrorText message={errors?.is_active?.message} />
         </Field>
-        <Field className="flex flex-col gap-2 items-start">
+        <Field className={checkboxInputClasses}>
           <Label>Post Slate Publicly</Label>
           <Input {...register("is_public")} type="checkbox" />
           <ErrorText message={errors?.is_public?.message} />

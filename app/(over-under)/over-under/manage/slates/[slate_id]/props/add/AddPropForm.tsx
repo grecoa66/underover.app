@@ -1,13 +1,24 @@
 "use client";
+
+import { Field, Input, Label } from "@headlessui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { FaCheck } from "react-icons/fa";
+
 import TeamSelect from "@/app/(over-under)/components/TeamSelect";
+import { ErrorText } from "@/app/(over-under)/components/forms/ErrorText";
+import {
+  checkboxClasses,
+  checkboxInputClasses,
+  inputClasses,
+} from "@/app/(over-under)/components/forms/Styles";
+import { Button } from "@/app/components/Button";
 import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
 import { League } from "@/app/types/slates";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+
 import { createProp } from "../actions";
-import { FaCheck } from "react-icons/fa";
-import { Button } from "@/app/components/Button";
-import { useState } from "react";
+
 const AddPropForm = ({
   slate_id,
   league,
@@ -35,7 +46,6 @@ const AddPropForm = ({
 
   return (
     <div className="flex flex-col">
-      {/* {errors && <p>{JSON.stringify(errors)}</p>} */}
       <form
         className="mx-6 flex flex-col space-y-2"
         onSubmit={handleSubmit(onSubmit)}
@@ -43,39 +53,47 @@ const AddPropForm = ({
         <input type="hidden" {...register("league")} />
         <input type="hidden" {...register("slate_id")} />
 
-        <label>
-          Start Date <input {...register("start_date")} type="date" />
-        </label>
-        {errors?.start_date?.message && (
-          <p className="text-red-500">{errors?.start_date?.message}</p>
-        )}
-        <label>
-          {" "}
-          Different End Date?
-          <input
+        <Field className={checkboxInputClasses}>
+          <Label>Start Date </Label>
+          <Input
+            {...register("start_date")}
+            type="date"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.start_date?.message} />
+        </Field>
+        <Field className={checkboxInputClasses}>
+          <Label> Different End Date?</Label>
+          <Input
             type="checkbox"
             checked={showEndDate}
             onChange={() => setShowEndDate(!showEndDate)}
+            className={checkboxClasses}
           />
-        </label>
+        </Field>
         {showEndDate ? (
-          <>
-            <label>
-              End Date <input {...register("end_date")} type="date" />
-            </label>
-            {errors?.end_date?.message && (
-              <p className="text-red-500">{errors?.end_date?.message}</p>
-            )}
-          </>
+          <Field className={checkboxInputClasses}>
+            <Label>End Date </Label>
+            <Input
+              {...register("end_date")}
+              type="date"
+              className={inputClasses}
+            />
+            <ErrorText message={errors?.end_date?.message} />
+          </Field>
         ) : null}
 
-        <label>
-          Player&#39;s Name <input {...register("player_name")} />
-        </label>
-        {errors?.player_name?.message && (
-          <p className="text-red-500">{errors?.player_name?.message}</p>
-        )}
+        <Field className={checkboxInputClasses}>
+          <Label>Player&#39;s Name </Label>
+          <Input
+            {...register("player_name")}
+            type="text"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.player_name?.message} />
+        </Field>
 
+        {/* TODO: Make the Team Select use ListBox from headless */}
         <label>
           Player&#39;s Team{" "}
           <TeamSelect register={register("players_team")} league={league} />
@@ -100,44 +118,56 @@ const AddPropForm = ({
           <p className="text-red-500">{errors?.home_team?.message}</p>
         )}
 
-        <label>
-          Game Start Time{" "}
-          <input {...register("game_start_time")} type="datetime-local" />
-        </label>
-        {errors?.game_start_time?.message && (
-          <p className="text-red-500">{errors?.game_start_time?.message}</p>
-        )}
+        <Field className={checkboxInputClasses}>
+          <Label>Game Start Time </Label>
+          <Input
+            {...register("game_start_time")}
+            type="datetime-local"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.game_start_time?.message} />
+        </Field>
 
-        <label>
-          Prop Type <input {...register("prop_type")} />
-        </label>
-        {errors?.prop_type?.message && (
-          <p className="text-red-500">{errors?.prop_type?.message}</p>
-        )}
+        <Field className={checkboxInputClasses}>
+          <Label>Prop Type</Label>
+          <Input
+            {...register("prop_type")}
+            type="text"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.prop_type?.message} />
+        </Field>
 
         {/* Odds fields */}
+        <Field className={checkboxInputClasses}>
+          <Label>Prop Value</Label>
+          <Input
+            {...register("prop_value")}
+            type="number"
+            step=".1"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.prop_value?.message} />
+        </Field>
 
-        <label>
-          Prop Value{" "}
-          <input {...register("prop_value")} type="number" step=".1" />
-        </label>
-        {errors?.prop_value?.message && (
-          <p className="text-red-500">{errors?.prop_value?.message}</p>
-        )}
-
-        <label>
-          Over Price <input {...register("over_price")} type="number" />
-        </label>
-        {errors?.over_price?.message && (
-          <p className="text-red-500">{errors?.over_price?.message}</p>
-        )}
-
-        <label>
-          Under Price <input {...register("under_price")} type="number" />
-        </label>
-        {errors?.under_price?.message && (
-          <p className="text-red-500">{errors?.under_price?.message}</p>
-        )}
+        <Field className={checkboxInputClasses}>
+          <Label>Over Price </Label>
+          <Input
+            {...register("over_price")}
+            type="number"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.over_price?.message} />
+        </Field>
+        <Field className={checkboxInputClasses}>
+          <Label>Under Price </Label>
+          <Input
+            {...register("under_price")}
+            type="number"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.under_price?.message} />
+        </Field>
 
         <Button
           text={"Submit"}
