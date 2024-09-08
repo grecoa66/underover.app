@@ -11,7 +11,6 @@ import {
 } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
 

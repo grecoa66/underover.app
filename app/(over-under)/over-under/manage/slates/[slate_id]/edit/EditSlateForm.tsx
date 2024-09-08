@@ -69,12 +69,12 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
       setError("is_complete", { type: "server", message: e.message });
     });
   };
-  const handleDeleteOnClick = (data: DeleteSlateData) => {
+  const handleDeleteOnClick = async (data: DeleteSlateData) => {
     if (data.is_active) {
       alert("This slate is active, can't delete!");
       return;
     }
-    deleteSlate(data);
+    await deleteSlate(data);
   };
 
   return (
@@ -204,9 +204,13 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
           variant="danger"
           className="w-28"
           StartIcon={FaTrash}
-          onClick={() =>
-            handleDeleteOnClick({ id: slate.id, is_active: slate.is_active })
+          onClick={async () =>
+            await handleDeleteOnClick({
+              id: slate.id,
+              is_active: slate.is_active,
+            })
           }
+          disabled={isSubmitting || slate.is_active}
         />
       </form>
     </div>

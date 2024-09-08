@@ -1,4 +1,10 @@
 "use server";
+
+import { props } from "@prisma/client";
+import { DateTime } from "luxon";
+import { revalidateTag } from "next/cache";
+import { RedirectType, redirect } from "next/navigation";
+
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { PickResult } from "@/app/types/picks";
@@ -10,17 +16,13 @@ import {
   EditPropFormSchema,
   PropResult,
 } from "@/app/types/props";
-import { props } from "@prisma/client";
-import { DateTime } from "luxon";
-import { revalidateTag } from "next/cache";
-import { RedirectType, redirect } from "next/navigation";
 
 export const createProp = async (data: AddPropFormFields) => {
   const currentUser = await requireAdmin();
 
   const { slate_id, end_date, ...result } = AddPropFormSchema.parse(data);
 
-  await prisma.props.create({
+  const prop = await prisma.props.create({
     data: {
       ...result,
       // If no end_date supplied, use the start date
@@ -43,7 +45,7 @@ export const createProp = async (data: AddPropFormFields) => {
 
   revalidateTag("props");
 
-  redirect(`/over-under/manage/slates/${slate_id}`, RedirectType.push);
+  return prop;
 };
 
 export const editProp = async (data: EditPropFormFields) => {
@@ -80,7 +82,7 @@ export const editProp = async (data: EditPropFormFields) => {
 
   revalidateTag("props");
 
-  redirect(`/over-under/manage/slates/${slate_id}`, RedirectType.push);
+  return;
 };
 
 export const deleteProp = async (data: DeletePropData) => {

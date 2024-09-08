@@ -2,6 +2,7 @@
 
 import { Field, Input, Label } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FaCheck } from "react-icons/fa";
@@ -26,12 +27,13 @@ const AddPropForm = ({
   slate_id: number;
   league: League;
 }) => {
+  const router = useRouter();
   const [showEndDate, setShowEndDate] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<AddPropFormFields>({
     resolver: zodResolver(AddPropFormSchema),
     defaultValues: {
@@ -40,8 +42,15 @@ const AddPropForm = ({
     },
   });
 
-  const onSubmit: SubmitHandler<AddPropFormFields> = (data) => {
-    createProp(data);
+  const onSubmit: SubmitHandler<AddPropFormFields> = async (data) => {
+    try {
+      await createProp(data);
+      router.push(`/over-under/manage/slates/${slate_id}`);
+      // TODO: Add a toast message for this
+    } catch (e) {
+      // TODO: Add a toast message for this
+      console.log("Error creating prop", e);
+    }
   };
 
   return (
@@ -174,6 +183,7 @@ const AddPropForm = ({
           type="submit"
           className="w-28"
           StartIcon={FaCheck}
+          disabled={isSubmitting}
         />
       </form>
     </div>
