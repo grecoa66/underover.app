@@ -15,7 +15,7 @@ const ExperienceGrid = ({
 }) => {
   return (
     <div className="my-8 h-fit max-w-screen-sm">
-      <div className="grid grid-cols-4">
+      <div className="grid grid-cols-4 rounded-md p-4 hover:bg-mint-500 hover:bg-opacity-20 hover:drop-shadow-sm dark:hover:bg-black-200 dark:hover:bg-opacity-20">
         <div className="col-span-1 pt-1 text-sm text-celtic dark:text-mint-400">
           {date}
         </div>
