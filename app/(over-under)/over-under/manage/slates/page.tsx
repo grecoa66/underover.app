@@ -1,8 +1,9 @@
-import { prisma } from "@/app/api/__prismaClient";
-import { requireAdmin } from "@/app/api/auth/getUser";
-import { ManageSlates } from "../../../components/Slates";
 import ManageHeader from "@/app/(over-under)/components/ManageHeader";
 import ManageWrapper from "@/app/(over-under)/components/ManageWrapper";
+import { prisma } from "@/app/api/__prismaClient";
+import { requireAdmin } from "@/app/api/auth/getUser";
+
+import { ManageSlates } from "../../../components/Slates";
 
 const ManageSlatesPage = async () => {
   // Page requires admin access
@@ -16,7 +17,10 @@ const ManageSlatesPage = async () => {
   });
 
   const activeSlates = slates.filter((slate) => slate.is_active);
-  const inactiveSlates = slates.filter((slate) => slate.is_active === false);
+  const completedSlates = slates.filter((slate) => slate.is_complete);
+  const inactiveSlates = slates.filter(
+    (slate) => slate.is_complete === false && slate.is_active === false,
+  );
 
   return (
     <ManageWrapper className="mb-24">
@@ -26,8 +30,9 @@ const ManageSlatesPage = async () => {
         addLink="/over-under/manage/slates/add"
       />
       <div className="flex flex-col items-center justify-around  space-y-4 ">
-        <ManageSlates slates={activeSlates} areSlatesActive={true} />
-        <ManageSlates slates={inactiveSlates} areSlatesActive={false} />
+        <ManageSlates slates={activeSlates} title={"Active Slates"} />
+        <ManageSlates slates={inactiveSlates} title={"Inactive Slates"} />
+        <ManageSlates slates={completedSlates} title={"Completed Slates"} />
       </div>
     </ManageWrapper>
   );

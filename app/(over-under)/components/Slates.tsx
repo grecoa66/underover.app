@@ -1,6 +1,8 @@
-import ManagePanel from "@/app/(over-under)/components/ManagePanel";
 import { slates } from "@prisma/client";
 import { FaAngleRight, FaEye, FaPen } from "react-icons/fa";
+
+import ManagePanel from "@/app/(over-under)/components/ManagePanel";
+
 import { LinkButton } from "../../components/Button";
 import { TimeUntilStart } from "./TimeUntilStart";
 
@@ -37,15 +39,15 @@ const Slate = ({ slate }: { slate: slates }) => {
 
 const ManageSlates = ({
   slates,
-  areSlatesActive,
+  title,
 }: {
   slates: slates[];
-  areSlatesActive: boolean;
+  title: string;
 }) => {
   return (
     <ManagePanel className="w-11/12 lg:w-2/3">
       <p className="border-b-2 border-everglade pb-2 dark:border-mint">
-        {areSlatesActive ? "Active" : "Inactive"} Slates
+        {title}
       </p>
       {slates.length > 0 ? (
         slates.map((slate) => (
