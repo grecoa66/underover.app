@@ -1,30 +1,46 @@
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
+import {
+  Field,
+  Input,
+  Label,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { slates } from "@prisma/client";
+import { DateTime } from "luxon";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { FaCheck, FaTrash } from "react-icons/fa";
+
+import { ErrorText } from "@/app/(over-under)/components/forms/ErrorText";
+import { Button } from "@/app/components/Button";
 import {
   DeleteSlateData,
   EditSlateFormFields,
   EditSlateFormSchema,
   League,
 } from "@/app/types/slates";
-import { slates } from "@prisma/client";
-import { DateTime } from "luxon";
+
 import { deleteSlate, editSlate } from "../../actions";
-import { FaCheck, FaTrash } from "react-icons/fa";
-import { Button } from "@/app/components/Button";
 
 // TODO: Abstract form components
-// TODO: Abstract how dates are displayed into a compn\onent
+// TODO: Abstract how dates are displayed into a compnonent
+
+const inputClasses = "bg-gray-200 p-2 dark:bg-gray-500";
+const checkboxClasses = "h-5 w-5";
 
 const EditSlateForm = ({ slate }: { slate: slates }) => {
   const {
     register,
+    control,
     watch,
     setValue,
     setError,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<EditSlateFormFields>({
     resolver: zodResolver(EditSlateFormSchema),
     defaultValues: {
@@ -39,6 +55,7 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
     },
   });
 
+  const league = watch("league");
   // active & complete both can't be true, watch their values so we can toggle the other off.
   const watchIsActive = watch("is_active", slate.is_active);
   const watchIsComplete = watch("is_complete", slate.is_complete);
@@ -59,99 +76,126 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
   };
 
   return (
-    <>
-      <div className="mx-6 flex flex-col space-y-2">
-        <form
-          className="flex flex-col space-y-2"
-          onSubmit={handleSubmit(handleEditSubmit)}
-        >
-          <input type="hidden" {...register("id")} />
-          <label>
-            Slate Title <input {...register("title")} type="text" />
-          </label>
-          <label>
-            League{" "}
-            <select {...register("league")}>
-              <option value={League.NFL}>NFL</option>
-              <option value={League.NHL}>NHL</option>
-              <option value={League.NBA}>NBA</option>
-              <option value={League.MLB}>MLB</option>
-            </select>
-          </label>
-          {errors?.league?.message && (
-            <p className="text-red-500">{errors?.league?.message}</p>
+    <div className="flex w-fit flex-col">
+      <form
+        className="mx-6 flex flex-col space-y-4"
+        onSubmit={handleSubmit(handleEditSubmit)}
+      >
+        <input type="hidden" {...register("id")} />
+        <Field className="flex flex-col gap-2 ">
+          <Label>Slate Title </Label>
+          <Input {...register("title")} type="text" className={inputClasses} />
+          <ErrorText message={errors?.title?.message} />
+        </Field>
+        <Controller
+          control={control}
+          {...register("league")}
+          render={({ field: { onChange, ref } }) => (
+            <Listbox
+              aria-label="League"
+              as="div"
+              className="flex flex-col gap-2"
+              {...register("league")}
+              onChange={(e) => onChange(e)}
+            >
+              <Label>League</Label>
+              <ListboxButton ref={ref} className={inputClasses}>
+                {league}
+              </ListboxButton>
+              <ListboxOptions anchor="bottom">
+                {[League.NFL, League.NHL, League.NBA, League.MLB, "MLS"].map(
+                  (value) => (
+                    <ListboxOption
+                      key={value}
+                      value={value}
+                      className="bg-gray-300 px-8 py-2 hover:bg-gray-400 dark:bg-gray-400 dark:hover:bg-gray-500"
+                    >
+                      {value}
+                    </ListboxOption>
+                  ),
+                )}
+              </ListboxOptions>
+              <ErrorText message={errors?.league?.message} />
+            </Listbox>
           )}
-
-          <label>
-            Start Date <input {...register("start_date")} type="date" />
-          </label>
-          {errors?.start_date?.message && (
-            <p className="text-red-500">{errors?.start_date?.message}</p>
-          )}
-
-          <label>
-            End Date <input {...register("end_date")} type="date" />
-          </label>
-          {errors?.end_date?.message && (
-            <p className="text-red-500">{errors?.end_date?.message}</p>
-          )}
-
-          <label>
-            Is Slate Active?
-            <input
-              {...register("is_active")}
-              type="checkbox"
-              onClick={() => {
-                if (!watchIsActive) {
-                  setValue("is_complete", false);
-                }
-              }}
-            />
-          </label>
-          {errors?.is_active?.message && (
-            <p className="text-red-500">{errors?.is_active?.message}</p>
-          )}
-
-          <label>
-            Post Slate Publicly?
-            <input {...register("is_public")} type="checkbox" />
-          </label>
-          {errors?.is_public?.message && (
-            <p className="text-red-500">{errors?.is_public?.message}</p>
-          )}
-
-          <label>
-            Is Slate Locked?
-            <input {...register("is_locked")} type="checkbox" />
-          </label>
-          {errors?.is_locked?.message && (
-            <p className="text-red-500">{errors?.is_locked?.message}</p>
-          )}
-
-          <label>
-            Is Slate Complete?
-            <input
-              {...register("is_complete")}
-              type="checkbox"
-              onClick={() => {
-                if (!watchIsComplete) {
-                  setValue("is_active", false);
-                }
-              }}
-            />
-          </label>
-          {errors?.is_complete?.message && (
-            <p className="text-red-500">{errors?.is_complete?.message}</p>
-          )}
-
-          <Button
-            text={"Submit"}
-            type="submit"
-            className="w-28"
-            StartIcon={FaCheck}
+        />
+        <Field className="flex flex-col gap-2 ">
+          <Label>Start Date </Label>
+          <Input
+            {...register("start_date")}
+            type="date"
+            className={inputClasses}
           />
-        </form>
+          <ErrorText message={errors?.start_date?.message} />
+        </Field>
 
+        <Field className="flex flex-col gap-2 ">
+          <Label>End Date </Label>
+          <Input
+            {...register("end_date")}
+            type="date"
+            className={inputClasses}
+          />
+          <ErrorText message={errors?.end_date?.message} />
+        </Field>
+
+        <Field className="flex flex-col gap-2 items-start">
+          <Label>Slate Active</Label>
+          <Input
+            {...register("is_active")}
+            type="checkbox"
+            onClick={() => {
+              if (!watchIsActive) {
+                setValue("is_complete", false);
+              }
+            }}
+            className={checkboxClasses}
+          />
+          <ErrorText message={errors?.is_active?.message} />
+        </Field>
+
+        <Field className="flex flex-col gap-2 items-start">
+          <Label>Post Slate Publicly</Label>
+          <Input
+            {...register("is_public")}
+            type="checkbox"
+            className={checkboxClasses}
+          />
+          <ErrorText message={errors?.is_public?.message} />
+        </Field>
+
+        <Field className="flex flex-col gap-2 items-start">
+          <Label>Slate Locked</Label>
+          <Input
+            {...register("is_locked")}
+            type="checkbox"
+            className={checkboxClasses}
+          />
+          <ErrorText message={errors?.is_locked?.message} />
+        </Field>
+
+        <Field className="flex flex-col gap-2 items-start">
+          <Label>Slate Complete</Label>
+          <Input
+            {...register("is_complete")}
+            type="checkbox"
+            onClick={() => {
+              if (!watchIsComplete) {
+                setValue("is_active", false);
+              }
+            }}
+            className={checkboxClasses}
+          />
+          <ErrorText message={errors?.is_complete?.message} />
+        </Field>
+
+        <Button
+          text={"Submit"}
+          type="submit"
+          className="w-28"
+          StartIcon={FaCheck}
+          disabled={isSubmitting}
+        />
         <Button
           text="Delete"
           type="button"
@@ -162,8 +206,8 @@ const EditSlateForm = ({ slate }: { slate: slates }) => {
             handleDeleteOnClick({ id: slate.id, is_active: slate.is_active })
           }
         />
-      </div>
-    </>
+      </form>
+    </div>
   );
 };
 
