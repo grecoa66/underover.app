@@ -1,31 +1,36 @@
 "use client";
 
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
-  Input,
   Field,
+  Input,
   Label,
   Listbox,
   ListboxButton,
-  ListboxOptions,
   ListboxOption,
+  ListboxOptions,
 } from "@headlessui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { RedirectType, redirect } from "next/navigation";
+import { useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { FaCheck } from "react-icons/fa";
 
+import { Button } from "@/app/components/Button";
 import {
   AddSlateFormFields,
   AddSlateFormSchema,
   League,
 } from "@/app/types/slates";
+
 import { createSlate } from "../actions";
-import { Button } from "@/app/components/Button";
-import { FaCheck } from "react-icons/fa";
 
 // TODO: Abstract form components
 
 const inputClasses = "bg-gray-200 p-2 dark:bg-gray-500";
 
 const AddSlateForm = () => {
+  // manage submit button loading state
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     register,
     control,
@@ -41,8 +46,22 @@ const AddSlateForm = () => {
 
   const league = watch("league");
 
-  const onSubmit: SubmitHandler<AddSlateFormFields> = (data) => {
-    createSlate(data);
+  const onSubmit: SubmitHandler<AddSlateFormFields> = async (data) => {
+    setIsSubmitting(true);
+    try {
+      await createSlate(data);
+      redirect("/over-under/manage/slates", RedirectType.push);
+      // TODO: Add a toast message for this
+    } catch (e) {
+      // TODO: Add a toast message for this
+      console.log("Error creating slate", e);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const ErrorText = ({ message }: { message?: string }) => {
+    return message ? <p className="text-sm text-red-500">{message}</p> : null;
   };
 
   return (
@@ -52,7 +71,6 @@ const AddSlateForm = () => {
           className="mx-6 flex flex-col space-y-2"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {/* TODO: replace all the other inputs with headless UI */}
           <Field className="flex flex-col gap-2 ">
             <Label>Slate Title </Label>
             <Input
@@ -60,14 +78,12 @@ const AddSlateForm = () => {
               type="text"
               className={inputClasses}
             />
-            {errors?.title?.message && (
-              <Label className="text-red-500 ">{errors.title.message}</Label>
-            )}
+            <ErrorText message={errors?.title?.message} />
           </Field>
           <Controller
             control={control}
             {...register("league")}
-            render={({ field: { onChange } }) => (
+            render={({ field: { onChange, ref } }) => (
               <Listbox
                 aria-label="League"
                 as="div"
@@ -76,11 +92,14 @@ const AddSlateForm = () => {
                 onChange={(e) => onChange(e)}
               >
                 <Label>League</Label>
-                <ListboxButton className={inputClasses}>{league}</ListboxButton>
+                <ListboxButton ref={ref} className={inputClasses}>
+                  {league}
+                </ListboxButton>
                 <ListboxOptions anchor="bottom">
                   {[League.NFL, League.NHL, League.NBA, League.MLB, "MLS"].map(
                     (value) => (
                       <ListboxOption
+                        key={value}
                         value={value}
                         className="bg-gray-300 px-8 py-2 hover:bg-gray-400 dark:bg-gray-400 dark:hover:bg-gray-500"
                       >
@@ -89,42 +108,43 @@ const AddSlateForm = () => {
                     ),
                   )}
                 </ListboxOptions>
-                {errors?.league?.message && (
-                  <p className="text-red-500">{errors?.league?.message}</p>
-                )}
+                <ErrorText message={errors?.league?.message} />
               </Listbox>
             )}
           />
 
-          <label>
-            Start Date <input {...register("start_date")} type="date" />
-          </label>
-          {errors?.start_date?.message && (
-            <p className="text-red-500">{errors?.start_date?.message}</p>
-          )}
-          <label>
-            End Date <input {...register("end_date")} type="date" />
-          </label>
-          {errors?.end_date?.message && (
-            <p className="text-red-500">{errors?.end_date?.message}</p>
-          )}
-          <label>
-            Is Slate Active?
-            <input {...register("is_active")} type="checkbox" />
-          </label>
-          {errors?.is_active?.message && (
-            <p className="text-red-500">{errors?.is_active?.message}</p>
-          )}
-          <label>
-            Post Slate Publicly?
-            <input {...register("is_public")} type="checkbox" />
-          </label>
-          {errors?.is_public?.message && (
-            <p className="text-red-500">{errors?.is_public?.message}</p>
-          )}
+          <Field className="flex flex-col gap-2 ">
+            <Label>Start Date </Label>
+            <Input
+              {...register("start_date")}
+              type="date"
+              className={inputClasses}
+            />
+            <ErrorText message={errors?.start_date?.message} />
+          </Field>
+          <Field className="flex flex-col gap-2 ">
+            <Label>End Date </Label>
+            <Input
+              {...register("end_date")}
+              type="date"
+              className={inputClasses}
+            />
+            <ErrorText message={errors?.end_date?.message} />
+          </Field>
+          <Field className="flex flex-col gap-2 ">
+            <Label>Is Slate Active</Label>
+            <Input {...register("is_active")} type="checkbox" />
+            <ErrorText message={errors?.is_active?.message} />
+          </Field>
+          <Field className="flex flex-col gap-2 ">
+            <Label>Post Slate Publicly</Label>
+            <Input {...register("is_public")} type="checkbox" />
+            <ErrorText message={errors?.is_public?.message} />
+          </Field>
           <Button
             text={"Submit"}
             type="submit"
+            disabled={isSubmitting}
             className="w-28"
             StartIcon={FaCheck}
           />

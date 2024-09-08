@@ -1,6 +1,7 @@
 "use server";
-import { RedirectType, redirect } from "next/navigation";
-import { revalidateTag } from "next/cache";
+
+import { prisma } from "@/app/api/__prismaClient";
+import { requireAdmin } from "@/app/api/auth/getUser";
 import {
   AddSlateFormFields,
   AddSlateFormSchema,
@@ -8,17 +9,20 @@ import {
   EditSlateFormFields,
   EditSlateFormSchema,
 } from "@/app/types/slates";
-import { prisma } from "@/app/api/__prismaClient";
-import { requireAdmin } from "@/app/api/auth/getUser";
+import { slates } from "@prisma/client";
+import { revalidateTag } from "next/cache";
+import { RedirectType, redirect } from "next/navigation";
 
 // Create a new slate from the client side.
-export const createSlate = async (data: AddSlateFormFields) => {
+export const createSlate = async (
+  data: AddSlateFormFields,
+): Promise<slates> => {
   const currentUser = await requireAdmin();
 
   const result = AddSlateFormSchema.parse(data);
 
   // Create a Slate from the API side
-  await prisma.slates.create({
+  const slate = await prisma.slates.create({
     data: {
       ...result,
       start_date: new Date(result.start_date).toISOString(),
@@ -35,7 +39,7 @@ export const createSlate = async (data: AddSlateFormFields) => {
 
   revalidateTag("slates");
 
-  redirect("/over-under/manage/slates", RedirectType.push);
+  return slate;
 };
 
 export const editSlate = async (data: EditSlateFormFields) => {
