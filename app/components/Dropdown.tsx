@@ -1,7 +1,8 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import useOnClickOutside from "../hooks/useClickOutside";
+import { MenuTransition } from "./MenuTransition";
 
 const Dropdown = ({
   options,
@@ -23,15 +24,22 @@ const Dropdown = ({
   const ref = useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));
 
+  useEffect(() => {
+    console.log("isOpen", isOpen);
+  }, [isOpen]);
+
   return (
-    <div className="border-1 relative border-mint">
+    <div className="border-1 relative border-mint" ref={ref}>
       <div className={containerClassName}>
-        <button type="button" onClick={() => setIsOpen(!isOpen)}>
+        <button
+          id="open-light-mode-button"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           {options.find((option) => option.value === selected)?.label}
         </button>
-        {isOpen && (
+        <MenuTransition isOpen={isOpen}>
           <div
-            ref={ref}
             className={twMerge(
               "absolute top-6 rounded-lg bg-white dark:bg-black",
               menuClassName,
@@ -51,7 +59,8 @@ const Dropdown = ({
               </div>
             ))}
           </div>
-        )}
+        </MenuTransition>
+        {/* )} */}
       </div>
     </div>
   );

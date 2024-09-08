@@ -2,11 +2,10 @@
 
 import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useClickOutside";
-import { twMerge } from "tailwind-merge";
 import { FaBars, FaCoins, FaPaintBrush } from "react-icons/fa";
 import Link from "next/link";
-import { Transition } from "@headlessui/react";
 import { DarkModeButton } from "./DarkMode";
+import { MenuTransition } from "./MenuTransition";
 
 export const HeaderMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,15 +35,7 @@ export const HeaderMenu = () => {
           </button>
         </div>
       </div>
-      <Transition
-        show={isOpen}
-        enter="transition-opacity duration-150"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition-opacity duration-150"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
+      <MenuTransition isOpen={isOpen}>
         <div
           className={
             "flex w-full flex-row gap-4 border-2 border-everglade bg-white transition-all duration-300 dark:bg-black"
@@ -59,7 +50,7 @@ export const HeaderMenu = () => {
             <p>CSS Playground</p>
           </Link>
         </div>
-      </Transition>
+      </MenuTransition>
     </div>
   );
 };
