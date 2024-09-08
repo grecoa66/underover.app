@@ -10,7 +10,7 @@ export enum League {
 export const AddSlateFormSchema = z
   .object({
     league: z.nativeEnum(League),
-    title: z.string(),
+    title: z.string().min(3),
     start_date: z.coerce.date(),
     end_date: z.coerce.date(),
     is_active: z.boolean(),

@@ -2,6 +2,7 @@
 
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Input, Field, Label } from "@headlessui/react";
 import {
   AddSlateFormFields,
   AddSlateFormSchema,
@@ -31,14 +32,23 @@ const AddSlateForm = () => {
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex w-fit flex-col">
         <form
           className="mx-6 flex flex-col space-y-2"
           onSubmit={handleSubmit(onSubmit)}
         >
-          <label>
-            Slate Title <input {...register("title")} type="text" />
-          </label>
+          {/* TODO: replace all the other inputs with headless UI */}
+          <Field className="flex flex-col gap-2 ">
+            <Label>Slate Title </Label>
+            <Input
+              {...register("title")}
+              type="text"
+              className="bg-gray-200 dark:bg-gray-500"
+            />
+            {errors?.title?.message && (
+              <Label className="text-red-500 ">{errors.title.message}</Label>
+            )}
+          </Field>
           <label>
             League{" "}
             <select {...register("league")}>
