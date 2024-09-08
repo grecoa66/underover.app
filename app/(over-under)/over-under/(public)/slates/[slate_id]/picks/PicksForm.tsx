@@ -1,20 +1,22 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { props, slates } from "@prisma/client";
+import { redirect, useRouter } from "next/navigation";
+import { RefObject, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { twMerge } from "tailwind-merge";
+
+import { DayAndMonthInTimezone } from "@/app/(over-under)/components/DateInTimezone";
+import { Button } from "@/app/components/Button";
+import useDynamicRefs from "@/app/hooks/useDynamicRefs";
 import {
   PickSelection,
   PicksFormFields,
   PicksFormSchema,
 } from "@/app/types/picks";
-import { props, slates } from "@prisma/client";
-import { DayAndMonthInTimezone } from "@/app/(over-under)/components/DateInTimezone";
-import { Button } from "@/app/components/Button";
+
 import { createPicks } from "./actions";
-import { twMerge } from "tailwind-merge";
-import { zodResolver } from "@hookform/resolvers/zod";
-import useDynamicRefs from "@/app/hooks/useDynamicRefs";
-import { RefObject, useState, useTransition } from "react";
-import { redirect } from "next/navigation";
 
 const betButtonStyles = "w-1/2 text-center";
 
@@ -82,6 +84,7 @@ export const PicksForm = ({
   slate_id: slates["id"];
   props: props[];
 }) => {
+  const router = useRouter();
   // TODO: add a pending/loading state
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [_isPending, startTransition] = useTransition();
@@ -136,7 +139,7 @@ export const PicksForm = ({
       });
     } finally {
       setIsLoading(false);
-      redirect(`/over-under/slates/${slate_id}/results`);
+      router.push(`/over-under/slates/${slate_id}/results`);
     }
   };
 

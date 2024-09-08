@@ -86,11 +86,7 @@ const EditPropForm = ({
     }
   };
 
-  const handleDeleteOnClick = async ({
-    is_active,
-    id,
-    slate_id,
-  }: DeletePropData & { is_active: boolean }) => {
+  const handleDeleteOnClick = async ({ id, slate_id }: DeletePropData) => {
     await deleteProp({ id, slate_id });
   };
 
@@ -256,7 +252,6 @@ const EditPropForm = ({
             handleDeleteOnClick({
               id: defaultProps.id,
               slate_id: slate_id,
-              is_active: defaultProps.is_active,
             });
           }}
           disabled={isSubmitting || defaultProps.is_active}

@@ -86,7 +86,7 @@ const AddSlateForm = () => {
                 {league}
               </ListboxButton>
               <ListboxOptions anchor="bottom">
-                {[League.NFL, League.NHL, League.NBA, League.MLB, "MLS"].map(
+                {[League.NFL, League.NHL, League.NBA, League.MLB].map(
                   (value) => (
                     <ListboxOption
                       key={value}
