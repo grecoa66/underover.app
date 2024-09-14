@@ -12,16 +12,16 @@ export const SlateLeaderboard = async ({ slate_id }: { slate_id: number }) => {
     slate_id: slate_id,
   });
   return (
-    <div>
+    <>
       <h3 className="text-xl">Leaderboard</h3>
-      <div className="max-w-80 ">
+      <div className="flex flex-col items-center">
         {leaderboardResults.map((r) => (
           <div
             key={r.user_id}
-            className="my-4 flex flex-col rounded-lg border-2 border-everglade p-4 dark:border-mint"
+            className="my-4 min-w-64 w-11/12 flex flex-col rounded-lg border-2 border-everglade p-4 dark:border-mint"
           >
             <div className="flex flex-row">
-              <p className="mx-2 flex w-1/4 flex-row items-center text-xl text-everglade dark:text-mint">
+              <p className="mx-2 flex w-24 flex-row items-center text-xl text-everglade dark:text-mint">
                 {r.position === 0 ? null : r.position}
                 {r.position === 1 && (
                   <span className="ml-2">
@@ -29,7 +29,7 @@ export const SlateLeaderboard = async ({ slate_id }: { slate_id: number }) => {
                   </span>
                 )}
               </p>
-              <div className="flex w-3/4 flex-col items-center ">
+              <div className="flex w-3/4 flex-col items-start ">
                 <p className="line-clamp-1 overflow-hidden text-ellipsis">
                   {r.picks[0].users.name}
                 </p>
@@ -53,6 +53,6 @@ export const SlateLeaderboard = async ({ slate_id }: { slate_id: number }) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
