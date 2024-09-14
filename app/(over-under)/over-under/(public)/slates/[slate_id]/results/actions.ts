@@ -1,4 +1,4 @@
-import { props, slates, users } from "@prisma/client";
+import { props, slates } from "@prisma/client";
 import { Dictionary, groupBy, orderBy } from "lodash";
 
 import { prisma } from "@/app/api/__prismaClient";
