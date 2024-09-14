@@ -118,7 +118,17 @@ export const deleteProp = async (data: DeletePropData) => {
     },
   });
 
+  await prisma.picks.updateMany({
+    where: {
+      prop_id: data.id,
+    },
+    data: {
+      deleted_at: new Date(),
+    },
+  });
+
   revalidateTag("props");
+  revalidateTag("picks");
 
   redirect(`/over-under/manage/slates/${data.slate_id}`, RedirectType.push);
 };

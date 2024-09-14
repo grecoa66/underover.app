@@ -1,9 +1,11 @@
 "use server";
 
+import { slates } from "@prisma/client";
+import { revalidateTag } from "next/cache";
+
 import { prisma } from "@/app/api/__prismaClient";
 import { requireUser } from "@/app/api/auth/getUser";
 import { PicksFormFields, PicksFormSchema } from "@/app/types/picks";
-import { slates } from "@prisma/client";
 
 export const getUserPicksForSlate = async (slate_id: slates["id"]) => {
   const user = await requireUser();
@@ -51,7 +53,8 @@ export const createPicks = async (data: PicksFormFields) => {
   });
 
   if (previousPicks.length > 0) {
-    throw Error("User has already made picks for this slate");
+    await updatePicks(result);
+    return;
   }
 
   const picks = await prisma.picks.createMany({
@@ -66,7 +69,49 @@ export const createPicks = async (data: PicksFormFields) => {
     })),
   });
 
+  revalidateTag("picks");
+
   return picks;
+};
+
+export const updatePicks = async (data: PicksFormFields) => {
+  const user = await requireUser();
+
+  const result = await validateUserPicks(data);
+
+  const picks = await prisma.picks.findMany({
+    where: {
+      slate_id: result.slate_id,
+      created_by: user?.id,
+      deleted_at: null,
+    },
+  });
+
+  await Promise.all(
+    picks.map(async (pick) => {
+      return await prisma.picks.update({
+        where: {
+          id: pick.id,
+        },
+        data: {
+          selection: result.picks.find((p) => p.prop_id === pick.prop_id)
+            ?.selection,
+          modified_at: new Date(),
+        },
+      });
+    }),
+  );
+
+  const updatedPicks = await prisma.picks.findMany({
+    where: {
+      slate_id: result.slate_id,
+      created_by: user?.id,
+      deleted_at: null,
+    },
+  });
+
+  revalidateTag("picks");
+  return updatedPicks;
 };
 
 const validateUserPicks = async (data: PicksFormFields) => {
