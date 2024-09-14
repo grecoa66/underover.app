@@ -30,7 +30,7 @@ export type PicksWithUserAndProp = ({
 } & picks)[];
 
 export type LeaderboardResult = {
-  user_id: string;
+  user_id: number;
   picks: PicksWithUserAndProp;
   record: { wins: number; losses: number; active: number };
   position: number;

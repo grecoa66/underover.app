@@ -1,11 +1,12 @@
+import { props, slates, users } from "@prisma/client";
+import { Dictionary, groupBy, orderBy } from "lodash";
+
 import { prisma } from "@/app/api/__prismaClient";
 import {
   LeaderboardResult,
   PickResult,
   PicksWithUserAndProp,
 } from "@/app/types/picks";
-import { props, slates } from "@prisma/client";
-import { Dictionary, groupBy, orderBy } from "lodash";
 
 export const getResultsForSlate = async ({
   slate_id,
@@ -99,7 +100,7 @@ export const getResultForLeaderboard = async ({
     );
 
     return {
-      user_id: entry[0],
+      user_id: Number(entry[0]),
       picks: entry[1],
       record: picksRecord,
       position: 0,
