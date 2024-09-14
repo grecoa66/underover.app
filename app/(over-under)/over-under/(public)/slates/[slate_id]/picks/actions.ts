@@ -42,6 +42,27 @@ export const getUserPicksForSlate = async (slate_id: slates["id"]) => {
 export const createPicks = async (data: PicksFormFields) => {
   const user = await requireUser();
 
+  // Check if the slate is locked, active, or complete
+  const slate = await prisma.slates.findUnique({
+    where: {
+      id: data.slate_id,
+    },
+    select: {
+      is_locked: true,
+      is_active: true,
+      is_complete: true,
+    },
+  });
+
+  if (slate?.is_locked || slate?.is_active || slate?.is_complete) {
+    const errorKey = slate?.is_locked
+      ? "locked"
+      : slate?.is_active
+        ? "active"
+        : "complete";
+    throw Error(`Slate is ${errorKey}. No longer accepting picks.`);
+  }
+
   const result = await validateUserPicks(data);
 
   // Check if this user has already made picks for this slate

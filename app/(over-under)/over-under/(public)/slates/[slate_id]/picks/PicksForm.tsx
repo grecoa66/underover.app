@@ -2,13 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { props, slates } from "@prisma/client";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { RefObject, useState, useTransition } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { FaArrowLeft } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
 
 import { DayAndMonthInTimezone } from "@/app/(over-under)/components/DateInTimezone";
-import { Button } from "@/app/components/Button";
+import { Button, LinkButton } from "@/app/components/Button";
 import useDynamicRefs from "@/app/hooks/useDynamicRefs";
 import {
   PickSelection,
@@ -132,21 +133,30 @@ export const PicksForm = ({
     try {
       setIsLoading(true);
       await createPicks(data);
-    } catch (e) {
-      startTransition(() => {
-        // @ts-ignore
-        setError(e?.message);
-      });
-    } finally {
       setIsLoading(false);
       router.push(`/over-under/slates/${slate_id}/results`);
+    } catch (e) {
+      startTransition(() => {
+        if (e instanceof Error) {
+          return setError(e?.message);
+        }
+        setError("An error occurred");
+      });
     }
   };
 
   return (
     <>
       {error ? (
-        <p>{error}</p>
+        <>
+          <p>{error}</p>
+          <LinkButton
+            href={`/over-under/slates/${slate_id}/results`}
+            text={"See Results"}
+            StartIcon={FaArrowLeft}
+            className="w-48"
+          />
+        </>
       ) : (
         <div>
           <form onSubmit={handleSubmit(onSubmit)} className="h-screen">
