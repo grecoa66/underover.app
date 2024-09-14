@@ -1,9 +1,11 @@
+import { FaCogs } from "react-icons/fa";
+
 import { getCurrentUser } from "@/app/api/auth/getUser";
 import { LinkButton } from "@/app/components/Button";
-import { FaCogs } from "react-icons/fa";
-import { getActiveSlates, getUpcomingSlates } from "./actions";
-import { PublicSlates } from "../components/Slates";
+
 import { PastSlatesButton } from "../components/PastSlatesButton";
+import { PublicSlates } from "../components/Slates";
+import { getActiveSlates, getUpcomingSlates } from "./actions";
 
 const UnderOver = async () => {
   const currentUser = await getCurrentUser();
@@ -32,7 +34,6 @@ const UnderOver = async () => {
         <PublicSlates slates={upcomingSlates} open={true} />
       </div>
       <div>
-        <h3 className="mb-2 text-xl">Past Slates</h3>
         <PastSlatesButton />
       </div>
     </div>
