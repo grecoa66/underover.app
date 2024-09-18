@@ -2,7 +2,7 @@
 
 import { twMerge } from "tailwind-merge";
 import { useState } from "react";
-import { colorVariants } from "./backgrounds";
+import { colorBgClasses, colorVariants } from "./backgrounds";
 
 const GridBackground = () => {
   const [selectedColor, setSelectedColor] = useState<string>(
@@ -18,12 +18,11 @@ const GridBackground = () => {
         )}
       />
       <div className="z-0 flex h-full w-full flex-col items-center justify-center">
-        <p>Grid Color</p>
         <div className="mb-8 flex flex-row gap-2">
           {Object.keys(colorVariants).map((color) => (
             <button
               key={color}
-              className="rounded-xl border border-black bg-white p-4 hover:bg-mint hover:text-black dark:border-white dark:bg-black dark:hover:bg-mint"
+              className={`rounded-xl border border-black bg-white p-4 hover:text-black dark:border-white dark:bg-black  ${colorBgClasses[color as keyof typeof colorBgClasses]}`}
               type="button"
               onClick={() => {
                 setSelectedColor(
@@ -35,7 +34,7 @@ const GridBackground = () => {
             </button>
           ))}
         </div>
-        <div className="h-fit w-4/5 rounded-xl border border-celtic-50 bg-black-500 p-4 text-white">
+        <div className="h-fit w-4/5 rounded-xl border border-celtic-50 bg-white p-4 dark:bg-black-500 dark:text-white">
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim

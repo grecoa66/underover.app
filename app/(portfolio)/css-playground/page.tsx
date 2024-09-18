@@ -1,6 +1,4 @@
-"use client";
-import { twMerge } from "tailwind-merge";
-import { colorVariants } from "./grid-background/backgrounds";
+import Link from "next/link";
 
 const CSSPlayground = () => {
   return (
@@ -13,20 +11,13 @@ const CSSPlayground = () => {
       <h1 className="text-2xl text-celtic-200 dark:text-mint-400">
         CSS Playground
       </h1>
-      <div className={"relative mt-4 rounded border border-white p-8"}>
-        <div
-          className={twMerge(
-            "absolute inset-0 z-0 h-full w-full bg-[size:40px_40px] opacity-55",
-            colorVariants.celtic,
-          )}
-        />
 
-        <div>
-          <h2 className="z-10 text-xl">Grid Background</h2>
-          <div className="flex flex-row space-x-4">
-            <button className="btn-primary">Open</button>
-          </div>
-        </div>
+      <div className="my-10">
+        <Link href={"/css-playground/grid-background"}>
+          <button className="z-20 inline-block w-auto p-2 text-celtic-400 hover:translate-x-1 hover:rotate-3 hover:text-celtic-200 dark:text-mint-400 hover:dark:text-mint-700">
+            Grid Background
+          </button>
+        </Link>
       </div>
     </main>
   );
