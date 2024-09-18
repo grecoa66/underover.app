@@ -2,7 +2,6 @@
 
 import { useRef, useState } from "react";
 import useOnClickOutside from "../hooks/useClickOutside";
-import { twMerge } from "tailwind-merge";
 import { FaBars, FaCoins, FaPaintBrush } from "react-icons/fa";
 import Link from "next/link";
 import { Transition } from "@headlessui/react";
@@ -17,7 +16,7 @@ export const HeaderMenu = () => {
     "flex flex-row items-center gap-2 p-4 text-celtic-200 dark:text-mint-400 hover:text-everglade dark:hover:text-everglade hover:bg-mint dark:hover:bg-mint";
 
   return (
-    <div className="sticky top-0 h-16" id="header-menu">
+    <div className="sticky top-0 z-50 h-16" id="header-menu">
       <div className="flex h-full flex-row items-center justify-between bg-white p-4 dark:bg-black">
         <Link href="/">
           <div className="relative">

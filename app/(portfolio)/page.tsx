@@ -14,8 +14,8 @@ const ExperienceGrid = ({
   tech: ReactNode;
 }) => {
   return (
-    <div className="my-8 h-fit max-w-screen-sm">
-      <div className="grid grid-cols-4 rounded-md p-4 hover:bg-mint-500 hover:bg-opacity-20 hover:drop-shadow-sm dark:hover:bg-black-200 dark:hover:bg-opacity-20">
+    <div className="z-0 my-8 h-fit max-w-screen-sm">
+      <div className="hidden grid-cols-4 rounded-md p-4 hover:bg-mint-500 hover:bg-opacity-20 hover:drop-shadow-sm dark:hover:bg-black-200 dark:hover:bg-opacity-20 md:grid">
         <div className="col-span-1 pt-1 text-sm text-celtic dark:text-mint-400">
           {date}
         </div>
@@ -23,6 +23,20 @@ const ExperienceGrid = ({
           <h3 className="mb-2 text-lg text-celtic dark:text-mint-400">
             {title}
           </h3>
+          <p className="text-sm text-celtic dark:text-mint-400">
+            {description ? description : null}
+          </p>
+          <div className="mt-4 flex flex-row flex-wrap gap-2">{tech}</div>
+        </div>
+      </div>
+      <div className="md:hidden">
+        <div className="col-span-3">
+          <h3 className="mb-2 text-lg text-celtic dark:text-mint-400">
+            {title}
+          </h3>
+          <div className="col-span-1 py-2 text-sm text-celtic dark:text-mint-400">
+            {date}
+          </div>
           <p className="text-sm text-celtic dark:text-mint-400">
             {description ? description : null}
           </p>
@@ -40,7 +54,7 @@ export default function Home() {
     </span>
   );
   return (
-    <main className="flex min-h-[calc(100vh-theme(space.16))] flex-col content-center bg-white p-12 dark:bg-black lg:p-24">
+    <main className="flex min-h-[calc(100vh-theme(space.16))] flex-col content-center bg-white p-8 dark:bg-black lg:px-16 lg:py-12">
       <div className="space-y-8 lg:w-full">
         <p className="text-lg text-celtic-200 dark:text-mint-400">
           Hi, my name is
@@ -56,7 +70,10 @@ export default function Home() {
           <PopText text="Remix" />
         </p>
       </div>
-      <div className="mt-16">
+      <div className="mt-24">
+        <h3 className="text-xl text-celtic-200 dark:text-mint-400">
+          Experience
+        </h3>
         <ExperienceGrid
           date="Jan 2024 - Present"
           title={"Senior Frontend Engineer - Dust Identity"}
