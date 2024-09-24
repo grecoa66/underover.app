@@ -5,25 +5,25 @@ import { twMerge } from "tailwind-merge";
 
 type buttonVariants = "base" | "danger" | "inverse";
 
-const getbuttonStyles = (variant: buttonVariants) => {
+const getButtonStyles = (variant: buttonVariants) => {
   const baseStyles =
-    "flex flex-row items-center justify-center space-x-2 p-2 rounded-lg border-2 disabled:opacity-50 disabled:cursor-not-allowed";
+    "w-fit flex flex-row items-center justify-center space-x-2 p-2 rounded-lg border-2 disabled:opacity-50 disabled:cursor-not-allowed";
   switch (variant) {
     case "base": {
       return twMerge(
-        "border-everglade text-everglade dark:text-mint enabled:hover:bg-everglade enabled:hover:text-white dark:border-mint dark:enabled:hover:bg-mint dark:enabled:hover:text-black",
+        "border-everglade text-everglade dark:text-mint hover:bg-everglade hover:text-white dark:border-mint dark:hover:bg-mint dark:hover:text-black",
         baseStyles,
       );
     }
     case "danger": {
       return twMerge(
-        "border-red-400 text-red-400 enabled:hover:bg-red-400 enabled:hover:text-white",
+        "border-red-400 text-red-400 hover:bg-red-400 hover:text-white",
         baseStyles,
       );
     }
     case "inverse": {
       return twMerge(
-        "bg-everglade border-everglade text-white enabled:hover:bg-white enabled:hover:text-everglade dark:border-mint dark:bg-mint dark:text-black dark:enabled:hover:bg-black dark:enabled:hover:text-mint",
+        "bg-everglade border-everglade text-white hover:bg-white hover:text-everglade dark:border-mint dark:bg-mint dark:text-black dark:hover:bg-black dark:hover:text-mint",
         baseStyles,
       );
     }
@@ -49,7 +49,7 @@ export const Button = ({
   EndIcon?: IconType;
 } & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <button {...props} className={twMerge(getbuttonStyles(variant), className)}>
+    <button {...props} className={twMerge(getButtonStyles(variant), className)}>
       {StartIcon && <StartIcon />}
       <span>{text}</span>
       {EndIcon && <EndIcon />}
@@ -64,6 +64,7 @@ export const LinkButton = ({
   className,
   StartIcon,
   EndIcon,
+  ...props
 }: {
   href: string;
   text: string;
@@ -71,11 +72,11 @@ export const LinkButton = ({
   className?: string;
   StartIcon?: IconType;
   EndIcon?: IconType;
-}) => {
+} & ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <Link href={href} className={twMerge(getbuttonStyles(variant), className)}>
+    <Link href={href} className={twMerge(getButtonStyles(variant), className)}>
       {StartIcon && <StartIcon />}
-      <button type="button">{text}</button>
+      <span>{text}</span>
       {EndIcon && <EndIcon />}
     </Link>
   );

@@ -20,7 +20,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={twMerge(inter.className, "relative")}>
+      <body
+        className={twMerge(inter.className, "relative bg-white  dark:bg-black")}
+      >
         <AppProvider attribute="class">
           <HeaderMenu />
           {children}
