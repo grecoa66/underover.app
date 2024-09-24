@@ -54,7 +54,7 @@ export default function Home() {
     </span>
   );
   return (
-    <main className="flex min-h-[calc(100vh-theme(space.16))] flex-col content-center bg-white p-8 dark:bg-black lg:px-16 lg:py-12">
+    <main className="mx-auto flex min-h-[calc(100vh-theme(space.16))] max-w-[840px] flex-col content-center bg-white p-8 dark:bg-black lg:px-16 lg:py-12">
       <div className="space-y-8 lg:w-full">
         <p className="text-lg text-celtic-200 dark:text-mint-400">
           Hi, my name is
