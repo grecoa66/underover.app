@@ -10,7 +10,7 @@ const ComponentPanel = ({
   children: ReactNode;
 }) => {
   return (
-    <div className="flex flex-col gap-3 bg-white-300 p-4 dark:bg-black-300">
+    <div className="flex flex-col gap-3 rounded-md bg-white-300 p-4 dark:bg-black-300">
       <h2 className="text-2xl font-bold">{title}</h2>
       {children}
     </div>
@@ -35,21 +35,19 @@ const ComponentsPage = () => {
           <Button text={"Danger Button"} variant="danger" disabled={true} />
           <Button text={"Inverse Button"} variant="inverse" disabled={true} />
         </div>
-      </ComponentPanel>
-      <ComponentPanel title="Button">
+        <h3 className="">Links</h3>
         <div className="flex flex-row gap-2">
-          <h3 className="">Enabled</h3>
           <LinkButton
-            text={"Base Link Button"}
+            text={"Link Button"}
             href={"/css-playground/components"}
           />
           <LinkButton
-            text={"Danger Link Button"}
+            text={"Link Button"}
             href={"/css-playground/components"}
             variant="danger"
           />
           <LinkButton
-            text={"Inverse Link Button"}
+            text={"Link Button"}
             href={"/css-playground/components"}
             variant="inverse"
           />
