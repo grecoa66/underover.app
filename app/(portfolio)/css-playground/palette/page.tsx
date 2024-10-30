@@ -59,7 +59,7 @@ const Palette = () => {
                   index === Object.keys(colors).length - 1 && "rounded-tr-lg",
                 )}
               >
-                <div>
+                <div className="rotate-[70deg] md:transform-none">
                   {color.className.slice(3).charAt(0).toUpperCase() +
                     color.className.slice(4)}
                 </div>
