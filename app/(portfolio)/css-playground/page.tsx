@@ -12,7 +12,17 @@ const CSSPlayground = () => {
         CSS Playground
       </h1>
 
-      <div className="my-10">
+      <div className="my-10 flex flex-col">
+        <Link href={"/css-playground/components"}>
+          <button className="z-20 inline-block w-auto p-2 text-celtic-400 hover:translate-x-1 hover:rotate-3 hover:text-celtic-200 dark:text-mint-400 hover:dark:text-mint-700">
+            Components
+          </button>
+        </Link>
+        <Link href={"/css-playground/palette"}>
+          <button className="z-20 inline-block w-auto p-2 text-celtic-400 hover:translate-x-1 hover:rotate-3 hover:text-celtic-200 dark:text-mint-400 hover:dark:text-mint-700">
+            Color Palette
+          </button>
+        </Link>
         <Link href={"/css-playground/grid-background"}>
           <button className="z-20 inline-block w-auto p-2 text-celtic-400 hover:translate-x-1 hover:rotate-3 hover:text-celtic-200 dark:text-mint-400 hover:dark:text-mint-700">
             Grid Background
