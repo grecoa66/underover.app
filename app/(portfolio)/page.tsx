@@ -1,6 +1,8 @@
 import "../components/Header.css";
 import { Pill } from "../(over-under)/components/Pill";
 import { ReactNode } from "react";
+import { SocialLinks } from "../(over-under)/components/SocialLinks";
+import { BrandIcon } from "../(over-under)/components/BrandIcon";
 
 const ExperienceGrid = ({
   date,
@@ -54,7 +56,7 @@ export default function Home() {
     </span>
   );
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-theme(space.16))] max-w-[840px] flex-col content-center bg-white p-8 dark:bg-black lg:px-16 lg:py-12">
+    <main className="mx-auto flex min-h-[calc(100vh-theme(space.16))] max-w-[840px] flex-col content-center bg-white p-6 dark:bg-black md:p-10 lg:p-8 lg:px-16 lg:py-12">
       <div className="space-y-8 lg:w-full">
         <p className="text-lg text-celtic-200 dark:text-mint-400">
           Hi, my name is
@@ -70,7 +72,8 @@ export default function Home() {
           <PopText text="Remix" />
         </p>
       </div>
-      <div className="mt-24">
+      <SocialLinks />
+      <div className="mt-10 md:mt-24">
         <h3 className="text-xl text-celtic-200 dark:text-mint-400">
           Experience
         </h3>
@@ -153,6 +156,7 @@ export default function Home() {
           }
         />
       </div>
+      <BrandIcon className="my-8" />
     </main>
   );
 }
