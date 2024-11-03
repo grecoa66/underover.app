@@ -1,6 +1,11 @@
 import "../components/Header.css";
 import { Pill } from "../(over-under)/components/Pill";
 import { ReactNode } from "react";
+import { SocialLinks } from "../(over-under)/components/SocialLinks";
+import { GithubIcon } from "../(over-under)/components/icons/Github";
+import { LinkedinIcon } from "../(over-under)/components/icons/Linkedin";
+import { GoodReadsIcon } from "../(over-under)/components/icons/GoodReads";
+import { InstagramIcon } from "../(over-under)/components/icons/Instagram";
 
 const ExperienceGrid = ({
   date,
@@ -54,7 +59,8 @@ export default function Home() {
     </span>
   );
   return (
-    <main className="mx-auto flex min-h-[calc(100vh-theme(space.16))] max-w-[840px] flex-col content-center bg-white p-8 dark:bg-black lg:px-16 lg:py-12">
+    <main className="mx-auto flex min-h-[calc(100vh-theme(space.16))] max-w-[840px] flex-col content-center bg-white p-6 dark:bg-black md:p-10 lg:p-8 lg:px-16 lg:py-12">
+      <SocialLinks />
       <div className="space-y-8 lg:w-full">
         <p className="text-lg text-celtic-200 dark:text-mint-400">
           Hi, my name is
