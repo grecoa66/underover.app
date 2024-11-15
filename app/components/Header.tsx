@@ -8,7 +8,7 @@ import { Transition } from "@headlessui/react";
 import { DarkModeButton } from "./DarkMode";
 import { AKGIcon } from "./AKGIcon";
 
-export const HeaderMenu = () => {
+export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));

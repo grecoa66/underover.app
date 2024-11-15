@@ -16,7 +16,7 @@ export const DarkModeButton = () => {
     return null;
   }
 
-  const iconClass = "hover:fill-everglade hover:dark:fill-mint h-6 w-6";
+  const iconClass = "hover:fill-everglade hover:dark:fill-mint h-5 w-5";
 
   return (
     <Dropdown
@@ -36,7 +36,7 @@ export const DarkModeButton = () => {
       ]}
       onChange={setTheme}
       defaultValue={theme || "system"}
-      containerClassName="flex h-5 flex-row items-center justify-center mr-4"
+      containerClassName="flex h-5 flex-row items-center justify-center mr-5"
       menuClassName="border-everglade border-2 mt-2"
       optionsClassName="p-4"
     />

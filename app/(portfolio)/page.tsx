@@ -4,12 +4,13 @@ import { SocialLinks } from "../components/SocialLinks";
 import { AKGIcon } from "../components/AKGIcon";
 import { ExperiencePanel } from "../components/ExperiencePanel";
 
+const PopText = ({ text }: { text: string }) => (
+  <span className="font-semibold text-celtic-200 dark:text-mint-400">
+    {text}
+  </span>
+);
+
 export default function Home() {
-  const PopText = ({ text }: { text: string }) => (
-    <span className="font-semibold text-celtic-200 dark:text-mint-400">
-      {text}
-    </span>
-  );
   return (
     <main className="mx-auto flex min-h-[calc(100vh-theme(space.16))] max-w-[840px] flex-col content-center bg-white p-6 dark:bg-black md:p-10 lg:p-8 lg:px-16 lg:py-12">
       <div className="space-y-8 lg:w-full">
