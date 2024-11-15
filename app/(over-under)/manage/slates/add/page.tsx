@@ -1,7 +1,7 @@
 import { AddSlateForm } from "./AddSlateForm";
-import ManageHeader from "@/app/(over-under)/components/ManageHeader";
-import ManagePanel from "@/app/(over-under)/components/ManagePanel";
-import ManageWrapper from "@/app/(over-under)/components/ManageWrapper";
+import ManageHeader from "@/app/components/ManageHeader";
+import ManagePanel from "@/app/components/ManagePanel";
+import ManageWrapper from "@/app/components/ManageWrapper";
 
 const AddSlate = () => {
   return (

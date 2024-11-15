@@ -7,7 +7,7 @@ import {
   PicksFormSchema,
 } from "@/app/types/picks";
 import { props, slates } from "@prisma/client";
-import { DayAndMonthInTimezone } from "@/app/(over-under)/components/DateInTimezone";
+import { DayAndMonthInTimezone } from "@/app/components/DateInTimezone";
 import { Button } from "@/app/components/Button";
 import { createPicks } from "./actions";
 import { twMerge } from "tailwind-merge";

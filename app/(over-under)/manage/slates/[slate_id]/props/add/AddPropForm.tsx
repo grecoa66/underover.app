@@ -1,5 +1,5 @@
 "use client";
-import TeamSelect from "@/app/(over-under)/components/TeamSelect";
+import TeamSelect from "@/app/components/TeamSelect";
 import { AddPropFormFields, AddPropFormSchema } from "@/app/types/props";
 import { League } from "@/app/types/slates";
 import { zodResolver } from "@hookform/resolvers/zod";

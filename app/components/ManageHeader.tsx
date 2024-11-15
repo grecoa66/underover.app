@@ -1,6 +1,6 @@
 import { FaArrowLeft, FaPlus } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
-import { LinkButton } from "../../components/Button";
+import { LinkButton } from "./Button";
 
 const ManageHeader = ({
   title,

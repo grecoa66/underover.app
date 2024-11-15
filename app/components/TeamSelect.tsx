@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from "react-hook-form";
-import { League } from "../../types/slates";
-import { mlb, nba, nfl, nhl } from "../../data/team-names";
+import { League } from "../types/slates";
+import { mlb, nba, nfl, nhl } from "../data/team-names";
 
 const TeamSelect = ({
   league,

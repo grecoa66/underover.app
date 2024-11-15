@@ -1,6 +1,6 @@
-import ManageHeader from "@/app/(over-under)/components/ManageHeader";
-import ManagePanel from "@/app/(over-under)/components/ManagePanel";
-import ManageWrapper from "@/app/(over-under)/components/ManageWrapper";
+import ManageHeader from "@/app/components/ManageHeader";
+import ManagePanel from "@/app/components/ManagePanel";
+import ManageWrapper from "@/app/components/ManageWrapper";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import AddPropForm from "./AddPropForm";
 import { prisma } from "@/app/api/__prismaClient";

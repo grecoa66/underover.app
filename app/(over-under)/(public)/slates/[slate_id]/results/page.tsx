@@ -1,7 +1,7 @@
 import { requireUser } from "@/app/api/auth/getUser";
 import { redirect } from "next/navigation";
 import { getResultForLeaderboard } from "./actions";
-import { SlateLeaderboard } from "@/app/(over-under)/components/SlateLeaderboard";
+import { SlateLeaderboard } from "@/app/components/SlateLeaderboard";
 
 const SlateResultsPage = async ({
   params,

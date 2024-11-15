@@ -1,5 +1,5 @@
 "use client";
-import TeamSelect from "@/app/(over-under)/components/TeamSelect";
+import TeamSelect from "@/app/components/TeamSelect";
 import {
   EditPropFormFields,
   EditPropFormSchema,

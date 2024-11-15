@@ -1,6 +1,6 @@
 import { Sometype_Mono } from "next/font/google";
 import { AppProvider } from "../components/providers";
-import { UONavBar } from "./components/NavBar";
+import { UONavBar } from "../components/NavBar";
 import "../globals.css";
 
 const sometype = Sometype_Mono({ subsets: ["latin"] });

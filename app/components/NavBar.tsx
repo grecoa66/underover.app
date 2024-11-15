@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { DarkModeButton } from "../../components/DarkMode";
-import AuthButton from "../../components/AuthButton";
-import GoogleAvatar from "../../components/GoogleAvatar";
-import { getCurrentUser } from "../../api/auth/getUser";
+import { DarkModeButton } from "./DarkMode";
+import AuthButton from "./AuthButton";
+import GoogleAvatar from "./GoogleAvatar";
+import { getCurrentUser } from "../api/auth/getUser";
 
 // Slightly modified nav bar for the under/overs app
 export const UONavBar = async () => {

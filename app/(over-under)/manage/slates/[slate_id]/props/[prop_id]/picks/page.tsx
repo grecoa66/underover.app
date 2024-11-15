@@ -1,4 +1,4 @@
-import { PicksByUser } from "@/app/(over-under)/components/Picks";
+import { PicksByUser } from "@/app/components/Picks";
 import { getResultsForProp } from "@/app/(over-under)/(public)/slates/[slate_id]/results/actions";
 
 const ManagePicksPage = async ({

@@ -2,15 +2,15 @@ import { LinkButton } from "@/app/components/Button";
 import {
   DateInTimezone,
   SimpleDateDisplay,
-} from "@/app/(over-under)/components/DateInTimezone";
-import ManageHeader from "@/app/(over-under)/components/ManageHeader";
-import ManagePanel from "@/app/(over-under)/components/ManagePanel";
-import ManageWrapper from "@/app/(over-under)/components/ManageWrapper";
+} from "@/app/components/DateInTimezone";
+import ManageHeader from "@/app/components/ManageHeader";
+import ManagePanel from "@/app/components/ManagePanel";
+import ManageWrapper from "@/app/components/ManageWrapper";
 import { prisma } from "@/app/api/__prismaClient";
 import { requireAdmin } from "@/app/api/auth/getUser";
 import { FaCoins, FaEye, FaPen, FaTrash } from "react-icons/fa";
-import { DeletePropButton } from "@/app/(over-under)/components/DeleteButton";
-import { SettlePropButtons } from "@/app/(over-under)/components/SettlePickButtons";
+import { DeletePropButton } from "@/app/components/DeleteButton";
+import { SettlePropButtons } from "@/app/components/SettlePickButtons";
 
 const SlatePage = async ({ params }: { params: { slate_id: string } }) => {
   // Page requires admin access
