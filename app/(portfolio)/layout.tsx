@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { AppProvider } from "../components/providers";
-import { HeaderMenu } from "../components/HeaderMenu";
+import { Header } from "../components/Header";
 
 import "../globals.css";
 import { twMerge } from "tailwind-merge";
@@ -24,7 +24,7 @@ export default function RootLayout({
         className={twMerge(inter.className, "relative bg-white  dark:bg-black")}
       >
         <AppProvider attribute="class">
-          <HeaderMenu />
+          <Header />
           {children}
         </AppProvider>
       </body>

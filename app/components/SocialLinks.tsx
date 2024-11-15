@@ -17,8 +17,11 @@ export const SocialLinks = () => {
         <a href="https://www.instagram.com/alexgreco4/" target="_blank">
           <InstagramIcon className={iconClassName} />
         </a>
-        <a href="mailto:alex.k.greco.4@gmail.com" target="_blank">
-          <FaEnvelope className={iconClassName} />
+        <a
+          href="https://www.goodreads.com/user/show/94666405-alexander-k"
+          target="_blank"
+        >
+          <GoodReadsIcon className={iconClassName} />
         </a>
         <a
           href="https://www.linkedin.com/in/alexander-greco-2a687270/"
@@ -26,11 +29,8 @@ export const SocialLinks = () => {
         >
           <LinkedinIcon className={iconClassName} />
         </a>
-        <a
-          href="https://www.goodreads.com/user/show/94666405-alexander-k"
-          target="_blank"
-        >
-          <GoodReadsIcon className={iconClassName} />
+        <a href="mailto:alex.k.greco.4@gmail.com" target="_blank">
+          <FaEnvelope className={iconClassName} />
         </a>
       </div>
     </div>

@@ -6,9 +6,9 @@ import { FaBars, FaCoins, FaPaintBrush } from "react-icons/fa";
 import Link from "next/link";
 import { Transition } from "@headlessui/react";
 import { DarkModeButton } from "./DarkMode";
-import { BrandIcon } from "../(over-under)/components/BrandIcon";
+import { AKGIcon } from "./AKGIcon";
 
-export const HeaderMenu = () => {
+export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef(null);
   useOnClickOutside(ref, () => setIsOpen(false));
@@ -20,7 +20,7 @@ export const HeaderMenu = () => {
     <div className="sticky top-0 z-50 h-16" id="header-menu">
       <div className="flex h-full flex-row items-center justify-between bg-white p-4 dark:bg-black">
         <Link href="/">
-          <BrandIcon />
+          <AKGIcon />
         </Link>
         <div className="relative flex flex-row" ref={ref}>
           <DarkModeButton />

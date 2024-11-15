@@ -1,4 +1,4 @@
-import { Pill } from "@/app/(over-under)/components/Pill";
+import { Pill } from "@/app/components/Pill";
 import { Button, LinkButton } from "@/app/components/Button";
 import { ReactNode } from "react";
 
