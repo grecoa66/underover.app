@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { slates } from "@prisma/client";
-import { getCompletedSlates } from "../over-under/actions";
+import { getCompletedSlates } from "../actions";
 import { Button } from "@/app/components/Button";
 import { PublicSlates } from "./Slates";
 

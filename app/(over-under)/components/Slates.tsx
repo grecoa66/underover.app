@@ -7,7 +7,7 @@ import { TimeUntilStart } from "./TimeUntilStart";
 const ViewButton = ({ slate_id }: { slate_id: slates["id"] }) => {
   return (
     <LinkButton
-      href={`/over-under/manage/slates/${slate_id}`}
+      href={`/manage/slates/${slate_id}`}
       text="View"
       StartIcon={FaEye}
     />
@@ -17,7 +17,7 @@ const ViewButton = ({ slate_id }: { slate_id: slates["id"] }) => {
 const EditButton = ({ slate_id }: { slate_id: slates["id"] }) => {
   return (
     <LinkButton
-      href={`/over-under/manage/slates/${slate_id}/edit`}
+      href={`/manage/slates/${slate_id}/edit`}
       text="Edit"
       StartIcon={FaPen}
     />
@@ -94,7 +94,7 @@ const PublicSlates = ({
                       className="my-1 h-fit w-32 lg:mx-2 lg:w-fit"
                       variant="inverse"
                       EndIcon={FaAngleRight}
-                      href={`/over-under/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
+                      href={`/slates/${slate.id}/picks`} // TODO: Maybe rethink this route
                     />
                     {/* TODO: only show this if a user has made picks */}
                     <LinkButton
@@ -102,7 +102,7 @@ const PublicSlates = ({
                       className="my-1 h-fit w-32 lg:mx-2 lg:w-fit"
                       variant="inverse"
                       EndIcon={FaAngleRight}
-                      href={`/over-under/slates/${slate.id}/results`} // TODO: Maybe rethink this route
+                      href={`/slates/${slate.id}/results`} // TODO: Maybe rethink this route
                     />
                   </div>
                 ) : (
@@ -111,7 +111,7 @@ const PublicSlates = ({
                     className="h-fit w-32 lg:w-fit"
                     variant="inverse"
                     EndIcon={FaAngleRight}
-                    href={`/over-under/slates/${slate.id}/results`} // TODO: Maybe rethink this route
+                    href={`/slates/${slate.id}/results`} // TODO: Maybe rethink this route
                   />
                 )}
               </div>

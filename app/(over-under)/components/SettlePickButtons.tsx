@@ -8,7 +8,7 @@ import {
   FaArrowCircleUp,
   FaRecycle,
 } from "react-icons/fa";
-import { settleProp } from "../over-under/manage/slates/[slate_id]/props/actions";
+import { settleProp } from "../manage/slates/[slate_id]/props/actions";
 
 export const SettlePropButtons = ({
   prop,

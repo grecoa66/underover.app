@@ -1,9 +1,9 @@
 "use client";
 import { Button } from "@/app/components/Button";
 import { FaTrash } from "react-icons/fa";
-import { deleteProp } from "../over-under/manage/slates/[slate_id]/props/actions";
+import { deleteProp } from "../manage/slates/[slate_id]/props/actions";
 import { picks, props, slates } from "@prisma/client";
-import { deletePick } from "../over-under/manage/slates/[slate_id]/props/[prop_id]/picks/actions";
+import { deletePick } from "../manage/slates/[slate_id]/props/[prop_id]/picks/actions";
 
 export const DeletePropButton = ({
   prop_id,
