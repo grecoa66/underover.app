@@ -14,7 +14,7 @@ export const Accordion = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex w-full flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="my-2 flex flex-row items-center border-2 border-transparent p-2 hover:rounded-lg hover:border-everglade dark:hover:border-mint"
