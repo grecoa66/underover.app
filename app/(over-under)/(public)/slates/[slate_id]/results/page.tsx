@@ -2,6 +2,7 @@ import { requireUser } from "@/app/api/auth/getUser";
 import { redirect } from "next/navigation";
 import { getResultForLeaderboard } from "./actions";
 import { SlateLeaderboard } from "@/app/components/SlateLeaderboard";
+import { ClientOnly } from "@/app/components/ClientOnly";
 
 const SlateResultsPage = async ({
   params,
@@ -16,7 +17,11 @@ const SlateResultsPage = async ({
     slate_id: Number(params.slate_id),
   });
 
-  return <SlateLeaderboard results={LeaderboardResults} />;
+  return (
+    <ClientOnly>
+      <SlateLeaderboard results={LeaderboardResults} />
+    </ClientOnly>
+  );
 };
 
 export default SlateResultsPage;
