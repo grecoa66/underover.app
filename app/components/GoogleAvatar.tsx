@@ -1,14 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const GoogleAvatar = async ({
   user,
 }: {
   user?: {
+    id: number;
     image: string | null;
   };
 }) => {
   return (
-    <>
+    <Link href={`/user/${user?.id}`}>
       {user?.image && (
         <Image
           src={user?.image}
@@ -19,7 +21,7 @@ const GoogleAvatar = async ({
           alt="Picture of the author"
         />
       )}
-    </>
+    </Link>
   );
 };
 
