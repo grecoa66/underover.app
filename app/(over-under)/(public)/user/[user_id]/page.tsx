@@ -5,7 +5,10 @@ import { ClientOnly } from "@/app/components/ClientOnly";
 import Link from "next/link";
 import { getResultForLeaderboard } from "../../slates/[slate_id]/results/actions";
 import { PickResultComponent } from "@/app/components/PickResultComponent";
-import { PickResult } from "@/app/types/picks";
+import { LeaderboardResult, PickResult } from "@/app/types/picks";
+import { slates } from "@prisma/client";
+import ordinalSuffix from "@/app/utils/ordinalSuffix";
+import { FaTrophy } from "react-icons/fa";
 
 const UserPage = async ({ params }: { params: { user_id: string } }) => {
   // Get the logged in user
@@ -53,51 +56,10 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
       <h1 className="text-2xl">{userProfile.name}</h1>
       <h2 className="text-xl md:mx-4">Completed Slates</h2>
       <div className="flex flex-col gap-4 md:mx-4">
-        {completedSlates
-          .sort(
-            (a, b) =>
-              new Date(a.start_date).getTime() -
-              new Date(b.start_date).getTime(),
-          )
-          .map((slate) => (
-            <div
-              key={slate.id}
-              className="rounded-lg border-2 border-everglade p-4 dark:border-mint"
-            >
-              <Link href={`/slates/${slate.id}/results`}>
-                <h3 className="text-lg hover:text-everglade hover:underline dark:hover:text-mint">
-                  {slate.title}
-                </h3>
-              </Link>
-              <p>League: {slate.league.toUpperCase()}</p>
-              <ClientOnly>
-                <p>
-                  Start Date: {new Date(slate.start_date).toLocaleDateString()}
-                </p>
-              </ClientOnly>
-              <div className="flex flex-row gap-4">
-                <p>Results:</p>
-                <div className="flex flex-row space-x-5">
-                  <PickResultComponent
-                    result={PickResult.Win}
-                    text={
-                      completedSlatesResults.find(
-                        (slateResult) => slate.id === slateResult.slate.id,
-                      )?.userResult[0].record.wins || 0
-                    }
-                  />
-                  <PickResultComponent
-                    result={PickResult.Lose}
-                    text={
-                      completedSlatesResults.find(
-                        (slateResult) => slate.id === slateResult.slate.id,
-                      )?.userResult[0].record.losses || 0
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
+        <CompletedSlates
+          slates={completedSlates}
+          slateResults={completedSlatesResults}
+        />
       </div>
       {activeSlates.length > 0 ? (
         <>
@@ -164,6 +126,83 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
         </>
       ) : null}
     </div>
+  );
+};
+
+const CompletedSlates = ({
+  slates,
+  slateResults,
+}: {
+  slates: slates[];
+  slateResults: {
+    slate: slates;
+    userResult: LeaderboardResult[];
+  }[];
+}) => {
+  const currentResult = (id: number) =>
+    slateResults.find((slateResult) => id === slateResult.slate.id)
+      ?.userResult[0];
+
+  return (
+    <>
+      {slates
+        .sort(
+          (a, b) =>
+            new Date(a.start_date).getTime() - new Date(b.start_date).getTime(),
+        )
+        .map((slate) => (
+          <div
+            key={slate.id}
+            className="rounded-lg border-2 border-everglade p-4 dark:border-mint"
+          >
+            <Link href={`/slates/${slate.id}/results`}>
+              <h3 className="text-lg hover:text-everglade hover:underline dark:hover:text-mint">
+                {slate.title}
+              </h3>
+            </Link>
+            <p>League: {slate.league.toUpperCase()}</p>
+            <ClientOnly>
+              <p>
+                Start Date: {new Date(slate.start_date).toLocaleDateString()}
+              </p>
+            </ClientOnly>
+            <div className="flex flex-col gap-2">
+              <ResultRow result={currentResult(slate.id)} />
+            </div>
+          </div>
+        ))}
+    </>
+  );
+};
+
+const ResultRow = ({ result }: { result: LeaderboardResult | undefined }) => {
+  if (result === undefined) {
+    return null;
+  }
+  return (
+    <>
+      <p>Results:</p>
+      <div className="mx-2 flex flex-row gap-4">
+        <p className="flex flex-row items-center">
+          Position: {` `}
+          {result.position === 1 && (
+            <span className="mr-2">
+              <FaTrophy className="text-gold-600" />
+            </span>
+          )}
+          {result.position === 0 ? null : ordinalSuffix(result.position)}
+        </p>
+
+        <PickResultComponent
+          result={PickResult.Win}
+          text={result.record.wins || 0}
+        />
+        <PickResultComponent
+          result={PickResult.Lose}
+          text={result.record.losses || 0}
+        />
+      </div>
+    </>
   );
 };
 
