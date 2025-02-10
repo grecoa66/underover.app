@@ -10,6 +10,9 @@ const config: Config = {
 
   theme: {
     extend: {
+      fontFamily: {
+        mono: ["var(--font-sometype-mono)"],
+      },
       listStyleType: {
         none: "none",
         disc: "disc",
