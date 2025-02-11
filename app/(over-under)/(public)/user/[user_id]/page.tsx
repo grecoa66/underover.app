@@ -6,9 +6,9 @@ import Link from "next/link";
 import { getResultForLeaderboard } from "../../slates/[slate_id]/results/actions";
 import { PickResultComponent } from "@/app/components/PickResultComponent";
 import { LeaderboardResult, PickResult } from "@/app/types/picks";
-import { slates } from "@prisma/client";
+import { picks, slates } from "@prisma/client";
 import ordinalSuffix from "@/app/utils/ordinalSuffix";
-import { FaTrophy } from "react-icons/fa";
+import { FaCoins, FaMedal, FaTrophy } from "react-icons/fa";
 
 const UserPage = async ({ params }: { params: { user_id: string } }) => {
   // Get the logged in user
@@ -54,8 +54,10 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
   return (
     <div className="m-4 flex flex-col gap-4">
       <h1 className="text-2xl">{userProfile.name}</h1>
-      <h2 className="text-xl md:mx-4">Completed Slates</h2>
-      <div className="flex flex-col gap-4 md:mx-4">
+      <AwardsSection bets={bets} slateResults={completedSlatesResults} />
+
+      <h2 className="text-xl">Completed Slates</h2>
+      <div className="flex flex-col gap-4">
         <CompletedSlates
           slates={completedSlates}
           slateResults={completedSlatesResults}
@@ -95,9 +97,9 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
       ) : null}
       {otherSlates.length > 0 ? (
         <>
-          <h2>Other Slates</h2>
+          <h2 className="text-xl">Other Slates</h2>
           <div className="flex flex-col gap-4">
-            {activeSlates
+            {otherSlates
               .sort(
                 (a, b) =>
                   new Date(a.start_date).getTime() -
@@ -129,6 +131,68 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
   );
 };
 
+const AwardBox = ({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) => {
+  return (
+    <div className="flex h-36 w-full flex-col items-center justify-between rounded-lg border-2 border-everglade p-4 text-center dark:border-mint md:w-1/4">
+      {title}
+      <div className="flex flex-row items-center ">{children}</div>
+    </div>
+  );
+};
+
+const AwardsSection = ({
+  bets,
+  slateResults,
+}: {
+  bets: {
+    slates: slates[];
+    picks: picks[];
+  };
+  slateResults: {
+    slate: slates;
+    userResult: LeaderboardResult[];
+  }[];
+}) => {
+  return (
+    <div className="grid grid-cols-2 gap-4 md:flex md:flex-row">
+      <AwardBox title={"Slates Participated: "}>
+        <FaCoins className="mr-2 text-gray-600 dark:text-white" />
+        <p>{bets.slates.length}</p>
+      </AwardBox>
+      <AwardBox title={"First Place Finishes:"}>
+        <FaTrophy className="mr-2 text-gold-600" />
+        {
+          slateResults.filter((result) =>
+            result.userResult.find((result) => result.position === 1),
+          ).length
+        }
+      </AwardBox>
+      <AwardBox title="Second Place Finishes:">
+        <FaMedal className="mr-2 text-gray-400" />
+        {
+          slateResults.filter((result) =>
+            result.userResult.find((result) => result.position === 2),
+          ).length
+        }
+      </AwardBox>
+      <AwardBox title="Second Place Finishes:">
+        <FaMedal className="mr-2 text-gray-400" />
+        {
+          slateResults.filter((result) =>
+            result.userResult.find((result) => result.position === 2),
+          ).length
+        }
+      </AwardBox>
+    </div>
+  );
+};
+
 const CompletedSlates = ({
   slates,
   slateResults,
@@ -155,7 +219,7 @@ const CompletedSlates = ({
             key={slate.id}
             className="rounded-lg border-2 border-everglade p-4 dark:border-mint"
           >
-            <Link href={`/slates/${slate.id}/results`}>
+            <Link href={`/slates/${slate.id}/results`} className="block w-fit">
               <h3 className="text-lg hover:text-everglade hover:underline dark:hover:text-mint">
                 {slate.title}
               </h3>
