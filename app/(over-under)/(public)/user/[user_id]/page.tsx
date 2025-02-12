@@ -9,6 +9,7 @@ import { LeaderboardResult, PickResult } from "@/app/types/picks";
 import { picks, slates } from "@prisma/client";
 import ordinalSuffix from "@/app/utils/ordinalSuffix";
 import { FaCoins, FaMedal, FaTrophy } from "react-icons/fa";
+import { FaScaleBalanced } from "react-icons/fa6";
 
 const UserPage = async ({ params }: { params: { user_id: string } }) => {
   // Get the logged in user
@@ -37,7 +38,7 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
       const LeaderboardResults = await getResultForLeaderboard({
         slate_id: Number(slate.id),
       });
-      const userResult = LeaderboardResults.filter(
+      const userResult = LeaderboardResults.find(
         (result) => result.user_id === params.user_id,
       );
       return { slate, userResult };
@@ -52,7 +53,7 @@ const UserPage = async ({ params }: { params: { user_id: string } }) => {
   );
 
   return (
-    <div className="m-4 flex flex-col gap-4">
+    <div className="m-4 mx-auto flex max-w-[1000px] flex-col gap-4">
       <h1 className="text-2xl">{userProfile.name}</h1>
       <AwardsSection bets={bets} slateResults={completedSlatesResults} />
 
@@ -156,38 +157,45 @@ const AwardsSection = ({
   };
   slateResults: {
     slate: slates;
-    userResult: LeaderboardResult[];
+    userResult?: LeaderboardResult;
   }[];
 }) => {
   return (
     <div className="grid grid-cols-2 gap-4 md:flex md:flex-row">
       <AwardBox title={"Slates Participated: "}>
-        <FaCoins className="mr-2 text-gray-600 dark:text-white" />
+        <FaCoins className="mr-3 h-5 w-5 text-gray-600 dark:text-white" />
         <p>{bets.slates.length}</p>
       </AwardBox>
       <AwardBox title={"First Place Finishes:"}>
-        <FaTrophy className="mr-2 text-gold-600" />
+        <FaTrophy className="mr-3 h-5 w-5 text-gold-600" />
         {
           slateResults.filter((result) =>
-            result.userResult.find((result) => result.position === 1),
+            result.userResult === undefined
+              ? false
+              : result.userResult.position === 1,
           ).length
         }
       </AwardBox>
       <AwardBox title="Second Place Finishes:">
-        <FaMedal className="mr-2 text-gray-400" />
+        <FaMedal className="mr-3 h-5 w-5 text-gray-400" />
         {
           slateResults.filter((result) =>
-            result.userResult.find((result) => result.position === 2),
+            result.userResult === undefined
+              ? false
+              : result.userResult.position === 2,
           ).length
         }
       </AwardBox>
-      <AwardBox title="Second Place Finishes:">
-        <FaMedal className="mr-2 text-gray-400" />
-        {
-          slateResults.filter((result) =>
-            result.userResult.find((result) => result.position === 2),
-          ).length
-        }
+      <AwardBox title="Average Finish:">
+        <FaScaleBalanced className="mr-3 h-5 w-5 text-gray-400" />
+        {Math.ceil(
+          slateResults.reduce(
+            (acc, curr) =>
+              (curr.userResult === undefined ? 0 : curr.userResult.position) +
+              acc,
+            0,
+          ) / slateResults.length,
+        )}
       </AwardBox>
     </div>
   );
@@ -200,12 +208,11 @@ const CompletedSlates = ({
   slates: slates[];
   slateResults: {
     slate: slates;
-    userResult: LeaderboardResult[];
+    userResult?: LeaderboardResult;
   }[];
 }) => {
   const currentResult = (id: number) =>
-    slateResults.find((slateResult) => id === slateResult.slate.id)
-      ?.userResult[0];
+    slateResults.find((slateResult) => id === slateResult.slate.id)?.userResult;
 
   return (
     <>
